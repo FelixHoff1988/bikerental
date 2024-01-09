@@ -1,4 +1,4 @@
-image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/openjdk:19
+image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/eclipse-temurin:21-jdk
 
 cache:
     paths:
