@@ -63,10 +63,10 @@ task coverage {
     description "Displays overall instruction coverage percentage."
     dependsOn jacocoTestReport
     doLast {
-        if (jacocoTestReport.reports.csv.destination.exists()) {
+        if (jacocoTestReport.reports.csv.outputLocation.isPresent()) {
             def missed = 0
             def covered = 0
-            jacocoTestReport.reports.csv.destination.eachLine { line ->
+            jacocoTestReport.reports.csv.outputLocation.get().getAsFile().eachLine { line ->
                 def cols = line.split(',')
                 def miss = cols[3]
                 def cov = cols[4]
