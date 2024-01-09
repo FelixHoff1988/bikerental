@@ -51,7 +51,7 @@ test {
 // Setup jacoco to generate csv and depend on test
 jacocoTestReport {
     reports {
-        csv.enabled = true
+        csv.required = true
     }
     dependsOn test
 }
