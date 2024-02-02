@@ -5,7 +5,7 @@ plugins {
 	id 'eclipse'
 }
 
-mainClassName = 'BikeRentalBoard'
+mainClassName = 'de.wwu.sopra.application.App'
 
 repositories {
     mavenCentral()
