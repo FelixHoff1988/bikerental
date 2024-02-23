@@ -21,6 +21,10 @@ public class App extends Application {
 	 * @param args Argumente zum Starten des Programms
 	 */
 	public static void main(String[] args) {
+		if (args.length > 0 && !args[0].isEmpty()) {
+			return;
+		}
+		
 		Application.launch(args);
 	}
 

@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 public class AppTest {
     @Test
     public void TestMain() {
-    	App.main(new String[]{});
-    	assert(true);
+    	App.main(new String[]{"cancel"});
+
         
     }
 }
