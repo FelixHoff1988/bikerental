@@ -2,7 +2,6 @@ package de.wwu.sopra;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
@@ -39,9 +38,14 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Leihrad-\u00dcbersicht");
 
-		GridPane gridPane = new GridPane();
+		var userManagementGUI = new UserManagementGUI();
+		userManagementGUI.onLogin(user -> {
+			var mainGUI = new MainGUI(user);
+			primaryStage.setScene(new Scene(mainGUI));
+			mainGUI.onLogout(unused -> primaryStage.setScene(new Scene(userManagementGUI)));
+		});
 
-		Scene scene = new Scene(gridPane);
+		Scene scene = new Scene(userManagementGUI);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
