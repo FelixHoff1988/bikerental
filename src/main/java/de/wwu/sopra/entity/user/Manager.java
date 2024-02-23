@@ -1,9 +1,9 @@
-package de.wwu.sopra.entity;
+package de.wwu.sopra.entity.user;
 
 /**
- * Repräsentiert einen Kunden
+ * Repräsentiert einen Stations-Manager
  */
-public class Customer extends User {
+public class Manager extends User {
 
 	/**
 	 * @param firstName Vorname des Nutzers
@@ -14,9 +14,8 @@ public class Customer extends User {
 	 * @param bic BIC des Nutzers
 	 * @param passwordHash PasswordHash um das Passwort zu verifizieren
 	 */
-	public Customer(String firstName, String lastName, String address, String email, String iban, String bic,
+	public Manager(String firstName, String lastName, String address, String email, String iban, String bic,
 			String passwordHash) {
 		super(firstName, lastName, address, email, iban, bic, passwordHash);
 	}
-	
 }
