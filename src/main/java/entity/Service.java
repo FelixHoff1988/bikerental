@@ -4,7 +4,17 @@ import java.time.LocalDateTime;
 
 public class Service {
 
+	/**
+	 * @param startDate Startdatum eines Service
+	 * @param endDate Enddatum eines Service
+	 * @param comment Kommentar als String
+	 */
 	
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
+	private String comment;
+
+
 	/**
 	 * Konstruktor für Service
 	 * @param startDate gibt das Startdatum eines Service
@@ -68,18 +78,6 @@ public class Service {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
-	
-	/**
-	 * @param startDate Startdatum eines Service
-	 * @param endDate Enddatum eines Service
-	 * @param comment Kommentar als String
-	 */
-	
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
-	private String comment;
-	
 }
 
 
