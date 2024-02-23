@@ -1,0 +1,17 @@
+package de.wwu.sopra.entity.bike;
+
+/**
+ * Standard Fahrradtyp
+ */
+public class StandardType extends BikeType {
+    /**
+     * Konstruktor: Initialisiert alle Attribute mit den übergebenen Parametern
+     *
+     * @param model Name des Fahrradmodells
+     * @param size  Größe des Fahrrads (in Zoll)
+     * @param price Preis des Fahrrads (in cent)
+     */
+    public StandardType(String model, int size, int price) {
+        super(model, size, price);
+    }
+}
