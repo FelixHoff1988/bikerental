@@ -1,4 +1,4 @@
-package de.wwu.sopra.entity.service;
+package de.wwu.sopra.entity;
 
 import java.time.LocalDateTime;
 

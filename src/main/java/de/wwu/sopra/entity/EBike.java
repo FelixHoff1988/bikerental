@@ -1,4 +1,4 @@
-package de.wwu.sopra.entity.bike;
+package de.wwu.sopra.entity;
 
 /**
  * Standard Fahrradtyp
