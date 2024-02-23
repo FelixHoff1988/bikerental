@@ -1,5 +1,7 @@
 package de.wwu.sopra.entity;
 
+import java.util.ArrayList;
+
 /**
  * Repräsentiert einen Benutzer
  */
@@ -37,17 +39,22 @@ public class User {
 	 * Rolle des Nutzers (z.B. Admin)
 	 */
 	private UserRole role;
+	/**
+	 * Liste der Reservierungen
+	 */
+	private ArrayList<Reservation> reservationList;
 
 	/**
 	 * Konstruktor: Setzt die Attribute auf die eingegebenen Werte
-	 * @param firstName Vorname des Nutzers
-	 * @param lastName Nachname des Nutzers
-	 * @param address Adresse des Nutzers
-	 * @param email E-Mail-Adresse des Nutzers
-	 * @param iban IBAN des Nutzers
-	 * @param bic BIC des Nutzers
+	 * 
+	 * @param firstName    Vorname des Nutzers
+	 * @param lastName     Nachname des Nutzers
+	 * @param address      Adresse des Nutzers
+	 * @param email        E-Mail-Adresse des Nutzers
+	 * @param iban         IBAN des Nutzers
+	 * @param bic          BIC des Nutzers
 	 * @param passwordHash PasswordHash um das Passwort zu verifizieren
-	 * @param role Rolle des Nutzers
+	 * @param role         Rolle des Nutzers
 	 */
 	public User(String firstName, String lastName, String address, String email, String iban, String bic,
 			String passwordHash, UserRole role) {
@@ -59,10 +66,14 @@ public class User {
 		this.bic = bic;
 		this.passwordHash = passwordHash;
 		this.role = role;
+
+		ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
+		this.reservationList = reservationList;
 	}
 
 	/**
 	 * Rufe den Vornamen eines Nutzers ab
+	 * 
 	 * @return Vorname des Nutzers
 	 */
 	public String getFirstName() {
@@ -71,6 +82,7 @@ public class User {
 
 	/**
 	 * Setze den Vornamen eines Nutzers
+	 * 
 	 * @param firstName Neuer Vorname des Nutzers
 	 */
 	public void setFirstName(String firstName) {
@@ -79,6 +91,7 @@ public class User {
 
 	/**
 	 * Rufe den Nachnamen eines Nutzers ab
+	 * 
 	 * @return Nachname des Nutzers
 	 */
 	public String getLastName() {
@@ -87,6 +100,7 @@ public class User {
 
 	/**
 	 * Setze den Nachnamen eines Nutzers
+	 * 
 	 * @param lastName Neuer Nachname des Nutzers
 	 */
 	public void setLastName(String lastName) {
@@ -95,6 +109,7 @@ public class User {
 
 	/**
 	 * Rufe die Adresse eines Nutzers ab
+	 * 
 	 * @return Adresse des Nutzers
 	 */
 	public String getAddress() {
@@ -103,6 +118,7 @@ public class User {
 
 	/**
 	 * Setze die Adresse eines Nutzers
+	 * 
 	 * @param address Neue Adresse des Nutzers
 	 */
 	public void setAddress(String address) {
@@ -111,6 +127,7 @@ public class User {
 
 	/**
 	 * Rufe die E-Mail-Adresse eines Nutzers ab
+	 * 
 	 * @return Email des Nutzers
 	 */
 	public String getEmail() {
@@ -119,6 +136,7 @@ public class User {
 
 	/**
 	 * Setze die E-Mail-Adresse eines Nutzers
+	 * 
 	 * @param email Neue Email des Nutzers
 	 */
 	public void setEmail(String email) {
@@ -127,6 +145,7 @@ public class User {
 
 	/**
 	 * Rufe die IBAN eines Nutzers ab
+	 * 
 	 * @return IBAN des Nutzers
 	 */
 	public String getIban() {
@@ -135,6 +154,7 @@ public class User {
 
 	/**
 	 * Setze die IBAN eines Nutzers
+	 * 
 	 * @param iban Neue Iban des Nutzers
 	 */
 	public void setIban(String iban) {
@@ -143,6 +163,7 @@ public class User {
 
 	/**
 	 * Rufe die BIC eines Nutzers ab
+	 * 
 	 * @return BIC des Nutzers
 	 */
 	public String getBic() {
@@ -151,6 +172,7 @@ public class User {
 
 	/**
 	 * Setzte die BIC eines Nutzers
+	 * 
 	 * @param bic BIC des Nutzers
 	 */
 	public void setBic(String bic) {
@@ -159,6 +181,7 @@ public class User {
 
 	/**
 	 * Rufe den PasswordHash eines Nutzers ab
+	 * 
 	 * @return passwordHash
 	 */
 	public String getPasswordHash() {
@@ -167,6 +190,7 @@ public class User {
 
 	/**
 	 * Setzte den PasswordHash eines Nutzers
+	 * 
 	 * @param passwordHash Hash des Passworts
 	 */
 	public void setPasswordHash(String passwordHash) {
@@ -175,6 +199,7 @@ public class User {
 
 	/**
 	 * Setze die Rolle des Nutzers
+	 * 
 	 * @param role Neue Rolle des Nutzers
 	 */
 	public void setRole(UserRole role) {
@@ -183,9 +208,28 @@ public class User {
 
 	/**
 	 * Rufe die Rolle des Nutzers ab
+	 * 
 	 * @return Rolle des Nutzers
 	 */
 	public UserRole getRole() {
 		return this.role;
+	}
+
+	/**
+	 * Rufe die Reservierungsliste ab
+	 * 
+	 * @return aktuelle Reservierungsliste
+	 */
+	public ArrayList<Reservation> getReservationList() {
+		return reservationList;
+	}
+
+	/**
+	 * Füge eine Reservierung in die Liste hinzu
+	 * 
+	 * @param reservation
+	 */
+	public void reservationListAdd(Reservation reservation) {
+		this.reservationList.add(reservation);
 	}
 }
