@@ -1,4 +1,4 @@
-package entity.reservation;
+package entity;
 
 import java.time.LocalDateTime;
 
