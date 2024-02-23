@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 public class Repair extends Service  {
 
 	/**
+	 * @param statement Statement einer Reparatur
+	 */
+	private String statement;
+
+	/**
 	 * Konstruktor für Repair, was von Service erbt
 	 * @param startDate Startdatum
 	 * @param endDate Enddatum
@@ -19,10 +24,5 @@ public class Repair extends Service  {
 		super(startDate, endDate, comment);
 		this.statement=statement;
 	}
-	
-	/**
-	 * @param statement Statement einer Reparatur
-	 */
-	private String statement;
 	
 }
