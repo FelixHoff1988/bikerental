@@ -1,23 +1,47 @@
 package entity;
 
+/**
+ * Repräsentiert einen Benutzer
+ */
 public abstract class User {
-
+	/**
+	 * Vorname des Nutzers
+	 */
 	protected String firstName;
+	/**
+	 * Nachname des Nutzers
+	 */
 	protected String lastName;
+	/**
+	 * Addresse des Nutzers
+	 */
 	protected String address;
+	/**
+	 * E-Mail Addresse des Nutzers
+	 */
 	protected String email;
+	/**
+	 * IBAN des Nutzers
+	 */
 	protected String iban;
+	/**
+	 * BIC des Nutzers
+	 */
 	protected String bic;
+	/**
+	 * PasswordHash um das Passwort zu verifizieren
+	 */
 	protected String passwordHash;
 
 	/**
-	 * @param firstName
-	 * @param lastName
-	 * @param address
-	 * @param email
-	 * @param iban
-	 * @param bic
-	 * @param passwordHash
+	 * Konstruktor: Setzt die Attribute auf die Eingegebenen Werte
+	 * @param firstName Vorname des Nutzers
+	 * @param lastName Nachname des Nutzers
+	 * @param address Addresse des Nutzers
+	 * @param email E-Mail Addresse des Nutzers
+	 * @param iban IBAN des Nutzers
+	 * @param bic BIC des Nutzers
+	 * @param passwordHash PasswordHash um das Passwort zu verifizieren
 	 */
 	public User(String firstName, String lastName, String address, String email, String iban, String bic,
 			String passwordHash) {
@@ -31,6 +55,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe den Vornamen eines Nutzers ab
 	 * @return firstName
 	 */
 	public String getFirstName() {
@@ -38,6 +63,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setze den Vornamen eines Nutzers
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -45,6 +71,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe den Nachnamen eines Nutzers ab
 	 * @return lastName
 	 */
 	public String getLastName() {
@@ -52,6 +79,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setze den Nachnamen eines Nutzers
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -59,6 +87,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe die Addresse eines Nutzers ab
 	 * @return address
 	 */
 	public String getAddress() {
@@ -66,6 +95,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setze die Addresse eines Nutzers
 	 * @param address
 	 */
 	public void setAddress(String address) {
@@ -73,6 +103,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe die E-Mail Addresse eines Nutzers ab
 	 * @return email
 	 */
 	public String getEmail() {
@@ -80,6 +111,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setze die E-Mail Addresse eines Nutzers
 	 * @param email
 	 */
 	public void setEmail(String email) {
@@ -87,6 +119,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe die IBAN eines Nutzers ab
 	 * @return iban
 	 */
 	public String getIban() {
@@ -94,6 +127,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setze die IBAN eines Nutzers
 	 * @param iban
 	 */
 	public void setIban(String iban) {
@@ -101,6 +135,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe die BIC eines Nutzers ab
 	 * @return bic
 	 */
 	public String getBic() {
@@ -108,6 +143,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setzte die BIC eines Nutzers
 	 * @param bic
 	 */
 	public void setBic(String bic) {
@@ -115,6 +151,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Rufe den PasswordHash eines Nutzers ab
 	 * @return passwordHash
 	 */
 	public String getPasswordHash() {
@@ -122,6 +159,7 @@ public abstract class User {
 	}
 
 	/**
+	 * Setzte den PasswordHash eines Nutzers
 	 * @param passwordHash
 	 */
 	public void setPasswordHash(String passwordHash) {
