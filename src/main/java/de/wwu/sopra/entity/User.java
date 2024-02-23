@@ -1,4 +1,4 @@
-package entity;
+package de.wwu.sopra.entity;
 
 /**
  * Repräsentiert einen Benutzer
