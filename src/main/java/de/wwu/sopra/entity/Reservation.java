@@ -2,18 +2,29 @@ package de.wwu.sopra.entity;
 
 import java.time.LocalDateTime;
 
+/**
+ * Klasse für die Entität der Reservierungen
+ */
 public class Reservation {
 	
-	//Startzeit erstellen
+	/**
+	 * Startzeit
+	 */
 	private LocalDateTime startTime;
-	//Buchungszeit erstellen
+	/**
+	 * Buchungszeit
+	 */
 	private LocalDateTime bookingTime;
-	//Endzeit erstellen
+	/**
+	 * Endzeit
+	 */
 	private LocalDateTime endTime;
-	//Preis der Reservierung erstellen
+	/**
+	 * Preis der Reservierung
+	 */
 	private int price;
 	
-	/*
+	/**
 	 * Konstruktor für alle Parameter der Reservation
 	 * @param startTime Startzeit
 	 * @param bookingTime BuchungsZeit
@@ -28,35 +39,58 @@ public class Reservation {
 		this.price = price;
 	}
 	
-	//Startzeit zurückgeben
+	/**
+	 * @return Startzeit
+	 */
 	public LocalDateTime getStartTime() {
 		return startTime;
 	}
-	//Startzeit setzten
+	
+	/** Setze die Startzeit
+	 * @param startTime neue Startzeit
+	 */
 	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
-	//BuchungsZeit zurückgeben
+	
+	/**
+	 * @return Buchungszeit
+	 */
 	public LocalDateTime getBookingTime() {
 		return bookingTime;
 	}
-	//BuchungsZeit setzten
+	
+	/** Setze die Buchungszeit
+	 * @param bookingTime neue Buchungszeit
+	 */
 	public void setBookingTime(LocalDateTime bookingTime) {
 		this.bookingTime = bookingTime;
 	}
-	//Endzeit zurückgeben
+	
+	/**
+	 * @return Endzeit
+	 */
 	public LocalDateTime getEndTime() {
 		return endTime;
 	}
-	//Endzeit setzten
+	
+	/** Setze die Endzeit der Reservierung
+	 * @param endTime neue Endzeit
+	 */
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
-	//Preis der Reservierung zurückgeben
+	
+	/**
+	 * @return Preis der Reservierung
+	 */
 	public int getPrice() {
 		return price;
 	}
-	//Preis der Reservierung setzten
+	
+	/** Setze den Preis der Reservierung
+	 * @param price neuer Preis
+	 */
 	public void setPrice(int price) {
 		this.price = price;
 	}
