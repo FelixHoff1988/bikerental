@@ -17,7 +17,7 @@ public class Repair extends Service  {
 	 * Konstruktor für Repair, was von Service erbt
 	 * @param startDate Startdatum
 	 * @param endDate Enddatum
-	 * @param commment Kommentar
+	 * @param comment Möglichkeit einen Kommentar hinzufügen
 	 * @param statement Statement einer Reparatur
 	 */
 	public Repair(LocalDateTime startDate, LocalDateTime endDate, String comment, String statement) {
