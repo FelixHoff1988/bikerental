@@ -1,4 +1,4 @@
-package entity;
+package de.wwu.sopra.entity;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Repair extends Service  {
 
 	/**
-	 * @param statement Statement einer Reparatur
+	 * statement Statement einer Reparatur
 	 */
 	private String statement;
 

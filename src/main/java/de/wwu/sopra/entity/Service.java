@@ -1,13 +1,13 @@
-package entity;
+package de.wwu.sopra.entity;
 
 import java.time.LocalDateTime;
 
 public class Service {
 
 	/**
-	 * @param startDate Startdatum eines Service
-	 * @param endDate Enddatum eines Service
-	 * @param comment Kommentar als String
+	 * startDate Startdatum eines Service
+	 * endDate Enddatum eines Service
+	 * comment Kommentar als String
 	 */
 	
 	private LocalDateTime startDate;
@@ -27,9 +27,6 @@ public class Service {
 		this.endDate=endDate;
 		this.comment=comment;
 		
-	
-		
-
 	/**
 	 * Ruft das Startdatum eines Service auf
 	 * @return das Startdatum eines Service
