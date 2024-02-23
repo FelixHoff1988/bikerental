@@ -11,6 +11,7 @@ public class Reservation {
 	protected String bic;
 	protected String passwordhash;
 	
+	
 	//Getter, Setter
 	public String getFirstName() {
 		return firstName;
