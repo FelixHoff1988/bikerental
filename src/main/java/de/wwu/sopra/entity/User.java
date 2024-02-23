@@ -1,50 +1,56 @@
-package de.wwu.sopra.entity.user;
+package de.wwu.sopra.entity;
 
 /**
  * Repräsentiert einen Benutzer
  */
-public abstract class User {
+public class User {
 	/**
 	 * Vorname des Nutzers
 	 */
-	protected String firstName;
+	private String firstName;
 	/**
 	 * Nachname des Nutzers
 	 */
-	protected String lastName;
+	private String lastName;
 	/**
 	 * Addresse des Nutzers
 	 */
-	protected String address;
+	private String address;
 	/**
 	 * E-Mail Addresse des Nutzers
 	 */
-	protected String email;
+	private String email;
 	/**
 	 * IBAN des Nutzers
 	 */
-	protected String iban;
+	private String iban;
 	/**
 	 * BIC des Nutzers
 	 */
-	protected String bic;
+	private String bic;
 	/**
 	 * PasswordHash um das Passwort zu verifizieren
 	 */
-	protected String passwordHash;
+	private String passwordHash;
 
 	/**
-	 * Konstruktor: Setzt die Attribute auf die Eingegebenen Werte
+	 * Rolle des Nutzers (z.B. Admin)
+	 */
+	private UserRole role;
+
+	/**
+	 * Konstruktor: Setzt die Attribute auf die eingegebenen Werte
 	 * @param firstName Vorname des Nutzers
 	 * @param lastName Nachname des Nutzers
-	 * @param address Addresse des Nutzers
-	 * @param email E-Mail Addresse des Nutzers
+	 * @param address Adresse des Nutzers
+	 * @param email E-Mail-Adresse des Nutzers
 	 * @param iban IBAN des Nutzers
 	 * @param bic BIC des Nutzers
 	 * @param passwordHash PasswordHash um das Passwort zu verifizieren
+	 * @param role Rolle des Nutzers
 	 */
 	public User(String firstName, String lastName, String address, String email, String iban, String bic,
-			String passwordHash) {
+			String passwordHash, UserRole role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
@@ -52,11 +58,12 @@ public abstract class User {
 		this.iban = iban;
 		this.bic = bic;
 		this.passwordHash = passwordHash;
+		this.role = role;
 	}
 
 	/**
 	 * Rufe den Vornamen eines Nutzers ab
-	 * @return firstName
+	 * @return Vorname des Nutzers
 	 */
 	public String getFirstName() {
 		return firstName;
@@ -64,7 +71,7 @@ public abstract class User {
 
 	/**
 	 * Setze den Vornamen eines Nutzers
-	 * @param firstName
+	 * @param firstName Neuer Vorname des Nutzers
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -72,7 +79,7 @@ public abstract class User {
 
 	/**
 	 * Rufe den Nachnamen eines Nutzers ab
-	 * @return lastName
+	 * @return Nachname des Nutzers
 	 */
 	public String getLastName() {
 		return lastName;
@@ -80,39 +87,39 @@ public abstract class User {
 
 	/**
 	 * Setze den Nachnamen eines Nutzers
-	 * @param lastName
+	 * @param lastName Neuer Nachname des Nutzers
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
 	/**
-	 * Rufe die Addresse eines Nutzers ab
-	 * @return address
+	 * Rufe die Adresse eines Nutzers ab
+	 * @return Adresse des Nutzers
 	 */
 	public String getAddress() {
 		return address;
 	}
 
 	/**
-	 * Setze die Addresse eines Nutzers
-	 * @param address
+	 * Setze die Adresse eines Nutzers
+	 * @param address Neue Adresse des Nutzers
 	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
 	/**
-	 * Rufe die E-Mail Addresse eines Nutzers ab
-	 * @return email
+	 * Rufe die E-Mail-Adresse eines Nutzers ab
+	 * @return Email des Nutzers
 	 */
 	public String getEmail() {
 		return email;
 	}
 
 	/**
-	 * Setze die E-Mail Addresse eines Nutzers
-	 * @param email
+	 * Setze die E-Mail-Adresse eines Nutzers
+	 * @param email Neue Email des Nutzers
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -120,7 +127,7 @@ public abstract class User {
 
 	/**
 	 * Rufe die IBAN eines Nutzers ab
-	 * @return iban
+	 * @return IBAN des Nutzers
 	 */
 	public String getIban() {
 		return iban;
@@ -128,7 +135,7 @@ public abstract class User {
 
 	/**
 	 * Setze die IBAN eines Nutzers
-	 * @param iban
+	 * @param iban Neue Iban des Nutzers
 	 */
 	public void setIban(String iban) {
 		this.iban = iban;
@@ -136,7 +143,7 @@ public abstract class User {
 
 	/**
 	 * Rufe die BIC eines Nutzers ab
-	 * @return bic
+	 * @return BIC des Nutzers
 	 */
 	public String getBic() {
 		return bic;
@@ -144,7 +151,7 @@ public abstract class User {
 
 	/**
 	 * Setzte die BIC eines Nutzers
-	 * @param bic
+	 * @param bic BIC des Nutzers
 	 */
 	public void setBic(String bic) {
 		this.bic = bic;
@@ -160,9 +167,25 @@ public abstract class User {
 
 	/**
 	 * Setzte den PasswordHash eines Nutzers
-	 * @param passwordHash
+	 * @param passwordHash Hash des Passworts
 	 */
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
+	}
+
+	/**
+	 * Setze die Rolle des Nutzers
+	 * @param role Neue Rolle des Nutzers
+	 */
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+
+	/**
+	 * Rufe die Rolle des Nutzers ab
+	 * @return Rolle des Nutzers
+	 */
+	public UserRole getRole() {
+		return this.role;
 	}
 }
