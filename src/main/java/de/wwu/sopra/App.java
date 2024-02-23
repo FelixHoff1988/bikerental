@@ -1,4 +1,4 @@
-package de.wwu.sopra.application;
+package de.wwu.sopra;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

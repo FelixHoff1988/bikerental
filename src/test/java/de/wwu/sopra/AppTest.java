@@ -1,6 +1,4 @@
-package de.wwu.sopra.model.application;
-
-import de.wwu.sopra.application.App;
+package de.wwu.sopra;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,7 +8,5 @@ public class AppTest {
     @Test
     public void TestMain() {
     	App.main(new String[]{"cancel"});
-
-        
     }
 }
