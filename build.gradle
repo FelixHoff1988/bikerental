@@ -21,7 +21,7 @@ javafx {
 }
 
 dependencies {
-    // implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
 
     // implementation 'com.j256.ormlite:ormlite-core:6.1'
     // implementation 'com.j256.ormlite:ormlite-jdbc:6.1'

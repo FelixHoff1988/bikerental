@@ -1,3 +1,7 @@
+# Custom
+appdata.xml
+testdata.xml
+
 # Gradle
 build/
 .gradle/
