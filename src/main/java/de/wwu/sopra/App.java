@@ -34,14 +34,18 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Leihrad-\u00dcbersicht");
 
-		var userManagementGUI = new UserManagementGUI();
+		var userManagementGUI = UserManagementGUI.getInstance();
+		Scene scene = new Scene(userManagementGUI);
+
 		userManagementGUI.onLogin(user -> {
-			var mainGUI = new MainGUI(user);
-			primaryStage.setScene(new Scene(mainGUI));
-			mainGUI.onLogout(unused -> primaryStage.setScene(new Scene(userManagementGUI)));
+			var mainGUI = MainGUI.init(user);
+			scene.setRoot(mainGUI);
+			mainGUI.onLogout(unused -> scene.setRoot(userManagementGUI));
 		});
 
-		Scene scene = new Scene(userManagementGUI);
+		primaryStage.setFullScreen(true);
+		primaryStage.setMinWidth(1080);
+		primaryStage.setMinHeight(720);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
