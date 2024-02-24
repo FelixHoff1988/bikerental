@@ -2,12 +2,12 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.entity.User;
 import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Hauptlayout der App
  */
-public class MainGUI extends GridPane {
+public class MainGUI extends VBox {
     /**
      * Instanz des MainGUI
      */
@@ -81,6 +81,7 @@ public class MainGUI extends GridPane {
      * @param node Ändert die View node
      */
     public void changeViewNode(Node node) {
-        this.add(node, 0, 1);
+        this.getChildren().removeLast();
+        this.getChildren().add(node);
     }
 }
