@@ -6,11 +6,11 @@ public abstract class Service {
 	/**
 	 * Startzeitpunkt eines Service
 	 */
-	private LocalDateTime startDate;
+	private LocalDateTime startTime;
 	/**
 	 * Endzeitpunkt eines Service (zu Anfang null, bis der Service endet)
 	 */
-	private LocalDateTime endDate;
+	private LocalDateTime endTime;
 	/**
 	 * Kommentar (z.B. des Nutzers, der den Mangel meldet)
 	 */
@@ -27,12 +27,12 @@ public abstract class Service {
 	/**
 	 * Konstruktor für Service
 	 * 
-	 * @param startDate Startzeitpunkt des Services
+	 * @param startTime Startzeitpunkt des Services
 	 * @param comment   Kommentar (z.B. des Nutzers der den Mangel meldet)
 	 * @param bike      Das zugehörige Fahrrad
 	 */
-	public Service(LocalDateTime startDate, String comment, Bike bike) {
-		this.startDate = startDate;
+	public Service(LocalDateTime startTime, String comment, Bike bike) {
+		this.startTime = startTime;
 		this.comment = comment;
 		this.bike = bike;
 	}
@@ -78,17 +78,17 @@ public abstract class Service {
 	 *
 	 * @return Startzeitpunkt des Services
 	 */
-	public LocalDateTime getStartDate() {
-		return startDate;
+	public LocalDateTime getStartTime() {
+		return startTime;
 	}
 
 	/**
 	 * Setze den Startzeitpunkt des Services
 	 *
-	 * @param startDate Neuer Startzeitpunkt des Services
+	 * @param startTime Neuer Startzeitpunkt des Services
 	 */
-	public void setStartDate(LocalDateTime startDate) {
-		this.startDate = startDate;
+	public void setStartTime(LocalDateTime startTime) {
+		this.startTime = startTime;
 	}
 
 	/**
@@ -96,17 +96,17 @@ public abstract class Service {
 	 * 
 	 * @return das Enddatum des Service
 	 */
-	public LocalDateTime getEndDate() {
-		return endDate;
+	public LocalDateTime getEndTime() {
+		return endTime;
 	}
 
 	/**
 	 * Setzt das Enddatum eines Service
 	 * 
-	 * @param endDate Enddatum
+	 * @param endTime Enddatum
 	 */
-	public void setEndDate(LocalDateTime endDate) {
-		this.endDate = endDate;
+	public void setEndTime(LocalDateTime endTime) {
+		this.endTime = endTime;
 	}
 
 	/**
