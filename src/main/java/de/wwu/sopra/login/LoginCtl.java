@@ -3,7 +3,6 @@ package de.wwu.sopra.login;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.UserManagementGUI;
-import de.wwu.sopra.entity.User;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -16,6 +15,12 @@ public class LoginCtl {
      */
     public LoginCtl() {}
 
+    /**
+     * Handelt den User Login
+     *
+     * @param email E-Mail des einzuloggenden Nutzers
+     * @param password Passwort des einzuloggenden Nutzers
+     */
     public void loginUser(String email, String password) {
         var provider = DataProvider.getInstance();
         var user = provider.getUser(email);
@@ -39,5 +44,19 @@ public class LoginCtl {
         } else {
             UserManagementGUI.getInstance().login(user);
         }
+    }
+
+    /**
+     * Handelt den Klick auf den "Registrieren"-Text
+     */
+    public void registerUser() {
+        // TODO: UserManagementGUI.getInstance().changeViewNode(new RegistrationGUI())
+    }
+
+    /**
+     * Handelt den Klick auf den "Passwort vergessen"-Text
+     */
+    public void forgotPassword() {
+        // TODO: UserManagementGUI.getInstance().changeViewNode(new ForgotPasswordGUI())
     }
 }

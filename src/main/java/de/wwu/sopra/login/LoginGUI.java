@@ -1,8 +1,6 @@
 package de.wwu.sopra.login;
 
-import de.wwu.sopra.UserManagementGUI;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
@@ -53,14 +51,10 @@ public class LoginGUI extends HBox {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         var registerLink = new Hyperlink("Registrieren");
-        registerLink.setOnAction(event -> {
-            // TODO: UserManagementGUI.getInstance().changeViewNode(new RegistrationGUI())
-        });
+        registerLink.setOnAction(event -> controller.registerUser());
 
         var passwordLink = new Hyperlink("Passwort vergessen");
-        registerLink.setOnAction(event -> {
-            // TODO: UserManagementGUI.getInstance().changeViewNode(new ForgotPasswordGUI())
-        });
+        passwordLink.setOnAction(event -> controller.forgotPassword());
 
 
         controls.getChildren().addAll(anmeldeButton, spacer, registerLink, passwordLink);
