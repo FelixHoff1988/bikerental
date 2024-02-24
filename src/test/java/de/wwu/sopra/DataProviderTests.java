@@ -57,7 +57,7 @@ public class DataProviderTests {
             mockBike);
 
     private final LocalDateTime serviceStartDate = LocalDateTime.of(2024, 2, 25, 9, 42);
-    private final Service mockService = new Service(
+    private final Service mockService = new Maintenance(
             serviceStartDate,
             null,
             null,

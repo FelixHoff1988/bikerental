@@ -91,6 +91,8 @@ public class DataProvider {
                 BikeStation.class,
                 GeofencingArea.class,
                 Service.class,
+                Maintenance.class,
+                Repair.class,
                 User.class,
                 Coordinate.class,
                 AppData.class,
