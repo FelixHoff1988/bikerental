@@ -40,7 +40,7 @@ public class App extends Application {
 		userManagementGUI.onLogin(user -> {
 			var mainGUI = MainGUI.init(user);
 			scene.setRoot(mainGUI);
-			mainGUI.onLogout(unused -> scene.setRoot(userManagementGUI));
+			mainGUI.onLogout(() -> scene.setRoot(userManagementGUI));
 		});
 
 		primaryStage.setFullScreen(true);
