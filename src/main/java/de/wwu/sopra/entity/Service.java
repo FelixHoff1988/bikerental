@@ -2,48 +2,45 @@ package de.wwu.sopra.entity;
 
 import java.time.LocalDateTime;
 
-public class Service {
-
+public abstract class Service {
 	/**
-	 * startDate Startdatum eines Service endDate Enddatum eines Service comment
-	 * Kommentar als String bike Das betroffene Rad user Der zugeordnete
-	 * Wartungsarbeiter
+	 * Startzeitpunkt eines Service
 	 */
-
 	private LocalDateTime startDate;
+	/**
+	 * Endzeitpunkt eines Service (zu Anfang null, bis der Service endet)
+	 */
 	private LocalDateTime endDate;
+	/**
+	 * Kommentar (z.B. des Nutzers, der den Mangel meldet)
+	 */
 	private String comment;
+	/**
+	 * Zugeordnetes Fahrrad
+	 */
 	private Bike bike;
+	/**
+	 * Zugeordneter Maintainer (zu Anfang null, bis jemand den Service bearbeitet)
+	 */
 	private User user;
 
 	/**
 	 * Konstruktor für Service
 	 * 
-	 * @param startDate gibt das Startdatum eines Service
-	 * @param endDate   gibt das Enddatum eines Service
-	 * @param comment   Kommentar
-	 * @param user      Der Wartungsarbeiter
-	 * @param bike      Das Fahrrad
+	 * @param startDate Startzeitpunkt des Services
+	 * @param comment   Kommentar (z.B. des Nutzers der den Mangel meldet)
+	 * @param bike      Das zugehörige Fahrrad
 	 */
-	public Service(LocalDateTime startDate, LocalDateTime endDate, String comment, Bike bike, User user) {
-
+	public Service(LocalDateTime startDate, String comment, Bike bike) {
 		this.startDate = startDate;
-		this.endDate = endDate;
 		this.comment = comment;
 		this.bike = bike;
-		this.user = user;
-
-		/**
-		 * Ruft das Startdatum eines Service auf
-		 * 
-		 * @return das Startdatum eines Service
-		 */
 	}
 
 	/**
 	 * Rufe das betroffene Rad ab
 	 * 
-	 * @return bike
+	 * @return Zugehöriges Fahrrad
 	 */
 	public Bike getBike() {
 		return bike;
@@ -52,7 +49,7 @@ public class Service {
 	/**
 	 * Setze das betroffene Rad
 	 * 
-	 * @param bike
+	 * @param bike Neues zugehöriges Fahrrad
 	 */
 	public void setBike(Bike bike) {
 		this.bike = bike;
@@ -61,7 +58,7 @@ public class Service {
 	/**
 	 * Rufe den Wartungsarbeiter ab
 	 * 
-	 * @return
+	 * @return Zugehöriger Wartungsarbeiter (kann null sein)
 	 */
 	public User getUser() {
 		return user;
@@ -70,28 +67,32 @@ public class Service {
 	/**
 	 * Setze den Wartungsarbeiter
 	 * 
-	 * @param user
+	 * @param user Neuer Wartungsarbeiter
 	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Rufe den Startzeitpunkt des Services ab
+	 *
+	 * @return Startzeitpunkt des Services
+	 */
 	public LocalDateTime getStartDate() {
 		return startDate;
-
-		/**
-		 * Setzt das Startdatum eines Service
-		 * 
-		 * @param startDate Startdatum eines Service
-		 */
 	}
 
+	/**
+	 * Setze den Startzeitpunkt des Services
+	 *
+	 * @param startDate Neuer Startzeitpunkt des Services
+	 */
 	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
-	 * Ruft das Enddatum eines Service auf
+	 * Ruft das Enddatum eines Service ab
 	 * 
 	 * @return das Enddatum des Service
 	 */
@@ -109,7 +110,7 @@ public class Service {
 	}
 
 	/**
-	 * Ruft den Kommentar eines Service auf
+	 * Ruft den Kommentar eines Service ab
 	 * 
 	 * @return der Kommentar eines Service
 	 */
