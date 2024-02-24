@@ -56,6 +56,7 @@ public class UserManagementGUI extends VBox {
      * @param user Nutzer, der eingeloggt wird
      */
     public void login(User user) {
+        UserManagementGUI.instance = null;
         this.loginAction.accept(user);
     }
 
