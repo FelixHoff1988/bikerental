@@ -6,17 +6,16 @@ import java.time.LocalDateTime;
  * Klasse für die Entität der Reservierungen
  */
 public class Reservation {
-
 	/**
 	 * Startzeit
 	 */
 	private LocalDateTime startTime;
 	/**
-	 * Buchungszeit
+	 * Buchungszeit (zu Anfang null bis gebucht wird)
 	 */
 	private LocalDateTime bookingTime;
 	/**
-	 * Endzeit
+	 * Endzeit (zu Anfang null bis die Reservation endet)
 	 */
 	private LocalDateTime endTime;
 	/**
@@ -35,19 +34,13 @@ public class Reservation {
 	/**
 	 * Konstruktor für alle Parameter der Reservation
 	 * 
-	 * @param startTime   Startzeit
-	 * @param bookingTime Buchungszeit
-	 * @param endTime     Endzeit
-	 * @param price       Preis der Reservierung
-	 * @param bike        reserviertes Rad
-	 * @param user        Kunde
+	 * @param startTime   Startzeit der Reservierung
+	 * @param bike        Reserviertes Rad
+	 * @param user        Kunde der reserviert
 	 */
-	public Reservation(LocalDateTime startTime, LocalDateTime bookingTime, LocalDateTime endTime, int price, User user,
-			Bike bike) {
+	public Reservation(LocalDateTime startTime, User user, Bike bike) {
 		this.startTime = startTime;
-		this.bookingTime = bookingTime;
-		this.endTime = endTime;
-		this.price = price;
+		this.price = bike.getType().getPrize();
 		this.bike = bike;
 		this.user = user;
 	}
