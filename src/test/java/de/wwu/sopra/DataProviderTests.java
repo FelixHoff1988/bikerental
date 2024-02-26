@@ -50,9 +50,6 @@ public class DataProviderTests {
     private final LocalDateTime reservationStartDate = LocalDateTime.of(2024, 2, 24, 10, 42);
     private final Reservation mockReservation = new Reservation(
             reservationStartDate,
-            null,
-            null,
-            mockBike.getType().getPrize(),
             mockUser,
             mockBike);
 
@@ -60,9 +57,7 @@ public class DataProviderTests {
     private final Service mockService = new Maintenance(
             serviceStartDate,
             null,
-            null,
-            mockBike,
-            null);
+            mockBike);
 
     /**
      * Setzt den Provider auf einen optimalen Testzustand zurück
@@ -481,7 +476,7 @@ public class DataProviderTests {
         resetProvider(false);
 
         // mockService vorhanden
-        assertFalse(provider.getServices(service -> service.getStartDate().isEqual(serviceStartDate)).isEmpty());
+        assertFalse(provider.getServices(service -> service.getStartTime().isEqual(serviceStartDate)).isEmpty());
         // mockReservation vorhanden
         assertFalse(provider.getReservations(reservation -> reservation.getStartTime().isEqual(reservationStartDate)).isEmpty());
         // mockUser vorhanden
