@@ -5,10 +5,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import de.wwu.sopra.entity.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -138,7 +136,7 @@ public class DataProvider {
      */
     public void saveData() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(dataFilePath));
+            var writer = new OutputStreamWriter(new FileOutputStream(dataFilePath), StandardCharsets.UTF_8);
             xStream.toXML(this.appData, writer);
             writer.close();
         } catch (IOException e) {
