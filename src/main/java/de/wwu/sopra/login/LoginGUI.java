@@ -1,5 +1,6 @@
 package de.wwu.sopra.login;
 
+import de.wwu.sopra.register.RegisterCTRL;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -15,6 +16,7 @@ public class LoginGUI extends HBox {
      * Login Steuerungsklasse
      */
     private LoginCTRL controller = new LoginCTRL();
+    private RegisterCTRL regController = new RegisterCTRL();
 
     /**
      * Standardkonstruktor: Initialisiert das Basislayout
@@ -52,7 +54,7 @@ public class LoginGUI extends HBox {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         var registerLink = new Hyperlink("Registrieren");
-        registerLink.setOnAction(event -> controller.registerUser());
+        registerLink.setOnAction(event -> regController.registerUser());
 
         var passwordLink = new Hyperlink("Passwort vergessen");
         passwordLink.setOnAction(event -> controller.forgotPassword());

@@ -2,6 +2,7 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.login.LoginGUI;
+import de.wwu.sopra.register.RegisterGUI;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
@@ -20,6 +21,8 @@ public class UserManagementGUI extends VBox {
      * Aktion die beim Aufruf von login() ausgeführt wird
      */
     private Consumer<User> loginAction;
+    private Consumer<User> registerAction;
+    
 
     /**
      * Standardkonstruktor
@@ -67,5 +70,8 @@ public class UserManagementGUI extends VBox {
     public void changeViewNode(Node node) {
         this.getChildren().removeAll();
         this.getChildren().add(node);
+        
     }
+
+
 }
