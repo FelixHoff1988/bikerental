@@ -71,7 +71,7 @@ public class UserManagementGUI extends VBox {
     	if (!this.getChildren().isEmpty())
     		this.getChildren().removeLast();
         this.getChildren().add(node);
-        this.getScene().setRoot(this);
+
         
     }
 

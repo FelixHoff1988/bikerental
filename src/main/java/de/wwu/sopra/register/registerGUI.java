@@ -4,6 +4,7 @@ package de.wwu.sopra.register;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -17,6 +18,7 @@ public class RegisterGUI extends HBox {
 	public RegisterGUI(){
 		init();
 	}
+
 	
 	public void init() {
 		
@@ -24,10 +26,20 @@ public class RegisterGUI extends HBox {
 		innerBox.setAlignment(Pos.CENTER);
 		innerBox.setVgap(5);
 		
-		var firstName = new Label("Name");
-	
-
-		innerBox.add(firstName, 0, 0);
+		var firstNameLabel = new Label("Vorname: ");
+		var firstNameTextField = new TextField("");
+		innerBox.add(firstNameLabel, 0, 0);
+		innerBox.add(firstNameTextField, 1, 0);
+		
+		var lastNameLabel = new Label("Nachname: ");
+		var lastNameTextField = new TextField("");
+		innerBox.add(lastNameLabel, 0, 1);
+		innerBox.add(lastNameTextField, 1, 1);
+		
+		var streetNameLabel = new Label("Stra\u00DFe: ");
+		var streetNameTextField = new TextField("");
+		innerBox.add(streetNameLabel, 0, 2);
+		innerBox.add(streetNameTextField, 1, 2);
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);
