@@ -32,8 +32,8 @@ public class RegisterGUI extends HBox {
 		
 		var lastNameLabel = new Label("Nachname: ");
 		var lastNameTextField = new TextField("");
-		innerBox.add(lastNameLabel, 0, 1);
-		innerBox.add(lastNameTextField, 1, 1);
+		innerBox.add(lastNameLabel, 2, 0);
+		innerBox.add(lastNameTextField, 3, 0);
 		
 		var streetLabel = new Label("Stra\u00DFe: ");
 		var streetTextField = new TextField("");
@@ -42,8 +42,38 @@ public class RegisterGUI extends HBox {
 		
 		var houseNumberLabel = new Label("Hausnummer: ");
 		var houseNumberTextField = new TextField("");
-		innerBox.add(houseNumberLabel, 0, 3);
-		innerBox.add(houseNumberTextField, 1, 3);
+		innerBox.add(houseNumberLabel, 2, 2);
+		innerBox.add(houseNumberTextField, 3, 2);
+		
+		var plzLabel = new Label("PLZ: ");
+		var plzTextField = new TextField("");
+		innerBox.add(plzLabel, 0, 4);
+		innerBox.add(plzTextField, 1, 4);
+		
+		var townLabel = new Label("Stadt: ");
+		var townTextField = new TextField("");
+		innerBox.add(townLabel, 2, 4);
+		innerBox.add(townTextField, 3, 4);
+		
+		var emailLabel = new Label("e-Mail: ");
+		var emailTextField = new TextField("");
+		innerBox.add(emailLabel, 0, 5);
+		innerBox.add(emailTextField, 1, 5);
+		
+		var mobilLabel = new Label("Mobil: ");
+		var mobilTextField = new TextField("");
+		innerBox.add(mobilLabel, 2, 5);
+		innerBox.add(mobilTextField, 3, 5);
+		
+		var IBANLabel = new Label("IBAN: ");
+		var IBANTextField = new TextField("");
+		innerBox.add(IBANLabel, 0, 6);
+		innerBox.add(IBANTextField, 1, 6);
+		
+		var BICLabel = new Label("BIC: ");
+		var BICTextField = new TextField("");
+		innerBox.add(BICLabel, 2, 6);
+		innerBox.add(BICTextField, 3, 6);
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);
