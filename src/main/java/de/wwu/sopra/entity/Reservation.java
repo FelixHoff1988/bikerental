@@ -6,17 +6,16 @@ import java.time.LocalDateTime;
  * Klasse für die Entität der Reservierungen
  */
 public class Reservation {
-
 	/**
 	 * Startzeit
 	 */
 	private LocalDateTime startTime;
 	/**
-	 * Buchungszeit
+	 * Buchungszeit (zu Anfang null bis gebucht wird)
 	 */
 	private LocalDateTime bookingTime;
 	/**
-	 * Endzeit
+	 * Endzeit (zu Anfang null bis die Reservation endet)
 	 */
 	private LocalDateTime endTime;
 	/**
@@ -35,19 +34,13 @@ public class Reservation {
 	/**
 	 * Konstruktor für alle Parameter der Reservation
 	 * 
-	 * @param startTime   Startzeit
-	 * @param bookingTime BuchungsZeit
-	 * @param endTime     Endzeit
-	 * @param price       Preis der Reservierung
-	 * @param bike        reserviertes Rad
-	 * @param user        Kunde
+	 * @param startTime   Startzeit der Reservierung
+	 * @param bike        Reserviertes Rad
+	 * @param user        Kunde der reserviert
 	 */
-	public Reservation(LocalDateTime startTime, LocalDateTime bookingTime, LocalDateTime endTime, int price, User user,
-			Bike bike) {
+	public Reservation(LocalDateTime startTime, User user, Bike bike) {
 		this.startTime = startTime;
-		this.bookingTime = bookingTime;
-		this.endTime = endTime;
-		this.price = price;
+		this.price = bike.getType().getPrize();
 		this.bike = bike;
 		this.user = user;
 	}
@@ -55,7 +48,7 @@ public class Reservation {
 	/**
 	 * Rufe den Kunden ab
 	 * 
-	 * @return
+	 * @return Mit der Reservierung verbundener Kunde
 	 */
 	public User getUser() {
 		return user;
@@ -64,7 +57,7 @@ public class Reservation {
 	/**
 	 * Setze den Kunden
 	 * 
-	 * @param user
+	 * @param user Neuer Kunde der mit der Reservierung verbunden ist
 	 */
 	public void setUser(User user) {
 		this.user = user;
@@ -73,7 +66,7 @@ public class Reservation {
 	/**
 	 * Rufe das reservierte Rad ab
 	 * 
-	 * @return
+	 * @return Rad, welches zu der Reservierung gehört
 	 */
 	public Bike getBike() {
 		return bike;
@@ -82,30 +75,34 @@ public class Reservation {
 	/**
 	 * Setze Fahrrad der Reservierung
 	 * 
-	 * @param bike
+	 * @param bike Neues mit der Reservierung zu verbindende Rad
 	 */
 	public void setBike(Bike bike) {
 		this.bike = bike;
 	}
 
 	/**
-	 * @return Startzeit
+	 * Rufe die Startzeit der Reservierung ab
+	 *
+	 * @return Startzeit der Reservierung
 	 */
 	public LocalDateTime getStartTime() {
 		return startTime;
 	}
 
 	/**
-	 * Setze die Startzeit
+	 * Setze die Startzeit der Reservierung
 	 * 
-	 * @param startTime neue Startzeit
+	 * @param startTime Neue Startzeit der Reservierung
 	 */
 	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
 
 	/**
-	 * @return Buchungszeit
+	 * Rufe die Buchungszeit der Reservierung ab
+	 *
+	 * @return Buchungszeit der Reservierung
 	 */
 	public LocalDateTime getBookingTime() {
 		return bookingTime;
@@ -114,14 +111,16 @@ public class Reservation {
 	/**
 	 * Setze die Buchungszeit
 	 * 
-	 * @param bookingTime neue Buchungszeit
+	 * @param bookingTime Neue Buchungszeit der Reservierung
 	 */
 	public void setBookingTime(LocalDateTime bookingTime) {
 		this.bookingTime = bookingTime;
 	}
 
 	/**
-	 * @return Endzeit
+	 * Rufe die Endzeit der Reservierung ab
+	 *
+	 * @return Endzeit der Reservierung
 	 */
 	public LocalDateTime getEndTime() {
 		return endTime;
@@ -130,13 +129,15 @@ public class Reservation {
 	/**
 	 * Setze die Endzeit der Reservierung
 	 * 
-	 * @param endTime neue Endzeit
+	 * @param endTime Neue Endzeit der Reservierung
 	 */
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
 
 	/**
+	 * Rufe den Preis der Reservierung ab
+	 *
 	 * @return Preis der Reservierung
 	 */
 	public int getPrice() {
@@ -146,7 +147,7 @@ public class Reservation {
 	/**
 	 * Setze den Preis der Reservierung
 	 * 
-	 * @param price neuer Preis
+	 * @param price Neuer Preis der Reservierung
 	 */
 	public void setPrice(int price) {
 		this.price = price;

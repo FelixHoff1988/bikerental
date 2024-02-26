@@ -11,19 +11,19 @@ public class GeofencingArea {
 	/**
 	 * Liste zum Speichern der Kanten der GeofencingArea
 	 */
-	private ArrayList<Coordinate> edges = new ArrayList<Coordinate>();
+	private ArrayList<Coordinate> edges;
 
 	/**
 	 * Konstruktor setzt initiale Werte
 	 * 
-	 * @param edges
+	 * @param edges Initiale Eckpunkte der GeofencingArea
 	 */
 	public GeofencingArea(ArrayList<Coordinate> edges) {
 		this.edges = edges;
 	}
 
 	/**
-	 * Eine Kante zur GeodencingArea hinzufügen
+	 * Eine Kante zur GeofencingArea hinzufügen
 	 * 
 	 * @param c Kante die hinzugefügt werden soll
 	 */
@@ -43,7 +43,7 @@ public class GeofencingArea {
 	/**
 	 * Liste der Kanten der GeofencingArea zurückgeben
 	 * 
-	 * @return
+	 * @return Liste der Eckpunkte der GeofencingArea
 	 */
 	public ArrayList<Coordinate> getEdges() {
 		return edges;
@@ -52,7 +52,7 @@ public class GeofencingArea {
 	/**
 	 * Liste der Kanten der GeofencingArea setzten
 	 * 
-	 * @param edges
+	 * @param edges Neue Eckpunkte der GeofencingArea
 	 */
 	public void setEdges(ArrayList<Coordinate> edges) {
 		this.edges = edges;
