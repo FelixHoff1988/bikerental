@@ -44,7 +44,10 @@ public class DataProviderTests {
             userEmail,
             "DE87 3728 0000 1123 3947 12",
             "CIBILIDUSQUACK",
-            "asdklhbjvf987634njid9f",
+            new PasswordHashing.PasswordHash(
+                    // Password: ¦'?>4g¾ì©íc¨0IfûÃßO`»)c={kAl¡Ñ`d;;ÝxgrkK#÷Ý¿M°XãËÿ¦³;Ãf~\c(huÏMú
+                    "b6e8012386d585bbd9b5057b759ebc9d",
+                    "2ac4fcabf13bf1cb57ab450f553e747bb9fc2f0c9f709645bac62b27c0e66371496764a5638dc84524a8d47c388b2c690016c02c55a7a7f03c146bd6d2a4b17f"),
             UserRole.MAINTAINER);
 
     private final LocalDateTime reservationStartDate = LocalDateTime.of(2024, 2, 24, 10, 42);
