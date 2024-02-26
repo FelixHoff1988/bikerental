@@ -24,7 +24,9 @@ public class RegisterGUI extends HBox {
 		innerBox.setAlignment(Pos.CENTER);
 		innerBox.setVgap(5);
 		
-		var firstName = new Label();
+		var firstName = new Label("Name");
+	
+
 		innerBox.add(firstName, 0, 0);
 		
 		this.getChildren().addAll(innerBox);
