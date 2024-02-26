@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 
 public class RegisterGUI extends HBox {
 	
-	private RegisterCTRL controller = new RegisterCTRL();
 	
 	public RegisterGUI(){
 		init();
@@ -36,10 +35,15 @@ public class RegisterGUI extends HBox {
 		innerBox.add(lastNameLabel, 0, 1);
 		innerBox.add(lastNameTextField, 1, 1);
 		
-		var streetNameLabel = new Label("Stra\u00DFe: ");
-		var streetNameTextField = new TextField("");
-		innerBox.add(streetNameLabel, 0, 2);
-		innerBox.add(streetNameTextField, 1, 2);
+		var streetLabel = new Label("Stra\u00DFe: ");
+		var streetTextField = new TextField("");
+		innerBox.add(streetLabel, 0, 2);
+		innerBox.add(streetTextField, 1, 2);
+		
+		var houseNumberLabel = new Label("Hausnummer: ");
+		var houseNumberTextField = new TextField("");
+		innerBox.add(houseNumberLabel, 0, 3);
+		innerBox.add(houseNumberTextField, 1, 3);
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);

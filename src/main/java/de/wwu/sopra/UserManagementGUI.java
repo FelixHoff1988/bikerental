@@ -22,7 +22,6 @@ public class UserManagementGUI extends VBox {
      * Aktion die beim Aufruf von login() ausgeführt wird
      */
     private Consumer<User> loginAction;
-    private Consumer<User> registerAction;
     
 
     /**
