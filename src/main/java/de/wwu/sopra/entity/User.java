@@ -1,5 +1,7 @@
 package de.wwu.sopra.entity;
 
+import de.wwu.sopra.PasswordHashing;
+
 import java.util.ArrayList;
 
 /**
@@ -33,7 +35,7 @@ public class User {
 	/**
 	 * PasswordHash um das Passwort zu verifizieren
 	 */
-	private String passwordHash;
+	private PasswordHashing.PasswordHash passwordHash;
 
 	/**
 	 * Rolle des Nutzers (z.B. Admin)
@@ -57,7 +59,7 @@ public class User {
 	 * @param role         Rolle des Nutzers
 	 */
 	public User(String firstName, String lastName, String address, String email, String iban, String bic,
-			String passwordHash, UserRole role) {
+				PasswordHashing.PasswordHash passwordHash, UserRole role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
@@ -184,7 +186,7 @@ public class User {
 	 * 
 	 * @return passwordHash
 	 */
-	public String getPasswordHash() {
+	public PasswordHashing.PasswordHash getPasswordHash() {
 		return passwordHash;
 	}
 
@@ -193,7 +195,7 @@ public class User {
 	 * 
 	 * @param passwordHash Hash des Passworts
 	 */
-	public void setPasswordHash(String passwordHash) {
+	public void setPasswordHash(PasswordHashing.PasswordHash passwordHash) {
 		this.passwordHash = passwordHash;
 	}
 

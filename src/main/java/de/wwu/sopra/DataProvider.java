@@ -97,6 +97,7 @@ public class DataProvider {
                 StandardType.class,
                 EBike.class,
                 CargoBike.class,
+                PasswordHashing.PasswordHash.class,
         });
 
         this.appData = loadData();
