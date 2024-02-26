@@ -61,7 +61,6 @@ public class LoginCTRL {
      * Handelt den Klick auf den "Passwort vergessen"-Text
      */
     public void forgotPassword() {
-        // TODO: UserManagementGUI.getInstance().changeViewNode(new ForgotPasswordGUI())
 
     	var alert = new Alert(
                 Alert.AlertType.NONE,
