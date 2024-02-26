@@ -81,7 +81,8 @@ public class MainGUI extends VBox {
      * @param node Ändert die View node
      */
     public void changeViewNode(Node node) {
-        this.getChildren().removeLast();
+        if (!this.getChildren().isEmpty())
+            this.getChildren().removeLast();
         this.getChildren().add(node);
     }
 }
