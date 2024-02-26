@@ -9,11 +9,11 @@ import javafx.scene.control.ButtonType;
 /**
  * Steuerungsklasse für den User-Login
  */
-public class LoginCtl {
+public class LoginCTRL {
     /**
      * Standardkonstruktor
      */
-    public LoginCtl() {}
+    public LoginCTRL() {}
 
     /**
      * Handelt den User Login

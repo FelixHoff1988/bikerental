@@ -14,7 +14,7 @@ public class LoginGUI extends HBox {
     /**
      * Login Steuerungsklasse
      */
-    private LoginCtl controller = new LoginCtl();
+    private LoginCTRL controller = new LoginCTRL();
 
     /**
      * Standardkonstruktor: Initialisiert das Basislayout
