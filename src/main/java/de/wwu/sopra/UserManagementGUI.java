@@ -3,6 +3,7 @@ package de.wwu.sopra;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.login.LoginGUI;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.function.Consumer;
@@ -65,7 +66,8 @@ public class UserManagementGUI extends VBox {
      * @param node Ändert die View node
      */
     public void changeViewNode(Node node) {
-        this.getChildren().removeAll();
+        if (!this.getChildren().isEmpty())
+            this.getChildren().removeLast();
         this.getChildren().add(node);
     }
 }
