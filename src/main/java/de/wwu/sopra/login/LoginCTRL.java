@@ -4,7 +4,11 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.UserManagementGUI;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.stage.Popup;
+import javafx.stage.StageStyle;
 
 /**
  * Steuerungsklasse für den User-Login
@@ -58,5 +62,17 @@ public class LoginCTRL {
      */
     public void forgotPassword() {
         // TODO: UserManagementGUI.getInstance().changeViewNode(new ForgotPasswordGUI())
+
+    	var alert = new Alert(
+                Alert.AlertType.NONE,
+                "Falls Sie Ihr Passwort vergessen haben, bitte wenden Sie sich an den Kundenservice."
+                + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
+                ButtonType.OK);
+        alert.setHeaderText("Passwort Zurücksetzen");
+        alert.setX(0);
+        alert.setY(0);
+        alert.show();
+        
+       
     }
 }
