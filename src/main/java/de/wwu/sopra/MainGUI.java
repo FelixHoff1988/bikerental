@@ -37,6 +37,7 @@ public class MainGUI extends VBox {
      */
     public static synchronized MainGUI init(User user) {
         instance = new MainGUI(user);
+        instance.getChildren().add(new NavigationGUI());
         return instance;
     }
 
