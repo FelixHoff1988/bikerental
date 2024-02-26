@@ -1,5 +1,5 @@
 package de.wwu.sopra.forgotPassword;
 
-public class forgotPassword {
+public class forgotPasswortCTRL {
 
 }
