@@ -20,10 +20,6 @@ public class App extends Application {
 	 * @param args Argumente zum Starten des Programms
 	 */
 	public static void main(String[] args) {
-		if (args.length > 0 && !args[0].isEmpty()) {
-			return;
-		}
-		
 		Application.launch(args);
 	}
 
@@ -48,5 +44,14 @@ public class App extends Application {
 		Scene scene = new Scene(userManagementGUI);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	/**
+	 * Wird beim Stoppen der Anwendung ausgeführt.
+	 * Und initialisiert die Speicherung der aktuellen Anwendungsdaten.
+	 */
+	@Override
+	public void stop() {
+		DataProvider.getInstance().saveData();
 	}
 }
