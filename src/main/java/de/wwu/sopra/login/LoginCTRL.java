@@ -4,11 +4,7 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.UserManagementGUI;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.stage.Popup;
-import javafx.stage.StageStyle;
 
 /**
  * Steuerungsklasse für den User-Login
