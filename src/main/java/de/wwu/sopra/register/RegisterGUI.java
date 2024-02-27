@@ -74,13 +74,24 @@ public class RegisterGUI extends HBox {
 		
 		var IBANLabel = new Label("IBAN: ");
 		var IBANTextField = new TextField("");
-		innerBox.add(IBANLabel, 0, 6);
-		innerBox.add(IBANTextField, 1, 6);
+		innerBox.add(IBANLabel, 0, 8);
+		innerBox.add(IBANTextField, 1, 8);
 		
 		var BICLabel = new Label("BIC: ");
 		var BICTextField = new TextField("");
 		innerBox.add(BICLabel, 4, 6);
 		innerBox.add(BICTextField, 5, 6);
+		
+		var PasswordLabel = new Label("Passwort: ");
+		var PasswordTextField = new TextField("");
+		innerBox.add(PasswordLabel, 0, 6);
+		innerBox.add(PasswordTextField, 1, 6);
+		
+		var VerPasswordLabel = new Label("Passwort bestätigen: ");
+		var VerPasswordTextField = new TextField("");
+		innerBox.add(VerPasswordLabel, 0, 7);
+		innerBox.add(VerPasswordTextField, 1, 7);
+		
 		
 		var submitButton = new Button("Registrierung abschliessen");
 		innerBox.add(submitButton, 5, 8);
