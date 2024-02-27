@@ -4,6 +4,7 @@ import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MapViewEvent;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import de.wwu.sopra.entity.Bike;
+import de.wwu.sopra.entity.BikeStation;
 import de.wwu.sopra.entity.GeofencingArea;
 import javafx.animation.Transition;
 import javafx.scene.layout.BorderPane;
@@ -29,6 +30,10 @@ public class MapGUI extends BorderPane {
      * Liste aller angezeigten Marker mit ihren zugeordneten Bikes
      */
     private final HashMap<Marker, Bike> bikeMarkers = new HashMap<>();
+    /**
+     * Liste aller angezeigten Marker mit ihren zugeordneten BikeStations
+     */
+    private final HashMap<Marker, BikeStation> stationMarkers = new HashMap<>();
     /**
      * Liste aller angezeigten CoordinateLines mit ihren zugeordneten GeoAreas
      */
@@ -72,8 +77,9 @@ public class MapGUI extends BorderPane {
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 this.isInitialized = true;
-                drawBikes(this.bikeMarkers.keySet());
-                drawAreas(this.geoAreas.keySet());
+                drawMarkers(this.bikeMarkers.keySet());
+                drawMarkers(this.stationMarkers.keySet());
+                drawCoordinateLines(this.geoAreas.keySet());
                 if (dynamicMarker != null)
                     mapView.addMarker(dynamicMarker);
             }
@@ -101,7 +107,26 @@ public class MapGUI extends BorderPane {
             this.bikeMarkers.put(marker, bike);
         });
         if (this.isInitialized)
-            drawBikes(markerList);
+            drawMarkers(markerList);
+    }
+
+    /**
+     * Zeigt eine Liste an BikeStations auf der Map an.
+     *
+     * @param stations Anzuzeigende BikeStations
+     */
+    public void displayStations(List<BikeStation> stations) {
+        var markerList = new ArrayList<Marker>();
+        stations.forEach(station -> {
+            var marker = Marker
+                    .createProvided(Marker.Provided.BLUE)
+                    .setPosition(station.getLocation())
+                    .setVisible(true);
+            markerList.add(marker);
+            this.stationMarkers.put(marker, station);
+        });
+        if (this.isInitialized)
+            drawMarkers(markerList);
     }
 
     /**
@@ -109,7 +134,7 @@ public class MapGUI extends BorderPane {
      *
      * @param bikeMarkers Hinzuzufügende Marker
      */
-    private void drawBikes(Collection<Marker> bikeMarkers) {
+    private void drawMarkers(Collection<Marker> bikeMarkers) {
         for (var marker : bikeMarkers) {
             mapView.addMarker(marker);
         }
@@ -132,7 +157,7 @@ public class MapGUI extends BorderPane {
             this.geoAreas.put(line, area);
         });
         if (this.isInitialized)
-            drawAreas(areaList);
+            drawCoordinateLines(areaList);
     }
 
     /**
@@ -140,7 +165,7 @@ public class MapGUI extends BorderPane {
      *
      * @param areas Hinzuzufügende CoordinateLines
      */
-    private void drawAreas(Collection<CoordinateLine> areas) {
+    private void drawCoordinateLines(Collection<CoordinateLine> areas) {
         for (var area : areas) {
             mapView.addCoordinateLine(area);
         }
@@ -152,7 +177,24 @@ public class MapGUI extends BorderPane {
      * @param consumer Funktion, welche das Bike entgegennimmt, auf welches geklickt wurde.
      */
     public void onClickBike(Consumer<Bike> consumer) {
-        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> consumer.accept(this.bikeMarkers.get(event.getMarker())));
+        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+            var bike = this.bikeMarkers.get(event.getMarker());
+            if (bike != null)
+                consumer.accept(bike);
+        });
+    }
+
+    /**
+     * Definiert eine Aktion, welche ausgeführt wird, wenn ein BikeStation-Marker angeklickt wird.
+     *
+     * @param consumer Funktion, welche das BikeStation entgegennimmt, auf welches geklickt wurde.
+     */
+    public void onClickStation(Consumer<BikeStation> consumer) {
+        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+            var station = this.stationMarkers.get(event.getMarker());
+            if (station != null)
+                consumer.accept(station);
+        });
     }
 
     /**
