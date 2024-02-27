@@ -87,19 +87,22 @@ public class RegisterGUI extends HBox {
 		
 		submitButton.setOnAction(event -> {
 			
-			if (ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField) &&
-				ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField) &&
-				ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField) &&
-				ctrl.testTextField("-?\\d+\\.?\\d*", houseNumberTextField) &&
-				ctrl.testTextField("-?\\d+\\.?\\d*", plzTextField) &&
-				ctrl.testTextField("^[\\p{L} ,.'-]+$", townTextField) &&
-				ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField) &&
-				ctrl.testTextField("^(?![ -])(?!.*[- ]$)(?!.*[- ]{2})[0-9- ]+$", mobilTextField) &&
-				ctrl.testTextField("^DE[0-9]{20}$", IBANTextField) &&
-				ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField))
+			ArrayList<Boolean> list = new ArrayList<Boolean>();
+			
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", houseNumberTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", plzTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", townTextField));
+			list.add(ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
+			list.add(ctrl.testTextField("^(?![ -])(?!.*[- ]$)(?!.*[- ]{2})[0-9- ]+$", mobilTextField));
+			list.add(ctrl.testTextField("^DE[0-9]{20}$", IBANTextField));
+			list.add(ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
+			
+			if (areAllTrue(list))
 			{
 				TextField[] textFieldsRegistration = innerBox.getChildren().stream().filter(node -> node.getClass() == TextField.class).toArray(TextField[]::new);
-				
 			}
 			
 		});
@@ -110,6 +113,12 @@ public class RegisterGUI extends HBox {
 		
 		
 		
+	}
+	
+	private static boolean areAllTrue(ArrayList<Boolean> array)
+	{
+	    for(boolean b : array) if(!b) return false;
+	    return true;
 	}
 
 //	@Override
