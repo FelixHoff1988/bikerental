@@ -28,7 +28,7 @@ public class UserManagementGUI extends VBox {
      * Standardkonstruktor
      */
     private UserManagementGUI() {
-        this.getChildren().add(new LoginGUI());
+        this.changeViewNode(new LoginGUI());
     }
 
     /**
@@ -68,12 +68,8 @@ public class UserManagementGUI extends VBox {
      * @param node Ändert die View node
      */
     public void changeViewNode(Node node) {
-    	if (!this.getChildren().isEmpty())
-    		this.getChildren().removeLast();
+        if (!this.getChildren().isEmpty())
+            this.getChildren().removeLast();
         this.getChildren().add(node);
-
-        
     }
-
-
 }
