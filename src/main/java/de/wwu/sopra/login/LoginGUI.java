@@ -1,6 +1,5 @@
 package de.wwu.sopra.login;
 
-import de.wwu.sopra.register.RegisterCTRL;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -16,7 +15,6 @@ public class LoginGUI extends HBox {
      * Login Steuerungsklasse
      */
     private LoginCTRL controller = new LoginCTRL();
-
 
     /**
      * Standardkonstruktor: Initialisiert das Basislayout
