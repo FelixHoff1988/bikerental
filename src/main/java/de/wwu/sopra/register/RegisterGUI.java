@@ -175,16 +175,4 @@ public class RegisterGUI extends HBox {
 	    for(boolean b : array) if(!b) return false;
 	    return true;
 	}
-
-//	@Override
-//	public void start(Stage primaryStage) throws Exception {
-//		GridPane grid = new GridPane();
-//		Scene register = new Scene(grid, 1920, 1080);
-//		grid.setStyle("-fx-background-color: #CCFFEE");
-//		
-//		primaryStage.setScene(register);
-//		primaryStage.show();
-//		
-//	}
-
 }
