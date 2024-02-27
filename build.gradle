@@ -5,7 +5,10 @@ plugins {
 	id 'eclipse'
 }
 
-mainClassName = 'de.wwu.sopra.App'
+application {
+    mainClass = "de.wwu.sopra.App"
+    applicationDefaultJvmArgs = ['--add-modules', 'javafx.web']
+}
 
 repositories {
     mavenCentral()
