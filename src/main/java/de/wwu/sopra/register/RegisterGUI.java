@@ -20,13 +20,22 @@ import java.util.regex.*;
 
 
 public class RegisterGUI extends HBox {
+	/**
+	 * Instanz der Kontrollklasse
+	 */
 	private RegisterCTRL ctrl = new RegisterCTRL();
 	
+	/**
+	 * Initialisert GUI
+	 */
 	public RegisterGUI(){
 		init();
 	}
 
 	
+	/**
+	 * Initialisiert GUI 
+	 */
 	public void init() {
 		
 		// Achtung: Reihenfolge der Textfields bestimmt Backend-Funkionalität
@@ -156,6 +165,11 @@ public class RegisterGUI extends HBox {
 		
 	}
 	
+	/**
+	 * Prüft, ob alle Elemente einer ArrayList von Typ Boolean wahr sind
+	 * @param array
+	 * @return
+	 */
 	private static boolean areAllTrue(ArrayList<Boolean> array)
 	{
 	    for(boolean b : array) if(!b) return false;

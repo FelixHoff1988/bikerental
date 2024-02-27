@@ -12,10 +12,17 @@ import de.wwu.sopra.entity.UserRole;
 import javafx.scene.control.TextField;
 
 public class RegisterCTRL {
+	/**
+	 * Kostruktor der Kontrollklasse 
+	 */
 	public RegisterCTRL() {
 		
 	}
 	
+	/**
+	 * Wird bei korrekten Werten für Textfields aufgerufen, speichert angegebene Daten und logt User ein
+	 * @param textFieldsRegistration Liste aller TextFields aus der Registration
+	 */
 	public void registerUser(TextField[] textFieldsRegistration) {
 		for ( TextField element : textFieldsRegistration)
 		{
@@ -37,6 +44,12 @@ public class RegisterCTRL {
 		UserManagementGUI.getInstance().login(registeredUser);
 	}
 	
+	/**
+	 * Prüft, ob Eingabe in TextField von Registration korrekt ist
+	 * @param regex Regex code um Korrektheit der Eingabe eines Feldes zu überprüfen
+	 * @param textField Text Field aus Registrierungsform
+	 * @return
+	 */
 	public boolean testTextField(String regex, TextField textField)
 	{
 		if(!Pattern.matches(regex, textField.getText()))
