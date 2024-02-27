@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import de.wwu.sopra.entity.Availability;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -122,15 +124,29 @@ public class AddBikeGUI extends HBox{
 			try {
 				charge = (int) Integer.valueOf(chargeTextField.getText());
 			}	catch (NumberFormatException e) {
-	            System.out.println("Invalid integer input");
-	        }
+				charge = -1;
+			}
 			try {
 				capacity = (int) Integer.valueOf(capacityTextField.getText());
 			}	catch (NumberFormatException e) {
-	            System.out.println("Invalid integer input");
-	        }
+				capacity = -1;
+			}
+			 if(frameId.isBlank() || model.isBlank() || !(12>=size && size<=25) || availability==null
+					 || bikeTypeBox==null){
+					var alert = new Alert(
+			                Alert.AlertType.NONE,
+			                "Leere Eingaben sind nicht erlaubt!",
+			                ButtonType.OK);
+			        alert.setHeaderText("Fehlerhafte Eingaben");
+			        alert.show();
+			} else if(charge<=0 && bikeTypeBox.getValue().equals("EBike")) {
+				chargeTextField.setStyle("-fx-background-color: #FFA59D;");
+			}	else if(capacity<=0 && bikeTypeBox.getValue().equals("Cargo")) {
+				capacityTextField.setStyle("-fx-background-color: #FFA59D;");
+			}	else{
+				controller.addBike(frameId, bikeType, model, size, availability, charge, capacity);
+			}
 			
-			controller.addBike(frameId, bikeType, model, size, availability, charge, capacity);
 		});
 		
 		

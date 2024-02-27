@@ -1,6 +1,8 @@
 package de.wwu.sopra.bikeadministration.addbike;
 
+import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.Availability;
+import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeType;
 import de.wwu.sopra.entity.CargoBike;
 import de.wwu.sopra.entity.EBike;
@@ -12,7 +14,6 @@ public class AddBikeCTRL {
 			Availability availability, int charge, int capacity) {
 		
 		int price = 0;
-		
 		BikeType type;
 		switch(bikeType) {
 		case "Standard":
@@ -31,6 +32,16 @@ public class AddBikeCTRL {
 			type = null;
 			break;
 		}
+		
+		if(type != null) {
+			Bike newBike = new Bike(type, model, null, null);
+			DataProvider prov = DataProvider.getInstance();
+			prov.addBike(newBike);
+		}
+			
+		
+		
+
 		
 		
 	}
