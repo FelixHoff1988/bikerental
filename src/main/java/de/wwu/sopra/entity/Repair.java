@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Klasse Repair für Reparatur eines Fahrrads
  */
 
-public class Repair extends Service  {
+public class Repair extends Service {
 
 	/**
 	 * statement Statement einer Reparatur
@@ -15,14 +15,24 @@ public class Repair extends Service  {
 
 	/**
 	 * Konstruktor für Repair, was von Service erbt
+	 * 
 	 * @param startDate Startdatum
-	 * @param endDate Enddatum
-	 * @param comment Möglichkeit einen Kommentar hinzufügen
-	 * @param statement Statement einer Reparatur
+	 * @param comment   Möglichkeit einen Kommentar hinzufügen
+	 * @param statement Statement einer 
+	 * @param bike	    Betroffenes Rad
 	 */
-	public Repair(LocalDateTime startDate, LocalDateTime endDate, String comment, String statement) {
-		super(startDate, endDate, comment);
-		this.statement=statement;
+	public Repair(LocalDateTime startDate, String comment, String statement, Bike bike) {
+		super(startDate, comment, bike);
+		this.statement = statement;
 	}
-	
+
+
+	/**
+	 * Rufe das Statement des Nutzers ab
+	 *
+	 * @return Statement des Nutzers zum Mangel
+	 */
+	public String getStatement() {
+		return statement;
+	}
 }

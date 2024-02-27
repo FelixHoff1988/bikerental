@@ -20,10 +20,6 @@ public class App extends Application {
 	 * @param args Argumente zum Starten des Programms
 	 */
 	public static void main(String[] args) {
-		if (args.length > 0 && !args[0].isEmpty()) {
-			return;
-		}
-		
 		Application.launch(args);
 	}
 
@@ -38,15 +34,28 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Leihrad-\u00dcbersicht");
 
-		var userManagementGUI = new UserManagementGUI();
+		var userManagementGUI = UserManagementGUI.getInstance();
+		Scene scene = new Scene(userManagementGUI);
+
 		userManagementGUI.onLogin(user -> {
-			var mainGUI = new MainGUI(user);
-			primaryStage.setScene(new Scene(mainGUI));
-			mainGUI.onLogout(unused -> primaryStage.setScene(new Scene(userManagementGUI)));
+			var mainGUI = MainGUI.init(user);
+			scene.setRoot(mainGUI);
+			mainGUI.onLogout(() -> scene.setRoot(UserManagementGUI.getInstance()));
 		});
 
-		Scene scene = new Scene(userManagementGUI);
+		primaryStage.setFullScreen(true);
+		primaryStage.setMinWidth(1080);
+		primaryStage.setMinHeight(720);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	/**
+	 * Wird beim Stoppen der Anwendung ausgeführt.
+	 * Und initialisiert die Speicherung der aktuellen Anwendungsdaten.
+	 */
+	@Override
+	public void stop() {
+		DataProvider.getInstance().saveData();
 	}
 }

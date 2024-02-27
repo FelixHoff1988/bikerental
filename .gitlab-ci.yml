@@ -16,10 +16,6 @@ stages:
     - coverage
     - dist
 
-default:
-    tags:
-        - high job throughput
-
 compile:
     stage: compile
     script: 
