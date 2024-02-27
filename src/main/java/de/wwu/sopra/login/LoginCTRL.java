@@ -58,6 +58,17 @@ public class LoginCTRL {
      * Handelt den Klick auf den "Passwort vergessen"-Text
      */
     public void forgotPassword() {
-        // TODO: UserManagementGUI.getInstance().changeViewNode(new ForgotPasswordGUI())
+
+    	var alert = new Alert(
+                Alert.AlertType.NONE,
+                "Falls Sie Ihr Passwort vergessen haben, bitte wenden Sie sich an den Kundenservice."
+                + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
+                ButtonType.OK);
+        alert.setHeaderText("Passwort Zurücksetzen");
+        alert.setX(0);
+        alert.setY(0);
+        alert.show();
+        
+       
     }
 }
