@@ -3,6 +3,7 @@ package de.wwu.sopra.login;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.UserManagementGUI;
+import de.wwu.sopra.register.RegisterGUI;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -50,7 +51,7 @@ public class LoginCTRL {
      * Handelt den Klick auf den "Registrieren"-Text
      */
     public void registerUser() {
-        // TODO: UserManagementGUI.getInstance().changeViewNode(new RegistrationGUI())
+        UserManagementGUI.getInstance().changeViewNode(new RegisterGUI());
     }
 
     /**
