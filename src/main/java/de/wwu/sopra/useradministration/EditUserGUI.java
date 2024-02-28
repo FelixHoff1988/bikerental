@@ -4,10 +4,15 @@ package de.wwu.sopra.useradministration;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.entity.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -20,22 +25,22 @@ import javafx.scene.layout.VBox;
 
 
 /**
- * GUI-Klasse zum Hinzufügen eines Benutzers. (als Admin)
+ * GUI-Klasse zum Editieren eines Benutzers. (als Admin)
  */
-public class AddUserGUI extends HBox {
+public class EditUserGUI extends HBox {
 	
-	private AddUserCTRL controller = new AddUserCTRL();
+	private EditUserCTRL ctrl = new EditUserCTRL();
 
 	
 	 /**
      * Konstruktor.
      */
-	public AddUserGUI(){
+	public EditUserGUI(){
 		init();
 	}
 	
 	  /**
-     * Initialisiert das GUI-Layout für die Benutzer-Hinzufügung.
+     * Initialisiert das GUI-Layout für die Benutzer-Editierung.
      */
 	public void init() {
 		
@@ -44,6 +49,8 @@ public class AddUserGUI extends HBox {
 		innerBox.setPadding(new Insets(25, 25, 25, 25));
 		innerBox.setAlignment(Pos.CENTER);
 		innerBox.setVgap(5);
+		
+		
 		
 		var firstNameLabel = new Label("Vorname: ");
 		var firstNameTextField = new TextField("");
@@ -62,7 +69,7 @@ public class AddUserGUI extends HBox {
 		
 		
 		
-		var streetLabel = new Label("Stra\u00DFe: ");
+		var streetLabel = new Label("Straße: ");
 		var streetTextField = new TextField("");
 		innerBox.add(streetLabel, 0, 4);
 		innerBox.add(streetTextField, 1, 4);
@@ -97,6 +104,7 @@ public class AddUserGUI extends HBox {
 		innerBox.add(emailLabel, 4, 0);
 		innerBox.add(emailTextField, 5, 0);
 		
+		// Passwoerter setzten
 		var PasswordLabel = new Label("Passwort: ");
 		var PasswordTextField = new PasswordField();
 		innerBox.add(PasswordLabel, 4, 1);
@@ -106,16 +114,51 @@ public class AddUserGUI extends HBox {
 		var VerPasswordTextField = new PasswordField();
 		innerBox.add(VerPasswordLabel, 4, 2);
 		innerBox.add(VerPasswordTextField, 5, 2);
-
 		
-	
-		
-		
-		var submitButton = new Button("User hinzufügen");
+		// Buttons zum Navigieren
+		var submitButton = new Button("User Speichern");
 		var goBackButton = new Button("Zurück");
-		innerBox.add(submitButton, 0, 10);
-		innerBox.add(goBackButton, 1, 10);
-
+		var deleteButton = new Button("Löschen");
+		
+		innerBox.add(new Label(), 0, 10);
+		innerBox.add(submitButton, 5, 11);
+		innerBox.add(deleteButton, 4, 11);
+		innerBox.add(goBackButton, 0, 11);
+		
+		/*searchButton.setOnAction(event -> {
+			if (ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", searchTextField))
+			{
+				User foundUser = EditUserCTRL.findUserByEmail(searchTextField.getText());
+				if (foundUser != null)
+				{
+					firstNameTextField.setText(foundUser.getFirstName());
+					lastNameTextField.setText(foundUser.getLastName());
+					streetTextField.setText(foundUser.getStreet());
+					houseNumberTextField.setText(Integer.toString(foundUser.getHouseNumber()));
+					plzTextField.setText(Integer.toString(foundUser.getPostalCode()));
+					townTextField.setText(foundUser.getCity());
+					IBANTextField.setText(foundUser.getIban());
+					BICTextField.setText(foundUser.getBic());
+					emailTextField.setText(foundUser.getEmail());
+					
+			    }
+				else
+				{
+					var alert = new Alert(
+		                    Alert.AlertType.NONE,
+		                    "Die angegebene E-Mail wird bereits von einem anderen Account verwendet." +
+		                    "Falls, du dein Passwort vergessen hast, clicke auf den Button im Anmeldefenster."+
+		                    "Wähle sonst eine andere E-Mail-Adresse für die Registrierung aus.",
+		                    ButtonType.OK);
+		            alert.setHeaderText("Registrierung mit dieser E-Mail nicht möglich");
+		            alert.show();
+				}
+			
+			}
+		});
+		*/
+		
+		
 		var passwordRequirements = new Label(
 				"Paswörter stimmen überein.\r\n"
 				+ "Paswort beinhaltet:\r\n"
@@ -125,21 +168,23 @@ public class AddUserGUI extends HBox {
 				+ "- ein Sonderzeichen\r\n"
 				+ "- 6-18 Zeichen, ohne Leerzeichen");
 		innerBox.add(passwordRequirements, 5, 3);
-
-		
+	
+/*
 		submitButton.setOnAction(event -> {
 			
 			ArrayList<Boolean> list = new ArrayList<Boolean>();
 			
-			list.add(controller.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
-			list.add(controller.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
-			list.add(controller.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
-			list.add(controller.testTextField("-?\\d+\\.?\\d*", houseNumberTextField));
-			list.add(controller.testTextField("-?\\d+\\.?\\d*", plzTextField));
-			list.add(controller.testTextField("^[\\p{L} ,.'-]+$", townTextField));
-			list.add(controller.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
-			list.add(controller.testTextField("^DE[0-9]{20}$", IBANTextField));
-			list.add(controller.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", houseNumberTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", plzTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", townTextField));
+			list.add(ctrl.testTextField("^DE[0-9]{20}$", IBANTextField));
+			list.add(ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
+			list.add(ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
+			list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", PasswordTextField));
+			list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", VerPasswordTextField));
 			
 			Boolean passwordsEqual = (PasswordTextField.getText().equals(VerPasswordTextField.getText()));
 			if (!passwordsEqual)
@@ -152,11 +197,12 @@ public class AddUserGUI extends HBox {
 			if (areAllTrue(list))
 			{
 				TextField[] textFieldsRegistration = innerBox.getChildren().stream().filter(node -> node.getClass() == TextField.class || node.getClass() == PasswordField.class).toArray(TextField[]::new);
-				controller.addUser(textFieldsRegistration);
+				// change this function from add User to change User
+				ctrl.registerUser(textFieldsRegistration);
 			}
-
 			
 		});
+*///
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);
@@ -166,26 +212,14 @@ public class AddUserGUI extends HBox {
 		
 	}
 	
-	
 	/**
-     * Überprüft, ob alle Elemente in der Liste den Wert true haben.
-     * 
-     * @param array Die Liste mit Boolean-Werten.
-     * @return true, wenn alle Elemente true sind, ansonsten false.
-     */
-	
+	 * Prüft, ob alle Elemente einer ArrayList von Typ Boolean wahr sind
+	 * @param array
+	 * @return
+	 */
 	private static boolean areAllTrue(ArrayList<Boolean> array)
 	{
 	    for(boolean b : array) if(!b) return false;
 	    return true;
 	}
-
-
 }
-
-
-	
-
-	
-	
-

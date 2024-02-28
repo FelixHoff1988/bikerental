@@ -29,7 +29,10 @@ public class RegisterCTRL {
 		User registeredUser = new User(
 			textFieldsRegistration[0].getText(),
 			textFieldsRegistration[1].getText(),
-			textFieldsRegistration[2].getText() + " " +  textFieldsRegistration[3].getText() + " " + textFieldsRegistration[4].getText() + " " + textFieldsRegistration[5].getText(),
+			textFieldsRegistration[2].getText(),
+			(int) Integer.valueOf(textFieldsRegistration[3].getText()),
+			(int) Integer.valueOf(textFieldsRegistration[4].getText()),
+			textFieldsRegistration[5].getText(),
 			textFieldsRegistration[8].getText(),
 			textFieldsRegistration[6].getText(),
 			textFieldsRegistration[7].getText(),

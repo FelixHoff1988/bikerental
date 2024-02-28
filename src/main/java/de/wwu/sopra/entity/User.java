@@ -17,9 +17,21 @@ public class User {
 	 */
 	private String lastName;
 	/**
-	 * Addresse des Nutzers
+	 * Strasse der Addresse des Nutzers
 	 */
-	private String address;
+	private String street;
+	/**
+	 * Hausnummer der Addresse des Nutzers
+	 */
+	private int houseNumber;
+	/**
+	 * PLZ der Addresse des Nutzers
+	 */
+	private int postalCode;
+	/**
+	 * Stadt der Addresse des Nutzers
+	 */
+	private String city;
 	/**
 	 * E-Mail Addresse des Nutzers
 	 */
@@ -58,11 +70,14 @@ public class User {
 	 * @param passwordHash PasswordHash um das Passwort zu verifizieren
 	 * @param role         Rolle des Nutzers
 	 */
-	public User(String firstName, String lastName, String address, String email, String iban, String bic,
+	public User(String firstName, String lastName, String street, int houseNumber, int postalCode, String city, String email, String iban, String bic,
 				PasswordHashing.PasswordHash passwordHash, UserRole role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.address = address;
+		this.street = street;
+		this.houseNumber = houseNumber;
+		this.postalCode = postalCode;
+		this.city = city;
 		this.email = email;
 		this.iban = iban;
 		this.bic = bic;
@@ -110,21 +125,75 @@ public class User {
 	}
 
 	/**
-	 * Rufe die Adresse eines Nutzers ab
+	 * Rufe die Strasse der Adresse eines Nutzers ab
 	 * 
-	 * @return Adresse des Nutzers
+	 * @return street Strasse der Adresse des Nutzers
 	 */
-	public String getAddress() {
-		return address;
+	public String getStreet() {
+		return street;
 	}
 
 	/**
-	 * Setze die Adresse eines Nutzers
+	 * Setze die Strasse der Adresse eines Nutzers
 	 * 
 	 * @param address Neue Adresse des Nutzers
 	 */
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	
+	/**
+	 * Rufe die Hausnummer der Adresse eines Nutzers ab
+	 * 
+	 * @return houseNumber HausnummerAdresse des Nutzers
+	 */
+	public int getHouseNumber() {
+		return houseNumber;
+	}
+
+	/**
+	 * Setze die Hausnummer der Adresse eines Nutzers
+	 * 
+	 * @param houseNumber neue Hausnummer
+	 */
+	public void setHouseNumber(int houseNumber) {
+		this.houseNumber = houseNumber;
+	}
+	
+	/**
+	 * Rufe die PLZ der Adresse eines Nutzers ab
+	 * 
+	 * @return postalCode PLZ der Adresse des Nutzers
+	 */
+	public int getPostalCode() {
+		return postalCode;
+	}
+
+	/**
+	 * Setze die PLZ der Straße der Adresse eines Nutzers
+	 * 
+	 * @param postalCode Neue Adresse des Nutzers
+	 */
+	public void setPostalCode(int postalCode) {
+		this.postalCode = postalCode;
+	}
+	
+	/**
+	 * Rufe die Stadt der Adresse eines Nutzers ab
+	 * 
+	 * @return city Stadt der Adresse des Nutzers
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/**
+	 * Setze die Stadt der Adresse eines Nutzers
+	 * 
+	 * @param city Neue Stadt der Adresse des Nutzers
+	 */
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	/**
