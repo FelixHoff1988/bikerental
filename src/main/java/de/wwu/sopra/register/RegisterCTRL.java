@@ -9,6 +9,8 @@ import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.entity.Reservation;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 public class RegisterCTRL {
@@ -24,10 +26,6 @@ public class RegisterCTRL {
 	 * @param textFieldsRegistration Liste aller TextFields aus der Registration
 	 */
 	public void registerUser(TextField[] textFieldsRegistration) {
-		for ( TextField element : textFieldsRegistration)
-		{
-			System.out.println(element.getText());
-		}
 		User registeredUser = new User(
 			textFieldsRegistration[0].getText(),
 			textFieldsRegistration[1].getText(),
@@ -40,8 +38,22 @@ public class RegisterCTRL {
 		);
 
 		DataProvider prov = DataProvider.getInstance();
-		prov.addUser(registeredUser);
-		UserManagementGUI.getInstance().login(registeredUser);
+		Boolean emailNotExistsAlready = prov.addUser(registeredUser);
+		if (emailNotExistsAlready)
+		{
+			UserManagementGUI.getInstance().login(registeredUser);
+		}
+		else
+		{
+			var alert = new Alert(
+                    Alert.AlertType.NONE,
+                    "Die angegebene E-Mail wird bereits von einem anderen Account verwendet." +
+                    "Falls, du dein Passwort vergessen hast, clicke auf den Button im Anmeldefenster."+
+                    "Wähle sonst eine andere E-Mail-Adresse für die Registrierung aus.",
+                    ButtonType.OK);
+            alert.setHeaderText("Registrierung mit dieser E-Mail nicht möglich");
+            alert.show();
+		}
 	}
 	
 	/**
