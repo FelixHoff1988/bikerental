@@ -71,8 +71,9 @@ public class AddBikeGUI extends HBox{
 		var modelLabel = new Label("Modell: ");
 		var modelTextField = new TextField();
 		
-		//Button zum hinzufügen
+		//Button zum hinzufügen und zum zurückkehren auf AdminGUI
 		var createButton = new Button("Fahhrad hinzufügen");
+		var backButton = new Button("Zurück");
 		
 		//Label der Kapazität für CargoBikes
 		var capacityLabel = new Label("Kapazität: ");
@@ -119,8 +120,8 @@ public class AddBikeGUI extends HBox{
 			String model = modelTextField.getText();
 			int size = (int) sizeBox.getValue();
 			Availability availability = availabilityBox.getValue();
-			int charge = -1;
-			int capacity = -1;
+			int charge;
+			int capacity;
 			try {
 				charge = (int) Integer.valueOf(chargeTextField.getText());
 			}	catch (NumberFormatException e) {
@@ -131,21 +132,13 @@ public class AddBikeGUI extends HBox{
 			}	catch (NumberFormatException e) {
 				capacity = -1;
 			}
-			 if(frameId.isBlank() || model.isBlank() || !(12>=size && size<=25) || availability==null
-					 || bikeTypeBox==null){
-					var alert = new Alert(
-			                Alert.AlertType.NONE,
-			                "Leere Eingaben sind nicht erlaubt!",
-			                ButtonType.OK);
-			        alert.setHeaderText("Fehlerhafte Eingaben");
-			        alert.show();
-			} else if(charge<=0 && bikeTypeBox.getValue().equals("EBike")) {
-				chargeTextField.setStyle("-fx-background-color: #FFA59D;");
-			}	else if(capacity<=0 && bikeTypeBox.getValue().equals("Cargo")) {
-				capacityTextField.setStyle("-fx-background-color: #FFA59D;");
-			}	else{
-				controller.addBike(frameId, bikeType, model, size, availability, charge, capacity);
-			}
+
+			controller.createButtonaction(frameId, bikeType, model, size, availability,
+					charge, capacity, chargeTextField, capacityTextField);
+			
+		});
+		
+		backButton.setOnAction(evt ->{
 			
 		});
 		
@@ -172,6 +165,7 @@ public class AddBikeGUI extends HBox{
 		innerBox.add(capacityTextField, 1, 5);
 		
 		innerBox.add(createButton, 2, 6);
+		innerBox.add(backButton, 0, 6);
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);
