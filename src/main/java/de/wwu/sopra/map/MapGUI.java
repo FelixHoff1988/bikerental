@@ -309,13 +309,15 @@ public class MapGUI extends BorderPane {
     }
 
     /**
-     * Start die Platzierung eines neuen Markers.
+     * Start die Platzierung eines Markers.
+     *
+     * @param startLocation Startort des Markers (kann null sein)
      */
-    public void placeNewMarker() {
+    public void startMarkerPlacement(Coordinate startLocation) {
         mapView.addEventHandler(MapViewEvent.MAP_CLICKED, this::handleMarkerPlacement);
         dynamicMarker = Marker
                 .createProvided(Marker.Provided.RED)
-                .setPosition(mapView.getCenter())
+                .setPosition(startLocation == null ? mapView.getCenter() : startLocation)
                 .setVisible(true);
 
         if (this.isInitialized)
@@ -323,9 +325,9 @@ public class MapGUI extends BorderPane {
     }
 
     /**
-     * Schließt die Erstellung eines neuen Markers ab.
+     * Schließt die Erstellung eines Markers ab.
      *
-     * @return Position des neuen Markers
+     * @return Position des Markers
      */
     public Coordinate finalizeMarkerPlacement() {
         var coordinates = dynamicMarker.getPosition();
