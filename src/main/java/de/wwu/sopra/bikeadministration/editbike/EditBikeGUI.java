@@ -1,4 +1,4 @@
-package de.wwu.sopra.bikeadministration.addbike;
+package de.wwu.sopra.bikeadministration.editbike;
 
 import java.awt.event.ActionListener;
 
@@ -22,17 +22,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class AddBikeGUI extends HBox{
+public class EditBikeGUI extends HBox{
 	
 	/**
 	 * AddBike Steuerungsklasse
 	 */
-	private AddBikeCTRL controller = new AddBikeCTRL();
+	private EditBikeCTRL controller = new EditBikeCTRL();
 	
     /**
      * Standardkonstruktor: Initialisiert das Basislayout
      */
-    public AddBikeGUI() {
+    public EditBikeGUI() {
         init();
     }
     

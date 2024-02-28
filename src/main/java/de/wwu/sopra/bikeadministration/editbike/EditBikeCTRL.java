@@ -1,4 +1,4 @@
-package de.wwu.sopra.bikeadministration.addbike;
+package de.wwu.sopra.bikeadministration.editbike;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
-public class AddBikeCTRL {
+public class EditBikeCTRL {
 	
 	public void addBike(String frameId, String bikeType, String model, int size, 
 			Availability availability, int charge, int capacity) {

@@ -1,6 +1,6 @@
 package de.wwu.sopra;
 
-import de.wwu.sopra.bikeadministration.addbike.AddBikeGUI;
+import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -164,7 +164,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Fahrradliste
 	 */
 	private void bikes() {
-		MainGUI.getInstance().changeViewNode(new AddBikeGUI());
+		MainGUI.getInstance().changeViewNode(new EditBikeGUI());
 		
 	}
 
