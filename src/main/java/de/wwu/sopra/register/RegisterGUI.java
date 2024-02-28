@@ -18,6 +18,9 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.regex.*;
 
+import de.wwu.sopra.UserManagementGUI;
+import de.wwu.sopra.login.LoginGUI;
+
 
 public class RegisterGUI extends HBox {
 	/**
@@ -155,6 +158,10 @@ public class RegisterGUI extends HBox {
 				ctrl.registerUser(textFieldsRegistration);
 			}
 			
+		});
+		
+		goBackButton.setOnAction(event -> {
+	        UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
 		});
 		
 		this.getChildren().addAll(innerBox);
