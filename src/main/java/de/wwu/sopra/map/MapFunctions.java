@@ -16,24 +16,24 @@ public abstract class MapFunctions {
     public MapFunctions() {}
 
     /**
-     * Testet, ob eine Koordinate sich in einer GeofencingArea befindet.
+     * Testet, ob eine Koordinate sich in einem abgesteckten Bereich befindet.
      *
      * @param coordinate Zu testende Koordinate
-     * @param area Zu testende GeofencingArea
-     * @return true: Koordinate in der GeofencingArea, false: sonst
+     * @param area Zu testender Bereich
+     * @return true: Koordinate im angegebenen Bereich, false: sonst
      */
-    public static boolean isCoordinateInArea(Coordinate coordinate, GeofencingArea area) {
-        var numVertices = area.getEdges().size();
+    public static boolean isCoordinateInArea(Coordinate coordinate, List<Coordinate> area) {
+        var numVertices = area.size();
         var yCoordinate = coordinate.getLatitude();
         var xCoordinate = coordinate.getLongitude();
 
         boolean isInArea = false;
 
         for (int i = 0, j = numVertices - 1; i < numVertices; j = i++) {
-            var yi = area.getEdges().get(i).getLatitude();
-            var yj = area.getEdges().get(j).getLatitude();
-            var xi = area.getEdges().get(i).getLongitude();
-            var xj = area.getEdges().get(j).getLongitude();
+            var yi = area.get(i).getLatitude();
+            var yj = area.get(j).getLatitude();
+            var xi = area.get(i).getLongitude();
+            var xj = area.get(j).getLongitude();
 
             if (((yi > yCoordinate) != (yj > yCoordinate))
                     && (xCoordinate < (xj - xi) * (yCoordinate - yi) / (yj - yi) + xi))

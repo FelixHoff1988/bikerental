@@ -50,6 +50,16 @@ public class MapGUI extends BorderPane {
     private Marker dynamicMarker;
 
     /**
+     * Marker des aktuell angeklickten Bikes
+     */
+    private Marker bikeMarker;
+
+    /**
+     * Marker der aktuell angeklickten BikeStation
+     */
+    private Marker stationMarker;
+
+    /**
      * Standardkonstruktor: Initialisiert den MapView
      */
     public MapGUI() {
@@ -179,8 +189,31 @@ public class MapGUI extends BorderPane {
     public void onClickBike(Consumer<Bike> consumer) {
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
             var bike = this.bikeMarkers.get(event.getMarker());
-            if (bike != null)
+            if (bike != null) {
                 consumer.accept(bike);
+
+                mapView.removeMarker(event.getMarker());
+
+                Marker newMarker;
+                if (bikeMarker == event.getMarker()) {
+                    newMarker = Marker
+                            .createProvided(Marker.Provided.ORANGE)
+                            .setPosition(event.getMarker().getPosition())
+                            .setVisible(true);
+                    bikeMarker = null;
+                }
+                else {
+                    newMarker = Marker
+                            .createProvided(Marker.Provided.GREEN)
+                            .setPosition(event.getMarker().getPosition())
+                            .setVisible(true);
+                    bikeMarker = newMarker;
+                }
+
+                mapView.addMarker(newMarker);
+                bikeMarkers.remove(event.getMarker());
+                bikeMarkers.put(newMarker, bike);
+            }
         });
     }
 
@@ -192,8 +225,31 @@ public class MapGUI extends BorderPane {
     public void onClickStation(Consumer<BikeStation> consumer) {
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
             var station = this.stationMarkers.get(event.getMarker());
-            if (station != null)
+            if (station != null) {
                 consumer.accept(station);
+
+                mapView.removeMarker(event.getMarker());
+
+                Marker newMarker;
+                if (stationMarker == event.getMarker()) {
+                    newMarker = Marker
+                            .createProvided(Marker.Provided.BLUE)
+                            .setPosition(event.getMarker().getPosition())
+                            .setVisible(true);
+                    stationMarker = null;
+                }
+                else {
+                    newMarker = Marker
+                            .createProvided(Marker.Provided.GREEN)
+                            .setPosition(event.getMarker().getPosition())
+                            .setVisible(true);
+                    stationMarker = newMarker;
+                }
+
+                mapView.addMarker(newMarker);
+                stationMarkers.remove(event.getMarker());
+                stationMarkers.put(newMarker, station);
+            }
         });
     }
 
@@ -235,8 +291,10 @@ public class MapGUI extends BorderPane {
                 ? new ArrayList<Coordinate>()
                 : new ArrayList<>(drawArea.getCoordinateStream().toList());
 
-        if (!MapFunctions.insertAtNearestSide(coordinates, clickCoordinate))
+        if (!MapFunctions.isValidCoordinateLine(coordinates, clickCoordinate, coordinates.size()))
             return;
+
+        coordinates.add(clickCoordinate);
 
         if (drawArea != null)
             mapView.removeCoordinateLine(drawArea);
