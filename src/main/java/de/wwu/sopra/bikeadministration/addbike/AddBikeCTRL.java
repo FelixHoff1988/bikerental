@@ -1,5 +1,7 @@
 package de.wwu.sopra.bikeadministration.addbike;
 
+import java.util.List;
+
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.entity.Availability;
@@ -39,14 +41,10 @@ public class AddBikeCTRL {
 		}
 		
 		if(type != null) {
-			System.out.println("erstellen: ");
 			Bike newBike = new Bike(type, model, null, null);
 			DataProvider prov = DataProvider.getInstance();
 			
-			prov.addBikeType(type);
-			
 			if(prov.addBike(newBike)) {
-				System.out.println("erstellen2: ");
 				UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
 			}
 				
@@ -54,7 +52,7 @@ public class AddBikeCTRL {
 		
 	}
 	
-	public void createButtonaction(String frameId, String bikeType, String model,
+	public void createButtonAction(String frameId, String bikeType, String model,
 			int size, Availability availability, int charge, int capacity,
 			TextField chargeTextField, TextField capacityTextField) {
 		//Mindestens eine Eingabe ist leer
@@ -66,7 +64,6 @@ public class AddBikeCTRL {
 			System.out.println("size: "+!(12>=size && size<=25));
 			System.out.println("availability: "+availability==null);
 			System.out.println("bikeType: "+bikeType==null);
-			
 			
 			var alert = new Alert(
 		            Alert.AlertType.NONE,
@@ -88,5 +85,15 @@ public class AddBikeCTRL {
 			addBike(frameId, bikeType, model, size, availability, charge, capacity);
 		}
 	}
+	
+	public void backButtonAction() {
+		UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
+	}
+	
+	public List<Bike> loadBikes() {
+		return DataProvider.getInstance().getBikes();
+	}
+
+	
 	
 }
