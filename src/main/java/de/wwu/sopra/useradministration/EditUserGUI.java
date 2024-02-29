@@ -193,14 +193,12 @@ public class EditUserGUI extends HBox {
 		// Buttons zum Navigieren
 		var submitButton = new Button("User Speichern");
 		var newButton = new Button("Neu");
-		var goBackButton = new Button("Zurück");
 		var deleteButton = new Button("Löschen");
 		
 		innerBox.add(new Label(), 0, 10);
 		innerBox.add(submitButton, 5, 12);
 		innerBox.add(deleteButton, 4, 12);
-		innerBox.add(newButton, 1, 12);
-		innerBox.add(goBackButton, 0, 12);
+		innerBox.add(newButton, 0, 12);
 		
 		Label successionLabel = new Label("Änderung erfolgreich");
 		successionLabel.setVisible(false);
