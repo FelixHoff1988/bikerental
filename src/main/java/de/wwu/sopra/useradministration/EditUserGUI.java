@@ -3,11 +3,18 @@ package de.wwu.sopra.useradministration;
 
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.PasswordHashing;
+import de.wwu.sopra.PasswordHashing.PasswordHash;
 import de.wwu.sopra.entity.User;
+import de.wwu.sopra.register.RegisterCTRL;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -15,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,6 +39,7 @@ import javafx.scene.layout.VBox;
 public class EditUserGUI extends HBox {
 	
 	private EditUserCTRL ctrl = new EditUserCTRL();
+	private RegisterCTRL registerCTRL = new RegisterCTRL();
 
 	
 	 /**
@@ -43,6 +53,68 @@ public class EditUserGUI extends HBox {
      * Initialisiert das GUI-Layout für die Benutzer-Editierung.
      */
 	public void init() {
+		
+		TableView<User> tableView = new TableView<User>();
+
+        TableColumn<User, String> column1 = new TableColumn<>("Vorname");
+        column1.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getFirstName());
+        });
+        	
+    	TableColumn<User, String> column2 = new TableColumn<>("Nachname");
+    	column2.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getLastName());
+        });
+        
+        TableColumn<User, String> column3 = new TableColumn<>("Strasse");
+        column3.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getStreet());
+        });
+        
+        TableColumn<User, String> column4 = new TableColumn<>("Hausnummer");
+        column4.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(Integer.toString(data.getValue().getHouseNumber()));
+        });
+        
+        TableColumn<User, String> column5 = new TableColumn<>("PLZ");
+        column5.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(Integer.toString(data.getValue().getPostalCode()));
+        });
+        
+        TableColumn<User, String> column6 = new TableColumn<>("Stadt");
+        column6.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getCity());
+        });
+        
+        TableColumn<User, String> column7 = new TableColumn<>("IBAN");
+        column7.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getIban());
+        });
+        
+        TableColumn<User, String> column8 = new TableColumn<>("BIC");
+        column8.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getBic());
+        });
+        
+        TableColumn<User, String> column9 = new TableColumn<>("E-Mail");
+        column9.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getEmail());
+        });
+        
+        tableView.getColumns().add(column1);
+        tableView.getColumns().add(column2);
+        tableView.getColumns().add(column3);
+        tableView.getColumns().add(column4);
+        tableView.getColumns().add(column5);
+        tableView.getColumns().add(column6);
+        tableView.getColumns().add(column7);
+        tableView.getColumns().add(column8);
+        tableView.getColumns().add(column9);
+        
+        
+        ObservableList<User> users = FXCollections.observableArrayList(ctrl.loadUsers());
+        tableView.setItems(users);
+        
 		
 		var innerBox = new GridPane();
 		innerBox.setHgap(30);
@@ -110,20 +182,21 @@ public class EditUserGUI extends HBox {
 		innerBox.add(PasswordLabel, 4, 1);
 		innerBox.add(PasswordTextField, 5, 1);
 		
-		var VerPasswordLabel = new Label("Passwort bestätigen: ");
-		var VerPasswordTextField = new PasswordField();
-		innerBox.add(VerPasswordLabel, 4, 2);
-		innerBox.add(VerPasswordTextField, 5, 2);
-		
 		// Buttons zum Navigieren
 		var submitButton = new Button("User Speichern");
+		var newButton = new Button("Neu");
 		var goBackButton = new Button("Zurück");
 		var deleteButton = new Button("Löschen");
 		
 		innerBox.add(new Label(), 0, 10);
 		innerBox.add(submitButton, 5, 11);
 		innerBox.add(deleteButton, 4, 11);
+		innerBox.add(newButton, 1, 11);
 		innerBox.add(goBackButton, 0, 11);
+		
+		Label successionLabel = new Label("Änderung erfolgreich");
+		successionLabel.setVisible(false);
+		innerBox.add(successionLabel, 0, 12);
 		
 		/*searchButton.setOnAction(event -> {
 			if (ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", searchTextField))
@@ -204,7 +277,107 @@ public class EditUserGUI extends HBox {
 		});
 *///
 		
-		this.getChildren().addAll(innerBox);
+		newButton.setOnAction(event -> {
+			ArrayList<Boolean> list = new ArrayList<Boolean>();
+			
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", houseNumberTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", plzTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", townTextField));
+			list.add(ctrl.testTextField("^DE[0-9]{20}$", IBANTextField));
+			list.add(ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
+			list.add(ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
+			list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", PasswordTextField));
+			
+			if (areAllTrue(list))
+			{
+				TextField[] textFieldsRegistration = innerBox.getChildren().stream().filter(node -> node.getClass() == TextField.class || node.getClass() == PasswordField.class).toArray(TextField[]::new);
+				// change this function from add User to change User
+				User addedUser = ctrl.addUser(textFieldsRegistration);
+				if(addedUser != null)
+				{
+					users.add(addedUser);
+					tableView.setItems(users);
+				}
+			}
+		});
+		
+		deleteButton.setOnAction(event -> {
+            User selectedUser = tableView.getSelectionModel().getSelectedItem();
+            users.remove(selectedUser);
+            tableView.setItems(users);
+        });
+		
+		submitButton.setOnAction(value ->  {
+			ArrayList<Boolean> list = new ArrayList<Boolean>();
+			
+			User selectedUser = tableView.getSelectionModel().getSelectedItem();
+			
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", houseNumberTextField));
+			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", plzTextField));
+			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", townTextField));
+			list.add(ctrl.testTextField("^DE[0-9]{20}$", IBANTextField));
+			list.add(ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
+			list.add(ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
+			if(!PasswordTextField.getText().isBlank())
+			{
+				list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", PasswordTextField));
+			}
+			if(!(emailTextField.getText().equals(selectedUser.getEmail()))) {
+				list.add(ctrl.getUserByEmail(emailTextField.getText()) == null);
+			}
+			
+			
+			
+			if (areAllTrue(list))
+			{
+				int index = users.indexOf(selectedUser);
+				selectedUser.setFirstName(firstNameTextField.getText());
+				selectedUser.setLastName(lastNameTextField.getText());
+				selectedUser.setStreet(streetTextField.getText());
+				selectedUser.setHouseNumber((int) Integer.valueOf(houseNumberTextField.getText()));
+				selectedUser.setPostalCode((int) Integer.valueOf(plzTextField.getText()));
+				selectedUser.setCity(townTextField.getText());
+				selectedUser.setIban(IBANTextField.getText());
+				selectedUser.setBic(BICTextField.getText());
+				selectedUser.setEmail(emailTextField.getText());
+				
+				if(!PasswordTextField.getText().isBlank())
+				{
+					selectedUser.setPasswordHash(PasswordHashing.hashPassword(PasswordTextField.getText()));
+				}
+				
+				successionLabel.setVisible(true);
+				users.set(index, selectedUser);
+				tableView.setItems(users);
+			}
+        });
+		
+		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+            	successionLabel.setVisible(false);
+            	firstNameTextField.setText(newSelection.getFirstName());
+            	lastNameTextField.setText(newSelection.getLastName());
+            	streetTextField.setText(newSelection.getStreet());
+            	houseNumberTextField.setText(String.valueOf(newSelection.getHouseNumber()));
+            	plzTextField.setText(String.valueOf(newSelection.getPostalCode()));
+            	townTextField.setText(newSelection.getCity());
+            	IBANTextField.setText(newSelection.getIban());
+            	BICTextField.setText(newSelection.getBic());
+            	emailTextField.setText(newSelection.getEmail());
+            	PasswordTextField.setText("");
+            }
+        });
+		
+		VBox vbox = new VBox(innerBox, tableView);
+		vbox.setFillWidth(true);
+		
+		this.getChildren().addAll(vbox);
 		this.setAlignment(Pos.CENTER);
 		VBox.setVgrow(this, Priority.ALWAYS);
 		
