@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.map.MapGUI;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -61,6 +63,13 @@ public class ReserveBikeGUI extends StackPane {
 		build();
 		
 		this.map.onClickBike(bike -> selectBike(bike));
+		
+//		this.reserveButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                
+//            }
+//        });
 	}
 	
 	/**
@@ -108,7 +117,7 @@ public class ReserveBikeGUI extends StackPane {
 		
 		this.reserveButton.setDisable(true);
 		
-		insetBox.setPadding(new Insets(10, 10, 10, 10));
+		insetBox.setPadding(new Insets(8, 8, 8, 8));
 		insetBox.setMaxSize(510, 70);
 		insetBox.setAlignment(Pos.BOTTOM_RIGHT);
 		
