@@ -1,5 +1,7 @@
 package de.wwu.sopra;
 
+import de.wwu.sopra.register.RegisterGUI;
+import de.wwu.sopra.reportdefect.ReportGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -156,6 +158,7 @@ public class NavigationGUI extends HBox {
 	 */
 	private void report() {
 		// TODO MainGUI.getInstance().changeViewNode(new ReportGUI());
+		MainGUI.getInstance().changeViewNode(new ReportGUI());
 		
 	}
 
