@@ -3,8 +3,6 @@ package de.wwu.sopra.map;
 import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MapViewEvent;
 import com.sothawo.mapjfx.event.MarkerEvent;
-import de.wwu.sopra.entity.Bike;
-import de.wwu.sopra.entity.BikeStation;
 import de.wwu.sopra.entity.GeofencingArea;
 import javafx.animation.Transition;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +11,7 @@ import javafx.util.Duration;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Allgemeine Implementierung der Map zur Einbindung in die weiteren GUIs
@@ -27,17 +26,13 @@ public class MapGUI extends BorderPane {
      */
     private boolean isInitialized;
     /**
-     * Liste aller angezeigten Marker mit ihren zugeordneten Bikes
+     * Liste aller angezeigten Marker mit ihren zugeordneten Objekten
      */
-    private final HashMap<Marker, Bike> bikeMarkers = new HashMap<>();
+    private final HashMap<Marker, Object> markers = new HashMap<>();
     /**
-     * Liste aller angezeigten Marker mit ihren zugeordneten BikeStations
+     * Liste aller angezeigten CoordinateLines mit ihren zugeordneten Objekten
      */
-    private final HashMap<Marker, BikeStation> stationMarkers = new HashMap<>();
-    /**
-     * Liste aller angezeigten CoordinateLines mit ihren zugeordneten GeoAreas
-     */
-    private final HashMap<CoordinateLine, GeofencingArea> geoAreas = new HashMap<>();
+    private final HashMap<CoordinateLine, Object> coordinateLines = new HashMap<>();
 
     /**
      * Liste der Ecken einer aktuell zu erstellenden GeofencingArea
@@ -50,14 +45,14 @@ public class MapGUI extends BorderPane {
     private Marker dynamicMarker;
 
     /**
-     * Marker des aktuell angeklickten Bikes
+     * Aktuell angeklickte Marker
      */
-    private Marker bikeMarker;
+    private final HashMap<Class<?>, Marker> clickedMarkers = new HashMap<>();
 
     /**
-     * Marker der aktuell angeklickten BikeStation
+     * Farben den Marker-Typen zugeordnet
      */
-    private Marker stationMarker;
+    private final HashMap<Class<?>, Marker.Provided> markerColors = new HashMap<>();
 
     /**
      * Standardkonstruktor: Initialisiert den MapView
@@ -87,9 +82,8 @@ public class MapGUI extends BorderPane {
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 this.isInitialized = true;
-                drawMarkers(this.bikeMarkers.keySet());
-                drawMarkers(this.stationMarkers.keySet());
-                drawCoordinateLines(this.geoAreas.keySet());
+                drawMarkers(this.markers.keySet());
+                drawCoordinateLines(this.coordinateLines.keySet());
                 if (dynamicMarker != null)
                     mapView.addMarker(dynamicMarker);
             }
@@ -102,38 +96,25 @@ public class MapGUI extends BorderPane {
     }
 
     /**
-     * Zeigt eine Liste an Fahrrädern auf der Karte an.
+     * Zeigt eine Liste von Markern auf der Map an.
      *
-     * @param bikes Liste an anzuzeigenden Fahrrädern
+     * @param objects Mit den Markern zu assoziierende Objekte
+     * @param coordinateSelector Funktion, welche aus objects die Koordinaten auswählt
+     * @param color Farbe der Marker
+     * @param <T> Typ der Objects
      */
-    public void displayBikes(List<Bike> bikes) {
+    public <T> void displayMarkers(List<T> objects, Function<T, Coordinate> coordinateSelector, Marker.Provided color) {
         var markerList = new ArrayList<Marker>();
-        bikes.forEach(bike -> {
+        var type = objects.getFirst().getClass();
+        markerColors.put(type, color);
+        objects.forEach(obj -> {
+            var location = coordinateSelector.apply(obj);
             var marker = Marker
-                    .createProvided(Marker.Provided.ORANGE)
-                    .setPosition(bike.getLocation())
+                    .createProvided(color)
+                    .setPosition(location)
                     .setVisible(true);
             markerList.add(marker);
-            this.bikeMarkers.put(marker, bike);
-        });
-        if (this.isInitialized)
-            drawMarkers(markerList);
-    }
-
-    /**
-     * Zeigt eine Liste an BikeStations auf der Map an.
-     *
-     * @param stations Anzuzeigende BikeStations
-     */
-    public void displayStations(List<BikeStation> stations) {
-        var markerList = new ArrayList<Marker>();
-        stations.forEach(station -> {
-            var marker = Marker
-                    .createProvided(Marker.Provided.BLUE)
-                    .setPosition(station.getLocation())
-                    .setVisible(true);
-            markerList.add(marker);
-            this.stationMarkers.put(marker, station);
+            this.markers.put(marker, obj);
         });
         if (this.isInitialized)
             drawMarkers(markerList);
@@ -151,20 +132,24 @@ public class MapGUI extends BorderPane {
     }
 
     /**
-     * Zeigt eine Liste an GeofencingAreas auf der Map an.
+     * Zeigt eine Liste an CoordinateLines auf der Map an.
      *
-     * @param areas Anzuzeigende GeofencingAreas
+     * @param objects Den CoordinateLines zugrundelegende Objekte
+     * @param lineSelector Funktion, welche aus den objects eine Liste an Koordinaten auswählt
+     * @param fillColor Innere Farbe des gezeichneten Bereichs
+     * @param lineColor Äußere Farbe des gezeichneten Bereichs
+     * @param <T> Typ der Objekte
      */
-    public void displayAreas(List<GeofencingArea> areas) {
+    public <T> void displayCoordinateLines(List<T> objects, Function<T, List<Coordinate>> lineSelector, String fillColor, String lineColor) {
         var areaList = new ArrayList<CoordinateLine>();
-        areas.forEach(area -> {
-            var line = new CoordinateLine(area.getEdges())
-                    .setColor(Color.DODGERBLUE)
-                    .setFillColor(Color.web("lawngreen", 0.4))
+        objects.forEach(area -> {
+            var line = new CoordinateLine(lineSelector.apply(area))
+                    .setColor(Color.web(lineColor, 1))
+                    .setFillColor(Color.web(fillColor, 0.4))
                     .setClosed(true)
                     .setVisible(true);
             areaList.add(line);
-            this.geoAreas.put(line, area);
+            this.coordinateLines.put(line, area);
         });
         if (this.isInitialized)
             drawCoordinateLines(areaList);
@@ -182,75 +167,88 @@ public class MapGUI extends BorderPane {
     }
 
     /**
-     * Definiert eine Aktion, welche ausgeführt wird, wenn ein Bike-Marker angeklickt wird.
+     * Definiert eine Aktion, welche ausgeführt wird, wenn ein Marker vom Typ T angeklickt wird.
      *
-     * @param consumer Funktion, welche das Bike entgegennimmt, auf welches geklickt wurde.
+     * @param consumer Funktion, welche das Objekt entgegennimmt, auf welches geklickt wurde.
+     * @param changeColor Neue Farbe des Markers (kann null sein)
+     * @param <T> Type des Markers
      */
-    public void onClickBike(Consumer<Bike> consumer) {
+    public <T> void onClickMarker(Consumer<T> consumer, Marker.Provided changeColor) {
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
-            var bike = this.bikeMarkers.get(event.getMarker());
-            if (bike != null) {
-                consumer.accept(bike);
+            var object = this.markers.get(event.getMarker());
 
-                mapView.removeMarker(event.getMarker());
+            T typedObject = null;
+            try { typedObject = (T) object; } catch (Exception ignored) {}
 
-                Marker newMarker;
-                if (bikeMarker == event.getMarker()) {
-                    newMarker = Marker
-                            .createProvided(Marker.Provided.ORANGE)
-                            .setPosition(event.getMarker().getPosition())
-                            .setVisible(true);
-                    bikeMarker = null;
-                }
-                else {
-                    newMarker = Marker
-                            .createProvided(Marker.Provided.GREEN)
-                            .setPosition(event.getMarker().getPosition())
-                            .setVisible(true);
-                    bikeMarker = newMarker;
-                }
+            if (typedObject == null)
+                return;
 
-                mapView.addMarker(newMarker);
-                bikeMarkers.remove(event.getMarker());
-                bikeMarkers.put(newMarker, bike);
-            }
+            var type = typedObject.getClass();
+
+            var isCurrentMarker = clickedMarkers
+                    .entrySet()
+                    .stream()
+                    .anyMatch(entry -> entry.getValue() == event.getMarker());
+            deselectMarker(type);
+            if (!isCurrentMarker)
+                selectMarker(event.getMarker(), type, changeColor);
+
+            consumer.accept(typedObject);
         });
     }
 
     /**
-     * Definiert eine Aktion, welche ausgeführt wird, wenn ein BikeStation-Marker angeklickt wird.
+     * Stellt die originale Farbe für alle Marker eines bestimmten Types wieder her.
      *
-     * @param consumer Funktion, welche das BikeStation entgegennimmt, auf welches geklickt wurde.
+     * @param type Repräsentierter Datentyp
      */
-    public void onClickStation(Consumer<BikeStation> consumer) {
-        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
-            var station = this.stationMarkers.get(event.getMarker());
-            if (station != null) {
-                consumer.accept(station);
+    private void deselectMarker(Class<?> type) {
+        var marker = clickedMarkers.get(type);
 
-                mapView.removeMarker(event.getMarker());
+        if (marker == null)
+            return;
 
-                Marker newMarker;
-                if (stationMarker == event.getMarker()) {
-                    newMarker = Marker
-                            .createProvided(Marker.Provided.BLUE)
-                            .setPosition(event.getMarker().getPosition())
-                            .setVisible(true);
-                    stationMarker = null;
-                }
-                else {
-                    newMarker = Marker
-                            .createProvided(Marker.Provided.GREEN)
-                            .setPosition(event.getMarker().getPosition())
-                            .setVisible(true);
-                    stationMarker = newMarker;
-                }
+        var object = markers.get(marker);
 
-                mapView.addMarker(newMarker);
-                stationMarkers.remove(event.getMarker());
-                stationMarkers.put(newMarker, station);
-            }
-        });
+        mapView.removeMarker(marker);
+        markers.remove(marker);
+        clickedMarkers.remove(type);
+
+        var prevMarker = Marker
+                .createProvided(markerColors.get(type))
+                .setPosition(marker.getPosition())
+                .setVisible(true);
+
+        mapView.addMarker(prevMarker);
+        markers.put(prevMarker, object);
+    }
+
+    /**
+     * Wähle einen bestehenden Marker aus.
+     *
+     * @param marker Auszuwählender Marker
+     * @param type Type des Markers
+     * @param changeColor Neue Farbe des Markers (kann null sein)
+     */
+    private void selectMarker(Marker marker, Class<?> type, Marker.Provided changeColor) {
+        if (changeColor == null) {
+            clickedMarkers.put(type, marker);
+            return;
+        }
+
+        var object = markers.get(marker);
+
+        mapView.removeMarker(marker);
+        markers.remove(marker);
+
+        var clickedMarker = Marker
+                    .createProvided(changeColor)
+                    .setPosition(marker.getPosition())
+                    .setVisible(true);
+
+        mapView.addMarker(clickedMarker);
+        markers.put(clickedMarker, object);
+        clickedMarkers.put(type, clickedMarker);
     }
 
     /**
