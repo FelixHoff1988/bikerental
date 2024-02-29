@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -50,9 +51,12 @@ public class EditBikeGUI extends HBox{
 		//Liste und Tabelle der Bikes
 		ObservableList<Bike> bikes = FXCollections.observableArrayList(controller.loadBikes());
 		TableView<Bike> bikeTable = new TableView<>();
+		bikeTable.setItems(bikes);
 		
 		//Spalten für die Tabelle
-		//TableColumn<Bike,String> frameIdColumn = new TableColumn<>("");
+		TableColumn<Bike,String> frameIdColumn = new TableColumn<>("Rahmennummer");
+		TableColumn<Bike,String> bikeTypeColumn = new TableColumn<>("Typ");
+		TableColumn<Bike,Availability> availabilityColumn = new TableColumn<>("Status");
 		
 		//Eingabe der Rahmennummer
 		var frameIdLabel = new Label("Rahmennummer: ");
@@ -87,6 +91,7 @@ public class EditBikeGUI extends HBox{
 		//Button zum hinzufügen und zum zurückkehren auf AdminGUI
 		var createButton = new Button("Fahhrad hinzufügen");
 		var backButton = new Button("Zurück");
+		var editButton = new Button("Änderungen Speichern");
 		
 		//Label der Kapazität für CargoBikes
 		var capacityLabel = new Label("Kapazität: ");
@@ -179,6 +184,8 @@ public class EditBikeGUI extends HBox{
 		
 		innerBox.add(createButton, 2, 6);
 		innerBox.add(backButton, 0, 6);
+		
+		innerBox.add(bikeTable, 0, 7);
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);
