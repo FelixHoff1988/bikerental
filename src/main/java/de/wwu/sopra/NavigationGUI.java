@@ -2,6 +2,7 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.register.RegisterGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
+import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -141,7 +142,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf die Accountübersicht
 	 */
 	private void account() {
-		// TODO MainGUI.getInstance().changeViewNode(new AccountGUI());
+		//MainGUI.getInstance().changeViewNode(new AccountGUI());
 		
 	}
 
@@ -190,7 +191,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Benutzerliste
 	 */
 	private void users() {
-		// TODO MainGUI.getInstance().changeViewNode(new UserGUI());
+		MainGUI.getInstance().changeViewNode(new EditUserGUI());
 		
 	}
 
