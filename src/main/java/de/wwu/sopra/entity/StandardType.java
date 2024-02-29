@@ -14,4 +14,12 @@ public class StandardType extends BikeType {
 	public StandardType(String model, int size, int price) {
 		super(model, size, price);
 	}
+	
+	/**
+	 * Rufe den FahrradTyp Standart als String auf
+	 */
+	@Override
+	public String getTypeString() {
+		return "Standart";
+	}
 }

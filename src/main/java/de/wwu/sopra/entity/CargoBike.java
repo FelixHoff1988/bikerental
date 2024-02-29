@@ -26,7 +26,7 @@ public class CargoBike extends BikeType {
      * Rufe die Ladekapazität des Fahrrads ab
      * @return Ladekapazität des Fahrrads (in kg)
      */
-    public int getCharge() {
+    public int getCapacity() {
         return capacity;
     }
 
@@ -34,7 +34,15 @@ public class CargoBike extends BikeType {
      * Setze die Ladekapazität des Fahrrads
      * @param capacity Neue Ladekapazität des Fahrrads (in kg)
      */
-    public void setCharge(int capacity) {
+    public void setChapacity(int capacity) {
         this.capacity = capacity;
     }
+    
+	/**
+	 * Rufe den FahrradTyp CargoBike als String auf
+	 */
+	@Override
+	public String getTypeString() {
+		return "CargoBike";
+	}
 }

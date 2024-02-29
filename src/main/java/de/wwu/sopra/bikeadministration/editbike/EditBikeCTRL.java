@@ -17,31 +17,32 @@ import javafx.scene.control.TextField;
 
 public class EditBikeCTRL {
 	
-	public void addBike(String frameId, String bikeType, String model, int size, 
-			Availability availability, int charge, int capacity) {
+	public Bike addBike(String frameId, String bikeType, String model,
+			Availability availability) {
+		Bike newBike = null;
 		
 		int price = 0;
 		BikeType type;
 		switch(bikeType) {
-		case "Standard":
-			type = new StandardType(model, size, price);
-			break;
-			
-		case "Cargo":
-			type = new CargoBike(model, size, price, capacity);
-			break;
-			
-		case "EBike":
-			type = new EBike(model, size, price, charge);
-			break;
-			
+//		case "Standard":
+//			type = new StandardType(model, size, price);
+//			break;
+//			
+//		case "Cargo":
+//			type = new CargoBike(model, size, price, capacity);
+//			break;
+//			
+//		case "EBike":
+//			type = new EBike(model, size, price, charge);
+//			break;
+//			
 		default:
 			type = null;
 			break;
 		}
 		
 		if(type != null) {
-			Bike newBike = new Bike(type, model, null, null);
+			newBike = new Bike(type, model, null, null);
 			DataProvider prov = DataProvider.getInstance();
 			
 			if(prov.addBike(newBike)) {
@@ -49,21 +50,20 @@ public class EditBikeCTRL {
 			}
 				
 		}
+		return newBike;
 		
 	}
 	
-	public void createButtonAction(String frameId, String bikeType, String model,
-			int size, Availability availability, int charge, int capacity,
-			TextField chargeTextField, TextField capacityTextField) {
+	public boolean removeBike(Bike bike) {
+		DataProvider prov = DataProvider.getInstance();
+		return prov.removeBike(bike);
+	}
+	
+	public Bike createButtonAction(String frameId, String bikeType, String model, Availability availability) {
+	    Bike newBike = null;
 		//Mindestens eine Eingabe ist leer
-		if(frameId.isBlank() || model.isBlank() || !(12<=size && size<=25) || availability==null
+		if(frameId.isBlank() || model.isBlank() || availability==null
 				 || bikeType==null){
-			
-			System.out.println("frameid: "+frameId.isBlank());
-			System.out.println("model: "+model.isBlank());
-			System.out.println("size: "+!(12>=size && size<=25));
-			System.out.println("availability: "+availability==null);
-			System.out.println("bikeType: "+bikeType==null);
 			
 			var alert = new Alert(
 		            Alert.AlertType.NONE,
@@ -72,18 +72,42 @@ public class EditBikeCTRL {
 		    alert.setHeaderText("Fehlerhafte Eingaben");
 		    alert.show();
 		}
-		//Fehlerhafte Eingabe bei der Akkukapazität eines EBikes
-		else if(charge<=0 && bikeType.equals("EBike")) {
-			chargeTextField.setStyle("-fx-background-color: #FFA59D;");
-		}
-		//Fehlerhafte Eingabe für die Kapazität eines CargoBikes
-		else if(capacity<=0 && bikeType.equals("Cargo")) {
-			capacityTextField.setStyle("-fx-background-color: #FFA59D;");
-		}
 		//Alles korrekt, Fahhrad hinzufügen
 		else{
-			addBike(frameId, bikeType, model, size, availability, charge, capacity);
+			newBike = addBike(frameId, bikeType, model, availability);
 		}
+		return newBike;
+	}
+	public Bike saveButtonAction(Bike bike, String frameId, String bikeType, String model,
+             Availability availability) {
+	    
+	    
+	    //Mindestens eine Eingabe ist leer
+        if(frameId.isBlank() || model.isBlank() || availability==null
+                 || bikeType==null){
+            
+            var alert = new Alert(
+                    Alert.AlertType.NONE,
+                    "Leere Eingaben sind nicht erlaubt!",
+                    ButtonType.OK);
+            alert.setHeaderText("Fehlerhafte Eingaben");
+            alert.show();
+        }
+        //Alles korrekt, Fahrraddaten ändern
+        else {
+            int price = 0;
+            int size = 0;
+            bike.setFrameId(frameId);
+            BikeType type;
+            switch(bikeType) {
+            default:
+                type = new StandardType(model, size, price);
+            }
+            bike.setType(type);
+            bike.setAvailability(availability);
+        }
+        return bike;
+	    
 	}
 	
 	public void backButtonAction() {

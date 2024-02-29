@@ -18,6 +18,12 @@ public abstract class BikeType {
     protected int price;
 
     /**
+     * Rufe den Typ als String ab
+     * @return FahrradTyp als String
+     */
+    abstract public String getTypeString();
+    
+    /**
      * Rufe den Modellnamen ab
      * @return Der Modellname dieses Typs
      */
