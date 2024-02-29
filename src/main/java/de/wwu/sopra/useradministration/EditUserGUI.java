@@ -237,6 +237,7 @@ public class EditUserGUI extends HBox {
 		deleteButton.setOnAction(event -> {
             User selectedUser = tableView.getSelectionModel().getSelectedItem();
             users.remove(selectedUser);
+            ctrl.removeUser(selectedUser);
             tableView.setItems(users);
         });
 		

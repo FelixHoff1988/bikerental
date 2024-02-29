@@ -111,5 +111,15 @@ public class EditUserCTRL {
 		{
 			return DataProvider.getInstance().getUser(email);
 		}
+		
+		/**
+		 * removes a specifed user
+		 * @param user
+		 */
+		public void removeUser(User user)
+		{
+			DataProvider prov = DataProvider.getInstance();
+			prov.removeUser(user);
+		}
 	}
 
