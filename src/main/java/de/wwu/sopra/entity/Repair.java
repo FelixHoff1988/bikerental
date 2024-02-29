@@ -17,7 +17,7 @@ public class Repair extends Service {
 	 * Konstruktor für Repair, was von Service erbt
 	 * 
 	 * @param startDate Startdatum
-	 * @param comment   Möglichkeit einen Kommentar hinzufügen
+
 	 * @param statement Statement einer 
 	 * @param bike	    Betroffenes Rad
 	 */

@@ -31,7 +31,7 @@ public abstract class Service {
 	 * Konstruktor für Service
 	 * 
 	 * @param startTime Startzeitpunkt des Services
-	 * @param comment   Kommentar (z.B. des Nutzers der den Mangel meldet)
+	 *
 	 * @param bike      Das zugehörige Fahrrad
 	 */
 	public Service(LocalDateTime startTime, Bike bike) {
