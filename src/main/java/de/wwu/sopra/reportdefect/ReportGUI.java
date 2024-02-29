@@ -11,22 +11,29 @@
 
 package de.wwu.sopra.reportdefect;
 
+import de.wwu.sopra.MainGUI;
 import de.wwu.sopra.UserManagementGUI;
+import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.login.LoginGUI;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class ReportGUI extends VBox {
+    
+    ReportCTRL ctrl = new ReportCTRL();
 	
 	/**
 	 * Konstruktor fuer ReportGUI und initialisierung der Kompenenten
@@ -55,9 +62,9 @@ public class ReportGUI extends VBox {
 
      
      //Textfeld fuer die Fahrradnummer zum Eingeben
-     var bikeNumberInput = new TextField();
-     bikeNumberInput.setPromptText("Fahrrad Nummer");
-     bikeNumberInput.setPrefWidth(400);
+     var bikeIdInput = new TextField();
+     bikeIdInput.setPromptText("Fahrrad Nummer");
+     bikeIdInput.setPrefWidth(400);
 
      
      //Textarea zum Eingeben der Schadensbeschreibung
@@ -69,6 +76,24 @@ public class ReportGUI extends VBox {
 	var submitButton = new Button();
     submitButton.setText("Schaden melden");
     submitButton.setPrefWidth(200);
+    
+    submitButton.setOnAction(event -> {
+        // teste ob Werte korrekt sind
+        Bike bike = ctrl.findBike(bikeIdInput.getText());
+        if (reportInput.getText() != "" & bike != null)
+        {
+            MainGUI.getInstance().changeViewNode(new Pane());
+        }
+        else
+        {
+            var alert = new Alert(
+                    Alert.AlertType.NONE,
+                    "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.",
+                    ButtonType.OK);
+            alert.setHeaderText("Fahrradnummer falsch");
+            alert.show();
+        }
+    });
 	
     
     
@@ -85,12 +110,12 @@ public class ReportGUI extends VBox {
     var controls = new HBox();
     controls.setPrefWidth(400);
 	
-	 controls.getChildren().addAll(submitButton);
+	controls.getChildren().addAll(submitButton);
 	 
-	 //Anordnung
-     innerBox.add(bikeNumberInput, 0, 0);
-     innerBox.add(reportInput, 0, 1);
-     innerBox.add(controls, 0, 2);
+	//Anordnung
+    innerBox.add(bikeIdInput, 0, 0);
+    innerBox.add(reportInput, 0, 1);
+    innerBox.add(controls, 0, 2);
 	
 	
 	}

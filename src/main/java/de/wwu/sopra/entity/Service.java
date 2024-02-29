@@ -31,9 +31,8 @@ public abstract class Service {
 	 * @param comment   Kommentar (z.B. des Nutzers der den Mangel meldet)
 	 * @param bike      Das zugehörige Fahrrad
 	 */
-	public Service(LocalDateTime startTime, String comment, Bike bike) {
+	public Service(LocalDateTime startTime, Bike bike) {
 		this.startTime = startTime;
-		this.comment = comment;
 		this.bike = bike;
 	}
 

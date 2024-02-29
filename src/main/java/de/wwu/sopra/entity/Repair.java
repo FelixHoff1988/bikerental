@@ -21,8 +21,8 @@ public class Repair extends Service {
 	 * @param statement Statement einer 
 	 * @param bike	    Betroffenes Rad
 	 */
-	public Repair(LocalDateTime startDate, String comment, String statement, Bike bike) {
-		super(startDate, comment, bike);
+	public Repair(LocalDateTime startDate, String statement, Bike bike) {
+		super(startDate, bike);
 		this.statement = statement;
 	}
 
