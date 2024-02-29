@@ -56,12 +56,9 @@ public class LoginGUI extends HBox {
 
         var passwordLink = new Hyperlink("Passwort vergessen");
         passwordLink.setOnAction(event -> controller.forgotPassword());
-        
-        var userEditieren = new Hyperlink("User editieren");
-        userEditieren.setOnAction(event -> controller.editUser());
 
 
-        controls.getChildren().addAll(anmeldeButton, spacer, registerLink, passwordLink, userEditieren);
+        controls.getChildren().addAll(anmeldeButton, spacer, registerLink, passwordLink);
         innerBox.add(emailInput, 0, 0);
         innerBox.add(passwordInput, 0, 1);
         innerBox.add(controls, 0, 2);

@@ -55,6 +55,9 @@ public class LoginCTRL {
         UserManagementGUI.getInstance().changeViewNode(new RegisterGUI());
     }
     
+    /**
+     * display edit User
+     */
     public void editUser() {
     	UserManagementGUI.getInstance().changeViewNode(new EditUserGUI());
     }
