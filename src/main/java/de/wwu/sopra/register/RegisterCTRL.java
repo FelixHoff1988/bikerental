@@ -13,6 +13,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+/**
+ * Steuerungsklasse für das RegisterGUI
+ */
 public class RegisterCTRL {
 	/**
 	 * Kostruktor der Kontrollklasse 
@@ -58,9 +61,10 @@ public class RegisterCTRL {
 	
 	/**
 	 * Prüft, ob Eingabe in TextField von Registration korrekt ist
+	 *
 	 * @param regex Regex code um Korrektheit der Eingabe eines Feldes zu überprüfen
 	 * @param textField Text Field aus Registrierungsform
-	 * @return
+	 * @return Gibt zurück, ob das Textfeld korrekt gesetzt wurde
 	 */
 	public boolean testTextField(String regex, TextField textField)
 	{

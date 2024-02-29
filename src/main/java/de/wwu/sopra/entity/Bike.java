@@ -145,14 +145,14 @@ public class Bike {
 	/**
 	 * Setze die aktuelle Geofencing Area
 	 * 
-	 * @param currentArea
+	 * @param currentArea Neue GeofencingArea des Fahrrads
 	 */
 	public void setCurrentArea(GeofencingArea currentArea) {
 		this.currentArea = currentArea;
 	}
 
 	/**
-	 * Rufe die Wartungliste ab
+	 * Rufe die Wartungsliste ab
 	 * 
 	 * @return aktuelle Wartungsliste
 	 */
@@ -161,9 +161,9 @@ public class Bike {
 	}
 
 	/**
-	 * Füge eine Wartung oder Reperatur in die Liste hinzu
+	 * Füge eine Wartung oder Reparatur in die Liste hinzu
 	 * 
-	 * @param service
+	 * @param service Neuer dem Fahrrad zugeordneter Service
 	 */
 	public void serviceListAdd(Service service) {
 		this.serviceList.add(service);
@@ -181,7 +181,7 @@ public class Bike {
 	/**
 	 * Füge eine Reservierung in die Liste hinzu
 	 * 
-	 * @param reservation
+	 * @param reservation Neue dem Fahrrad hinzuzufügende Reservierung
 	 */
 	public void reservationListAdd(Reservation reservation) {
 		this.reservationList.add(reservation);
