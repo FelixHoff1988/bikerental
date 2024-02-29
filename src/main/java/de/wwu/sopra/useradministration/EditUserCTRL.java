@@ -12,6 +12,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+/**
+ * Controller-KLasse um User zu bearbeiten
+ */
 public class EditUserCTRL {
 	
 	/**
@@ -23,8 +26,9 @@ public class EditUserCTRL {
 		
 	/**
 	 * ads a user by entering on a text field
-	 * @param textFieldsRegistration
-	 * @return
+	 * @param textFieldsRegistration pulled from EditUserGUI input
+	 * @param selectedRole pulled from EditUserGUI input
+	 * @return User that should be added
 	 */
 	public User addUser(TextField[] textFieldsRegistration, UserRole selectedRole) {
 		User registeredUser = new User(
@@ -65,7 +69,7 @@ public class EditUserCTRL {
 		 * Prüft, ob Eingabe in TextField von Registration korrekt ist
 		 * @param regex Regex code um Korrektheit der Eingabe eines Feldes zu überprüfen
 		 * @param textField Text Field aus Registrierungsform
-		 * @return
+		 * @return true wenn Input aus EditUserGUI korrekt ist
 		 */
 		public boolean testTextField(String regex, TextField textField)
 		{
@@ -83,8 +87,8 @@ public class EditUserCTRL {
 		
 		/** 
 		 * if user with email exists return, else return null
-		 * @param email
-		 * @return
+		 * @param email Email, mit der User gefunden werden soll
+		 * @return User falls User mit Email existiert, sonst null
 		 */
 		public static User findUserByEmail(String email)
 		{
@@ -95,7 +99,7 @@ public class EditUserCTRL {
 		
 		/**
 		 * loads a list of all users
-		 * @return
+		 * @return List aller User
 		 */
 		public List<User> loadUsers()
 		{
@@ -104,8 +108,8 @@ public class EditUserCTRL {
 		
 		/**
 		 * gets user by email
-		 * @param email
-		 * @return
+		 * @param email Email mit der User gefunden werden soll
+		 * @return User, galls user mit dieser Email existiert, sonst null
 		 */
 		public User getUserByEmail(String email)
 		{
@@ -114,7 +118,7 @@ public class EditUserCTRL {
 		
 		/**
 		 * removes a specifed user
-		 * @param user
+		 * @param user User der gelöscht werden soll
 		 */
 		public void removeUser(User user)
 		{
