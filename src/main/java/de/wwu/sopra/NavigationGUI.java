@@ -158,9 +158,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf das Schaden melden Formular
 	 */
 	private void report() {
-		// TODO MainGUI.getInstance().changeViewNode(new ReportGUI());
 		MainGUI.getInstance().changeViewNode(new ReportGUI());
-		
 	}
 
 	/**
