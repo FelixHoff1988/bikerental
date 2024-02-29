@@ -34,13 +34,13 @@ public class ReserveBikeCTRL {
 		return availableBikes;
 	}
 	
-//	/**
-//	 * @return
-//	 */
-//	public Bike selectBike() {
-//		
-//	}
-//	
+	/**
+	 * @return
+	 */
+	public void selectBike(Bike bike) {
+		
+	}
+	
 //	/**
 //	 * 
 //	 */
