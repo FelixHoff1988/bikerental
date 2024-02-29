@@ -53,7 +53,7 @@ public abstract class BikeType {
      * Rufe den Preis ab
      * @return Preis dieses Fahrradtyps
      */
-    public int getPrize() {
+    public int getPrice() {
         return this.price;
     }
 
