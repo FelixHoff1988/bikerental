@@ -20,24 +20,24 @@ public class EditBikeCTRL {
 	public Bike addBike(String frameId, String bikeType, String model,
 			Availability availability) {
 		Bike newBike = null;
-		
+		int size = 0;
 		int price = 0;
 		BikeType type;
 		switch(bikeType) {
-//		case "Standard":
-//			type = new StandardType(model, size, price);
-//			break;
-//			
-//		case "Cargo":
-//			type = new CargoBike(model, size, price, capacity);
-//			break;
-//			
-//		case "EBike":
-//			type = new EBike(model, size, price, charge);
-//			break;
-//			
+		case "Standard":
+			type = new StandardType(model, size, price);
+			break;
+			
+		case "Cargo":
+			type = new CargoBike(model, size, price, 0);
+			break;
+			
+		case "EBike":
+			type = new EBike(model, size, price, 0);
+			break;
+			
 		default:
-			type = null;
+			type = new StandardType(model, size, price);
 			break;
 		}
 		

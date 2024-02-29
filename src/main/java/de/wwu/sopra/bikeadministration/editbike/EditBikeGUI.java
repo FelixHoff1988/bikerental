@@ -216,7 +216,7 @@ public class EditBikeGUI extends HBox {
                 deleteButton.setStyle("-fx-background-color: #FFA59D;");
             }
             if(bike!=null)
-                Bikes.add(bike);
+                Bikes.remove(bike);
             tableView.setItems(Bikes);
         });
         
@@ -234,7 +234,8 @@ public class EditBikeGUI extends HBox {
         
         innerBox.add(backButton, 0, 4);
         innerBox.add(saveButton, 1, 4);
-        innerBox.add(createButton, 2, 4);
+        innerBox.add(deleteButton, 2, 4);
+        innerBox.add(createButton, 3, 4);
         
         
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
