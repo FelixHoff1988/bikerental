@@ -1,12 +1,10 @@
 package de.wwu.sopra;
 
-<<<<<<< HEAD
+
 import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
-=======
 import de.wwu.sopra.register.RegisterGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
->>>>>>> main
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;

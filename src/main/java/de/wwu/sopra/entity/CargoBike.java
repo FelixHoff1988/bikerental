@@ -38,7 +38,6 @@ public class CargoBike extends BikeType {
         this.capacity = capacity;
     }
     
-<<<<<<< HEAD
 	/**
 	 * Rufe den FahrradTyp CargoBike als String auf
 	 */
@@ -46,7 +45,7 @@ public class CargoBike extends BikeType {
 	public String getTypeString() {
 		return "CargoBike";
 	}
-=======
+
     /**
      * Gebe die zulässige Kapazität eines CargoBikes als String aus
      * @return String mit Kapazitätslimit
@@ -57,5 +56,4 @@ public class CargoBike extends BikeType {
         description += " kg";
         return description;
     }
->>>>>>> main
 }

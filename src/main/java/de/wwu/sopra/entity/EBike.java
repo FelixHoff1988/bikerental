@@ -37,8 +37,6 @@ public class EBike extends BikeType {
     public void setCharge(int charge) {
         this.charge = charge;
     }
-<<<<<<< HEAD
-
     
 	/**
 	 * Rufe den FahrradTyp EBike als String auf
@@ -47,7 +45,6 @@ public class EBike extends BikeType {
 	public String getTypeString() {
 		return "EBike";
 	}
-=======
     
     /**
      * Gebe aktuellen Ladestand eines EBikes als String aus
@@ -59,5 +56,4 @@ public class EBike extends BikeType {
         description += "%";
         return description;
     }
->>>>>>> main
 }
