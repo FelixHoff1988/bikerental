@@ -1,5 +1,7 @@
 package de.wwu.sopra.bookingProcess.reserveBike;
 
+import com.sothawo.mapjfx.Marker.Provided;
+
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.map.MapGUI;
 import javafx.event.ActionEvent;
@@ -64,7 +66,7 @@ public class ReserveBikeGUI extends StackPane {
 	public ReserveBikeGUI() {
 		build();
 		
-		this.map.onClickBike(bike -> selectBike(bike));
+		this.map.<Bike>onClickMarker(bike -> selectBike(bike), Provided.GREEN);
 		
 //		this.reserveButton.setOnAction(new EventHandler<ActionEvent>() {
 //            @Override
@@ -132,7 +134,7 @@ public class ReserveBikeGUI extends StackPane {
 		this.getChildren().addAll(map, insetBox);
 		
 		var ctrl = new ReserveBikeCTRL();
-		this.map.displayBikes(ctrl.availableBikes());
+		this.map.displayMarkers(ctrl.availableBikes(), bike -> bike.getLocation(), Provided.ORANGE);
 	}
 
 	/**
