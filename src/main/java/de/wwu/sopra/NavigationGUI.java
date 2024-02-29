@@ -1,5 +1,6 @@
 package de.wwu.sopra;
 
+import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -172,7 +173,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Stationsliste
 	 */
 	private void stations() {
-		// TODO MainGUI.getInstance().changeViewNode(new StationGUI());
+		MainGUI.getInstance().changeViewNode(new EditStationGUI());
 		
 	}
 
