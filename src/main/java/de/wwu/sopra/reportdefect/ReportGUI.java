@@ -2,10 +2,9 @@
 /**
  * @author Nisa 
  */
-
 package de.wwu.sopra.reportdefect;
 
-import de.wwu.sopra.MainGUI;
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.entity.Bike;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -68,7 +67,7 @@ public class ReportGUI extends VBox {
             // teste ob Werte korrekt sind
             Bike bike = ctrl.findBike(bikeIdInput.getText());
             if (reportInput.getText() != "" & bike != null) {
-                MainGUI.getInstance().changeViewNode(new Pane());
+                AppContext.getInstance().changeViewNode(new Pane());
             } else {
                 var alert = new Alert(Alert.AlertType.NONE,
                         "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.", ButtonType.OK);

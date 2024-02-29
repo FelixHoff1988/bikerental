@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
-import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
 import javafx.scene.control.Alert;
