@@ -9,6 +9,13 @@ import de.wwu.sopra.entity.Service;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+
+
+/**
+ * @author Nisa
+ * 
+ * Controller Klasse zum erstellen einer Schadensmeldung
+ */
 public class ReportCTRL {
 	
 	public ReportCTRL(){
@@ -17,7 +24,7 @@ public class ReportCTRL {
 	
 	/**
 	 * erstelle einen report, erstelle eine repair
-	 * @param comment user gibt fehler an
+	 * @param statement Beschreibung des Defekts den ein User gibt
 	 * @param bike user gibt fahrrad an welches kaputt ist
 	 */
 	public void submitReport(String statement, Bike bike) {
