@@ -126,27 +126,37 @@ public class ReserveBikeGUI extends StackPane {
 	 * @param bike
 	 */
 	private void selectBike(Bike bike) {
-		this.selectedBike = bike;
-		
-		String type = this.selectedBike.getType().getModel();
-		
-		int cent = this.selectedBike.getType().getPrice();
-		int euro = cent/100;
-		cent %= 100;
-		String centString = String.valueOf(cent);
-		centString = "0" + centString;
-		if (centString.length() >= 2) {
-            centString = centString.substring(centString.length() - 2);
-        }
-		
-		String price = euro + "," + centString + "€";
-		
-		this.bikeType.setText("Fahrradtyp: " + type);
-		this.bikePrice.setText("Preis: " + price + "/h");
-		
-		this.reserveBox.getChildren().removeFirst();
-		this.reserveBox.getChildren().addFirst(this.bikeInfo);
-		
-		this.reserveButton.setDisable(false);
+	    
+	    if (this.selectedBike == bike) {
+	        this.reserveBox.getChildren().removeFirst();
+            this.reserveBox.getChildren().addFirst(this.disclaimer);
+            
+            this.reserveButton.setDisable(true);
+            
+            this.selectedBike = null;
+	    } else {
+	        this.selectedBike = bike;
+	        
+	        String type = this.selectedBike.getType().getModel();
+	        
+	        int cent = this.selectedBike.getType().getPrice();
+	        int euro = cent/100;
+	        cent %= 100;
+	        String centString = String.valueOf(cent);
+	        centString = "0" + centString;
+	        if (centString.length() >= 2) {
+	            centString = centString.substring(centString.length() - 2);
+	        }
+	        
+	        String price = euro + "," + centString + "€";
+	        
+	        this.bikeType.setText("Fahrradtyp: " + type);
+	        this.bikePrice.setText("Preis: " + price + "/h");
+	        
+	        this.reserveBox.getChildren().removeFirst();
+	        this.reserveBox.getChildren().addFirst(this.bikeInfo);
+	        
+	        this.reserveButton.setDisable(false);
+	    }
 	}
 }
