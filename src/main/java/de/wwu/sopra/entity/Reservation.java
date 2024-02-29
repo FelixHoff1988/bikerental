@@ -40,7 +40,7 @@ public class Reservation {
 	 */
 	public Reservation(LocalDateTime startTime, User user, Bike bike) {
 		this.startTime = startTime;
-		this.price = bike.getType().getPrize();
+		this.price = bike.getType().getPrice();
 		this.bike = bike;
 		this.user = user;
 	}

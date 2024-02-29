@@ -34,7 +34,9 @@ public class MainGUI extends VBox {
 
     /**
      * Erzeugte das haupt Layout der App
+     *
      * @param user User, welcher angemeldet ist.
+     * @return Neue Instanz des MainGUI
      */
     public static synchronized MainGUI init(User user) {
         instance = new MainGUI(user);

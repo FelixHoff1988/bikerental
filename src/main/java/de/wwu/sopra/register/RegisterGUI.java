@@ -22,6 +22,9 @@ import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.login.LoginGUI;
 
 
+/**
+ * GUI für die Registrierung
+ */
 public class RegisterGUI extends HBox {
 	/**
 	 * Instanz der Kontrollklasse

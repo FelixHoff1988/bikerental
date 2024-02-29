@@ -301,7 +301,7 @@ public class User {
 	/**
 	 * Füge eine Reservierung in die Liste hinzu
 	 * 
-	 * @param reservation
+	 * @param reservation Hinzuzufügende Reservierung
 	 */
 	public void reservationListAdd(Reservation reservation) {
 		this.reservationList.add(reservation);

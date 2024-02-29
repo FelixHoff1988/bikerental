@@ -2,6 +2,9 @@ package de.wwu.sopra.entity;
 
 import java.time.LocalDateTime;
 
+/**
+ * Wartung oder Reparatur eines Fahrrads
+ */
 public abstract class Service {
 	/**
 	 * Startzeitpunkt eines Service

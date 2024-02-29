@@ -5,7 +5,12 @@ plugins {
 	id 'eclipse'
 }
 
-mainClassName = 'de.wwu.sopra.App'
+compileJava.options.encoding = 'UTF-8'
+
+application {
+    mainClass = "de.wwu.sopra.App"
+    applicationDefaultJvmArgs = ['--add-modules', 'javafx.web']
+}
 
 repositories {
     mavenCentral()
