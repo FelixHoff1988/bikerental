@@ -37,4 +37,15 @@ public class CargoBike extends BikeType {
     public void setCharge(int capacity) {
         this.capacity = capacity;
     }
+    
+    /**
+     * Gebe die zulässige Kapazität eines CargoBikes als String aus
+     * @return String mit Kapazitätslimit
+     */
+    public String getFeatureDescription() {
+        String description = "Kapazität: ";
+        description += String.valueOf(this.capacity);
+        description += " kg";
+        return description;
+    }
 }

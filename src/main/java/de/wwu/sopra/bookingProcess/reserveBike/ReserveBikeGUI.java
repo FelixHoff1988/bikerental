@@ -1,7 +1,5 @@
 package de.wwu.sopra.bookingProcess.reserveBike;
 
-import java.nio.charset.StandardCharsets;
-
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.map.MapGUI;
 import javafx.event.ActionEvent;
@@ -35,6 +33,10 @@ public class ReserveBikeGUI extends StackPane {
 	 * 
 	 */
 	private Label bikePrice;
+	/**
+	 * 
+	 */
+	private Label bikeFeature;
 	/**
 	 * 
 	 */
@@ -90,6 +92,7 @@ public class ReserveBikeGUI extends StackPane {
 		this.bikeType = new Label("Fahrradtyp: ");
 		this.disclaimer = new Label("Bitte wählen Sie ein Fahrrad aus.");
 		this.bikePrice = new Label("Preis: ");
+		this.bikeFeature = new Label();
 		this.reserveButton = new Button("Reservieren");
 		var spacer = new Pane();
 		var insetBox = new FlowPane();
@@ -123,6 +126,7 @@ public class ReserveBikeGUI extends StackPane {
 		
 		this.bikeInfo.addRow(0, bikeType);
 		this.bikeInfo.addRow(1, bikePrice);
+		this.bikeInfo.addRow(2, bikeFeature);
 		this.reserveBox.getChildren().addAll(disclaimer, spacer, reserveButton);
 		insetBox.getChildren().add(reserveBox);
 		this.getChildren().addAll(map, insetBox);
@@ -159,8 +163,17 @@ public class ReserveBikeGUI extends StackPane {
 	        
 	        String price = euro + "," + centString + "€";
 	        
+	        String feature = this.selectedBike.getType().getFeatureDescription();
+	        
 	        this.bikeType.setText("Fahrradtyp: " + type);
 	        this.bikePrice.setText("Preis: " + price + "/h");
+	        this.bikeFeature.setText(feature);
+	        
+	        if(feature == null) {
+	            this.bikeFeature.setVisible(false);
+	        } else {
+	            this.bikeFeature.setVisible(true);
+	        }
 	        
 	        this.reserveBox.getChildren().removeFirst();
 	        this.reserveBox.getChildren().addFirst(this.bikeInfo);

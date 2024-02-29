@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 /**
  * Klasse verwaltet das Hashing und das Validieren von Passwörtern
  */
-public class PasswordHashing {
+public abstract class PasswordHashing {
     /**
      * Wrapper für Salt- und Hash-Wert
      */
@@ -32,6 +32,11 @@ public class PasswordHashing {
             this.hash = hash;
         }
     }
+
+    /**
+     * Standardkonstruktor: ungenutzt
+     */
+    public PasswordHashing() {}
 
     /**
      * Hasht ein Passwort mit einem zufällig generiertem Salt-Wert.
