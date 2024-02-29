@@ -63,7 +63,10 @@ public class User {
 	 * 
 	 * @param firstName    Vorname des Nutzers
 	 * @param lastName     Nachname des Nutzers
-	 * @param address      Adresse des Nutzers
+	 * @param street      Adresse des Nutzers
+	 * @param housenNumber      Adresse des Nutzers
+	 * @param postalCode      Adresse des Nutzers
+	 * @param city      Adresse des Nutzers
 	 * @param email        E-Mail-Adresse des Nutzers
 	 * @param iban         IBAN des Nutzers
 	 * @param bic          BIC des Nutzers
@@ -136,7 +139,7 @@ public class User {
 	/**
 	 * Setze die Strasse der Adresse eines Nutzers
 	 * 
-	 * @param address Neue Adresse des Nutzers
+	 * @param street Neue Adresse des Nutzers
 	 */
 	public void setStreet(String street) {
 		this.street = street;
