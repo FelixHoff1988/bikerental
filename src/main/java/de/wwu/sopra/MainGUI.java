@@ -2,6 +2,7 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.entity.User;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -38,6 +39,7 @@ public class MainGUI extends VBox {
     public static synchronized MainGUI init(User user) {
         instance = new MainGUI(user);
         instance.getChildren().add(new NavigationGUI());
+        instance.getChildren().add(new Pane());
         return instance;
     }
 

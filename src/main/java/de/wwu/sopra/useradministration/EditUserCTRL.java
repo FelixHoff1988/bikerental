@@ -26,7 +26,7 @@ public class EditUserCTRL {
 	 * @param textFieldsRegistration
 	 * @return
 	 */
-	public User addUser(TextField[] textFieldsRegistration) {
+	public User addUser(TextField[] textFieldsRegistration, UserRole selectedRole) {
 		User registeredUser = new User(
 			textFieldsRegistration[0].getText(),
 			textFieldsRegistration[1].getText(),
@@ -38,7 +38,7 @@ public class EditUserCTRL {
 			textFieldsRegistration[6].getText(),
 			textFieldsRegistration[7].getText(),
 			PasswordHashing.hashPassword(textFieldsRegistration[9].getText()),
-			UserRole.CUSTOMER
+			selectedRole
 		);
 
 		DataProvider prov = DataProvider.getInstance();

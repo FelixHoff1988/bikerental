@@ -11,7 +11,9 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.PasswordHashing.PasswordHash;
 import de.wwu.sopra.entity.User;
+import de.wwu.sopra.entity.UserRole;
 import de.wwu.sopra.register.RegisterCTRL;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +22,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -101,6 +105,11 @@ public class EditUserGUI extends HBox {
         	return new ReadOnlyStringWrapper(data.getValue().getEmail());
         });
         
+        TableColumn<User, String> column10 = new TableColumn<>("Role");
+        column10.setCellValueFactory(data -> {
+        	return new ReadOnlyStringWrapper(data.getValue().getRole().toString());
+        });
+        
         tableView.getColumns().add(column1);
         tableView.getColumns().add(column2);
         tableView.getColumns().add(column3);
@@ -110,6 +119,7 @@ public class EditUserGUI extends HBox {
         tableView.getColumns().add(column7);
         tableView.getColumns().add(column8);
         tableView.getColumns().add(column9);
+        tableView.getColumns().add(column10);
         
         
         ObservableList<User> users = FXCollections.observableArrayList(ctrl.loadUsers());
@@ -187,10 +197,10 @@ public class EditUserGUI extends HBox {
 		var deleteButton = new Button("Löschen");
 		
 		innerBox.add(new Label(), 0, 10);
-		innerBox.add(submitButton, 5, 11);
-		innerBox.add(deleteButton, 4, 11);
-		innerBox.add(newButton, 1, 11);
-		innerBox.add(goBackButton, 0, 11);
+		innerBox.add(submitButton, 5, 12);
+		innerBox.add(deleteButton, 4, 12);
+		innerBox.add(newButton, 1, 12);
+		innerBox.add(goBackButton, 0, 12);
 		
 		Label successionLabel = new Label("Änderung erfolgreich");
 		successionLabel.setVisible(false);
@@ -198,14 +208,22 @@ public class EditUserGUI extends HBox {
 		
 		
 		var passwordRequirements = new Label(
-				"Paswörter stimmen überein.\r\n"
-				+ "Paswort beinhaltet:\r\n"
-				+ "- eine Nummer (0-9)\r\n"
+				"- eine Nummer (0-9)\r\n"
 				+ "- einen großen Buchstaben\r\n"
 				+ "- einen kleinen Buchstaben\r\n"
 				+ "- ein Sonderzeichen\r\n"
 				+ "- 6-18 Zeichen, ohne Leerzeichen");
 		innerBox.add(passwordRequirements, 5, 3);
+		
+		ComboBox<UserRole> comboBox = new ComboBox<UserRole>(); 
+
+        comboBox.getItems().add(UserRole.CUSTOMER);
+        comboBox.getItems().add(UserRole.MAINTAINER);
+        comboBox.getItems().add(UserRole.MANAGER);
+        comboBox.getItems().add(UserRole.EXECUTIVE);
+        comboBox.getItems().add(UserRole.ADMIN);
+        innerBox.add(new Label("Rolle: "), 4, 4);
+        innerBox.add(comboBox, 5, 4);
 		
 		newButton.setOnAction(event -> {
 			ArrayList<Boolean> list = new ArrayList<Boolean>();
@@ -220,12 +238,14 @@ public class EditUserGUI extends HBox {
 			list.add(ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
 			list.add(ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
 			list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", PasswordTextField));
+			list.add(comboBox.getValue() != null);
 			
 			if (areAllTrue(list))
 			{
 				TextField[] textFieldsRegistration = innerBox.getChildren().stream().filter(node -> node.getClass() == TextField.class || node.getClass() == PasswordField.class).toArray(TextField[]::new);
+				UserRole selectedRole = comboBox.getValue();
 				// change this function from add User to change User
-				User addedUser = ctrl.addUser(textFieldsRegistration);
+				User addedUser = ctrl.addUser(textFieldsRegistration, selectedRole);
 				if(addedUser != null)
 				{
 					users.add(addedUser);
@@ -262,6 +282,7 @@ public class EditUserGUI extends HBox {
 			if(!(emailTextField.getText().equals(selectedUser.getEmail()))) {
 				list.add(ctrl.getUserByEmail(emailTextField.getText()) == null);
 			}
+			list.add(comboBox.getValue() != null);
 			
 			
 			
@@ -277,6 +298,7 @@ public class EditUserGUI extends HBox {
 				selectedUser.setIban(IBANTextField.getText());
 				selectedUser.setBic(BICTextField.getText());
 				selectedUser.setEmail(emailTextField.getText());
+				selectedUser.setRole(comboBox.getValue());
 				
 				if(!PasswordTextField.getText().isBlank())
 				{
@@ -302,6 +324,7 @@ public class EditUserGUI extends HBox {
             	BICTextField.setText(newSelection.getBic());
             	emailTextField.setText(newSelection.getEmail());
             	PasswordTextField.setText("");
+            	comboBox.setValue(newSelection.getRole());
             }
         });
 		
