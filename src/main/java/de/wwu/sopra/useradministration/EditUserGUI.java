@@ -139,8 +139,6 @@ public class EditUserGUI extends HBox {
 		var spacer2 = new Pane();
 		innerBox.add(spacer2, 0, 3);
 		
-		
-		
 		var streetLabel = new Label("Straße: ");
 		var streetTextField = new TextField("");
 		innerBox.add(streetLabel, 0, 4);
@@ -198,39 +196,6 @@ public class EditUserGUI extends HBox {
 		successionLabel.setVisible(false);
 		innerBox.add(successionLabel, 0, 12);
 		
-		/*searchButton.setOnAction(event -> {
-			if (ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", searchTextField))
-			{
-				User foundUser = EditUserCTRL.findUserByEmail(searchTextField.getText());
-				if (foundUser != null)
-				{
-					firstNameTextField.setText(foundUser.getFirstName());
-					lastNameTextField.setText(foundUser.getLastName());
-					streetTextField.setText(foundUser.getStreet());
-					houseNumberTextField.setText(Integer.toString(foundUser.getHouseNumber()));
-					plzTextField.setText(Integer.toString(foundUser.getPostalCode()));
-					townTextField.setText(foundUser.getCity());
-					IBANTextField.setText(foundUser.getIban());
-					BICTextField.setText(foundUser.getBic());
-					emailTextField.setText(foundUser.getEmail());
-					
-			    }
-				else
-				{
-					var alert = new Alert(
-		                    Alert.AlertType.NONE,
-		                    "Die angegebene E-Mail wird bereits von einem anderen Account verwendet." +
-		                    "Falls, du dein Passwort vergessen hast, clicke auf den Button im Anmeldefenster."+
-		                    "Wähle sonst eine andere E-Mail-Adresse für die Registrierung aus.",
-		                    ButtonType.OK);
-		            alert.setHeaderText("Registrierung mit dieser E-Mail nicht möglich");
-		            alert.show();
-				}
-			
-			}
-		});
-		*/
-		
 		
 		var passwordRequirements = new Label(
 				"Paswörter stimmen überein.\r\n"
@@ -241,41 +206,6 @@ public class EditUserGUI extends HBox {
 				+ "- ein Sonderzeichen\r\n"
 				+ "- 6-18 Zeichen, ohne Leerzeichen");
 		innerBox.add(passwordRequirements, 5, 3);
-	
-/*
-		submitButton.setOnAction(event -> {
-			
-			ArrayList<Boolean> list = new ArrayList<Boolean>();
-			
-			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
-			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
-			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
-			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", houseNumberTextField));
-			list.add(ctrl.testTextField("-?\\d+\\.?\\d*", plzTextField));
-			list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", townTextField));
-			list.add(ctrl.testTextField("^DE[0-9]{20}$", IBANTextField));
-			list.add(ctrl.testTextField("([a-zA-Z]{4})([a-zA-Z]{2})(([2-9a-zA-Z]{1})([0-9a-np-zA-NP-Z]{1}))((([0-9a-wy-zA-WY-Z]{1})([0-9a-zA-Z]{2}))|([xX]{3})|)", BICTextField));
-			list.add(ctrl.testTextField("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", emailTextField));
-			list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", PasswordTextField));
-			list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$", VerPasswordTextField));
-			
-			Boolean passwordsEqual = (PasswordTextField.getText().equals(VerPasswordTextField.getText()));
-			if (!passwordsEqual)
-			{
-				VerPasswordTextField.setStyle("-fx-background-color: #FFA59D;");
-			}
-			
-			list.add(passwordsEqual);
-			
-			if (areAllTrue(list))
-			{
-				TextField[] textFieldsRegistration = innerBox.getChildren().stream().filter(node -> node.getClass() == TextField.class || node.getClass() == PasswordField.class).toArray(TextField[]::new);
-				// change this function from add User to change User
-				ctrl.registerUser(textFieldsRegistration);
-			}
-			
-		});
-*///
 		
 		newButton.setOnAction(event -> {
 			ArrayList<Boolean> list = new ArrayList<Boolean>();

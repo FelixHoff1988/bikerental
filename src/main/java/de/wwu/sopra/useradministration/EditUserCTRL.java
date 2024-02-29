@@ -14,10 +14,18 @@ import javafx.scene.control.TextField;
 
 public class EditUserCTRL {
 	
+	/**
+	 * Constructor
+	 */
 	public EditUserCTRL(){
 		
 	}
 		
+	/**
+	 * ads a user by entering on a text field
+	 * @param textFieldsRegistration
+	 * @return
+	 */
 	public User addUser(TextField[] textFieldsRegistration) {
 		User registeredUser = new User(
 			textFieldsRegistration[0].getText(),
@@ -73,6 +81,11 @@ public class EditUserCTRL {
 			}
 		}
 		
+		/** 
+		 * if user with email exists return, else return null
+		 * @param email
+		 * @return
+		 */
 		public static User findUserByEmail(String email)
 		{
 			DataProvider prov = DataProvider.getInstance();
@@ -80,11 +93,20 @@ public class EditUserCTRL {
 			return user;
 		}
 		
+		/**
+		 * loads a list of all users
+		 * @return
+		 */
 		public List<User> loadUsers()
 		{
 			return DataProvider.getInstance().getUsers();
 		}
 		
+		/**
+		 * gets user by email
+		 * @param email
+		 * @return
+		 */
 		public User getUserByEmail(String email)
 		{
 			return DataProvider.getInstance().getUser(email);
