@@ -64,7 +64,7 @@ public class User {
 	 * @param firstName    Vorname des Nutzers
 	 * @param lastName     Nachname des Nutzers
 	 * @param street      Adresse des Nutzers
-	 * @param housenNumber      Adresse des Nutzers
+	 * @param houseNumber      Adresse des Nutzers
 	 * @param postalCode      Adresse des Nutzers
 	 * @param city      Adresse des Nutzers
 	 * @param email        E-Mail-Adresse des Nutzers
