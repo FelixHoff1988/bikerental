@@ -32,7 +32,11 @@ public class ReserveBikeGUI extends StackPane {
 	/**
 	 * 
 	 */
-	private Label price;
+	private Label bikePrice;
+	/**
+	 * 
+	 */
+	private GridPane bikeInfo;
 	/**
 	 * 
 	 */
@@ -45,6 +49,10 @@ public class ReserveBikeGUI extends StackPane {
 	 * 
 	 */
 	private MapGUI map;
+	/**
+	 * 
+	 */
+	private Bike selectedBike;
 	
 	/**
 	 * 
@@ -69,10 +77,10 @@ public class ReserveBikeGUI extends StackPane {
 		VBox.setVgrow(map, Priority.ALWAYS);
 		
 		this.reserveBox = new HBox();
-		var bikeInfo = new GridPane();
+		this.bikeInfo = new GridPane();
 		this.bikeType = new Label("Fahrradtyp: ");
-		this.disclaimer = new Label(new String("Bitte wählen Sie ein Fahrrad aus.".getBytes(), StandardCharsets.UTF_8));
-		this.price = new Label("Preis: ");
+		this.disclaimer = new Label("Bitte wählen Sie ein Fahrrad aus.");
+		this.bikePrice = new Label("Preis: ");
 		this.reserveButton = new Button("Reservieren");
 		var spacer = new Pane();
 		var insetBox = new FlowPane();
@@ -90,10 +98,10 @@ public class ReserveBikeGUI extends StackPane {
 		
 		this.reserveButton.setStyle("-fx-font-size:22");
 		this.bikeType.setStyle("-fx-font-size:22");
-		this.price.setStyle("-fx-font-size:22");
+		this.bikePrice.setStyle("-fx-font-size:22");
 		this.disclaimer.setStyle("-fx-font-size:22");
 		
-		bikeInfo.setMinWidth(300);
+		this.bikeInfo.setMinWidth(300);
 		this.disclaimer.setMinWidth(300);
 		
 		HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -104,8 +112,8 @@ public class ReserveBikeGUI extends StackPane {
 		insetBox.setMaxSize(510, 70);
 		insetBox.setAlignment(Pos.BOTTOM_RIGHT);
 		
-		bikeInfo.addRow(0, bikeType);
-		bikeInfo.addRow(1, price);
+		this.bikeInfo.addRow(0, bikeType);
+		this.bikeInfo.addRow(1, bikePrice);
 		this.reserveBox.getChildren().addAll(disclaimer, spacer, reserveButton);
 		insetBox.getChildren().add(reserveBox);
 		this.getChildren().addAll(map, insetBox);
@@ -118,11 +126,27 @@ public class ReserveBikeGUI extends StackPane {
 	 * @param bike
 	 */
 	private void selectBike(Bike bike) {
-		String type = bike.getType().getModel();
-		int cent = bike.getType().getPrize();
+		this.selectedBike = bike;
+		
+		String type = this.selectedBike.getType().getModel();
+		
+		int cent = this.selectedBike.getType().getPrice();
 		int euro = cent/100;
 		cent %= 100;
+		String centString = String.valueOf(cent);
+		centString = "0" + centString;
+		if (centString.length() >= 2) {
+            centString = centString.substring(centString.length() - 2);
+        }
 		
-//		String price
+		String price = euro + "," + centString + "€";
+		
+		this.bikeType.setText("Fahrradtyp: " + type);
+		this.bikePrice.setText("Preis: " + price + "/h");
+		
+		this.reserveBox.getChildren().removeFirst();
+		this.reserveBox.getChildren().addFirst(this.bikeInfo);
+		
+		this.reserveButton.setDisable(false);
 	}
 }
