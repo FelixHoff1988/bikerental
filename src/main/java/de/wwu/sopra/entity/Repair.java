@@ -17,12 +17,12 @@ public class Repair extends Service {
 	 * Konstruktor für Repair, was von Service erbt
 	 * 
 	 * @param startDate Startdatum
-	 * @param comment   Möglichkeit einen Kommentar hinzufügen
+
 	 * @param statement Statement einer 
 	 * @param bike	    Betroffenes Rad
 	 */
-	public Repair(LocalDateTime startDate, String comment, String statement, Bike bike) {
-		super(startDate, comment, bike);
+	public Repair(LocalDateTime startDate, String statement, Bike bike) {
+		super(startDate, bike);
 		this.statement = statement;
 	}
 

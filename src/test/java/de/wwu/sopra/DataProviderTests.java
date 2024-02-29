@@ -40,7 +40,10 @@ public class DataProviderTests {
     private final User mockUser = new User(
             "Heinz",
             "Günther",
-            "Fress-Mich-Doch-Weg 15 76856 Maiwöldchen",
+            "Fress-Mich-Doch-Weg",
+            (int) 15,
+            (int) 76856,
+            "Maiwöldchen",
             userEmail,
             "DE87 3728 0000 1123 3947 12",
             "CIBILIDUSQUACK",
@@ -59,7 +62,6 @@ public class DataProviderTests {
     private final LocalDateTime serviceStartDate = LocalDateTime.of(2024, 2, 25, 9, 42);
     private final Service mockService = new Maintenance(
             serviceStartDate,
-            null,
             mockBike);
 
     /**

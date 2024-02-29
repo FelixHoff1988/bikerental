@@ -2,6 +2,7 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.entity.User;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -33,11 +34,14 @@ public class MainGUI extends VBox {
 
     /**
      * Erzeugte das haupt Layout der App
+     *
      * @param user User, welcher angemeldet ist.
+     * @return Neue Instanz des MainGUI
      */
     public static synchronized MainGUI init(User user) {
         instance = new MainGUI(user);
         instance.getChildren().add(new NavigationGUI());
+        instance.getChildren().add(new Pane());
         return instance;
     }
 

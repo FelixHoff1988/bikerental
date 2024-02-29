@@ -59,7 +59,7 @@ public abstract class BikeType {
      * Rufe den Preis ab
      * @return Preis dieses Fahrradtyps
      */
-    public int getPrize() {
+    public int getPrice() {
         return this.price;
     }
 
@@ -82,4 +82,10 @@ public abstract class BikeType {
         this.size = size;
         this.price = price;
     }
+    
+    /**
+     * Abstrakte Methode die zusätzlich Wichtige Daten über das Fahrrad als String zurückgibt.
+     * @return String mit wichtigen Informationen über das Rad
+     */
+    public abstract String getFeatureDescription();
 }

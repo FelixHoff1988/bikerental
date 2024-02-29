@@ -16,10 +16,19 @@ public class StandardType extends BikeType {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Rufe den FahrradTyp Standart als String auf
 	 */
 	@Override
 	public String getTypeString() {
 		return "Standart";
 	}
+=======
+     * Implementierung der Methode, ohne jegliche Berechnungen
+     * @return null weil ein StandartBike keine Features hat
+     */
+    public String getFeatureDescription() {
+        return null;
+    }
+>>>>>>> main
 }

@@ -1,6 +1,12 @@
 package de.wwu.sopra;
 
+<<<<<<< HEAD
 import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
+=======
+import de.wwu.sopra.register.RegisterGUI;
+import de.wwu.sopra.reportdefect.ReportGUI;
+import de.wwu.sopra.useradministration.EditUserGUI;
+>>>>>>> main
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -140,7 +146,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf die Accountübersicht
 	 */
 	private void account() {
-		// TODO MainGUI.getInstance().changeViewNode(new AccountGUI());
+		//MainGUI.getInstance().changeViewNode(new AccountGUI());
 		
 	}
 
@@ -156,8 +162,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf das Schaden melden Formular
 	 */
 	private void report() {
-		// TODO MainGUI.getInstance().changeViewNode(new ReportGUI());
-		
+		MainGUI.getInstance().changeViewNode(new ReportGUI());
 	}
 
 	/**
@@ -188,7 +193,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Benutzerliste
 	 */
 	private void users() {
-		// TODO MainGUI.getInstance().changeViewNode(new UserGUI());
+		MainGUI.getInstance().changeViewNode(new EditUserGUI());
 		
 	}
 

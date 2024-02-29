@@ -28,16 +28,15 @@ public class BikeStation {
 	/**
 	 * Konstruktor setzt die initialen Werte
 	 * 
-	 * @param name
-	 * @param location
-	 * @param capacity
+	 * @param name Name der Station
+	 * @param location Standort der Station
+	 * @param capacity Anzahl der Fahrräder, welche die Station halten kann
 	 */
 	public BikeStation(String name, Coordinate location, int capacity) {
 		this.name = name;
 		this.location = location;
 		this.capacity = capacity;
-		ArrayList<Bike> bikes = new ArrayList<Bike>();
-		this.bikes = bikes;
+        this.bikes = new ArrayList<>();
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class BikeStation {
 	/**
 	 * Setze den Namen
 	 * 
-	 * @param name
+	 * @param name Neuer Name der Station
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -70,7 +69,7 @@ public class BikeStation {
 	/**
 	 * Setze den Standort
 	 * 
-	 * @param location
+	 * @param location Neuer Standort der Station
 	 */
 	public void setLocation(Coordinate location) {
 		this.location = location;
@@ -88,7 +87,7 @@ public class BikeStation {
 	/**
 	 * Setze die Kapazität
 	 * 
-	 * @param capacity
+	 * @param capacity Neue Kapazität der Station
 	 */
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
@@ -106,7 +105,7 @@ public class BikeStation {
 	/**
 	 * Füge ein Fahrrad der Station zu
 	 * 
-	 * @param bike
+	 * @param bike Neues der Station zugeordnetes Fahrrad
 	 */
 	public void addBike(Bike bike) {
 		if (this.bikes.size() < this.capacity) {

@@ -4,6 +4,7 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.register.RegisterGUI;
+import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -52,6 +53,13 @@ public class LoginCTRL {
      */
     public void registerUser() {
         UserManagementGUI.getInstance().changeViewNode(new RegisterGUI());
+    }
+    
+    /**
+     * display edit User
+     */
+    public void editUser() {
+    	UserManagementGUI.getInstance().changeViewNode(new EditUserGUI());
     }
 
     /**
