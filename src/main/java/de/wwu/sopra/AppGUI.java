@@ -95,14 +95,10 @@ public class AppGUI extends StackPane {
                 + "-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);");
 
         messagePane.getChildren().add(messageLabel);
-        messageBox.setMaxHeight(messageBox.getMaxHeight() + messagePane.getHeight());
         messageBox.getChildren().add(messagePane);
 
         var pause = new PauseTransition(Duration.seconds(duration));
-        pause.setOnFinished(event -> {
-            messageBox.setMaxHeight(messageBox.getMaxHeight() - messagePane.getHeight());
-            messageBox.getChildren().remove(messagePane);
-        });
+        pause.setOnFinished(event -> messageBox.getChildren().remove(messagePane));
         pause.play();
     }
 }
