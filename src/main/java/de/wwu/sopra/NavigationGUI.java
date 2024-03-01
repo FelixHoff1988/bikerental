@@ -4,6 +4,7 @@ package de.wwu.sopra;
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
+import geofencingareaadministration.EditGeofencingAreaGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -178,7 +179,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Geofencing-Area Liste
 	 */
 	private void geofencingAreas() {
-		// TODO AppContext.getInstance().changeViewNode(new GeofencingGUI());
+		AppContext.getInstance().changeViewNode(new EditGeofencingAreaGUI());
 		
 	}
 
