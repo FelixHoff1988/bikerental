@@ -3,6 +3,8 @@ package de.wwu.sopra.bookingProcess;
 import com.sothawo.mapjfx.Marker.Provided;
 
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.bookingProcess.bookBike.BookBikeGUI;
+import de.wwu.sopra.bookingProcess.endBooking.EndBookingGUI;
 import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeGUI;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
@@ -30,6 +32,14 @@ public class BookingProcessGUI extends StackPane {
      * Das Fenster zum reservieren eines Rads
      */
     private ReserveBikeGUI reserveBikeGUI;
+    /**
+     * Fenster zum bestätigen der Reservierung
+     */
+    private BookBikeGUI bookBikeGUI;
+    /**
+     * Fenster zum Beenden einer Fahrt
+     */
+    private EndBookingGUI endBookingGUI;
 
     /**
      * Standartkonstruktor
@@ -60,7 +70,7 @@ public class BookingProcessGUI extends StackPane {
         HBox.setHgrow(map, Priority.ALWAYS);
         VBox.setVgrow(map, Priority.ALWAYS);
 
-        this.getChildren().addAll(map, this.reserveBikeGUI);
+       this.getChildren().addAll(map, this.reserveBikeGUI);
 
         var reader = DataProvider.getInstance();
         var availableBikes = reader.getBikes(bike -> (bike.getAvailability() == Availability.AVAILABLE));
