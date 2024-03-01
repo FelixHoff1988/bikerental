@@ -81,11 +81,13 @@ public class EditGeofencingAreaGUI extends HBox{
         
         VBox vbox = new VBox(innerBox, tableView);
         vbox.setFillWidth(true);
-        StackPane stack = new StackPane();
-        this.getChildren().add(stack);
-        stack.getChildren().addAll(vbox);
+        
+        MapGUI map = new MapGUI();
+        
+        
+        HBox hbox = new HBox(map, vbox);
+        this.getChildren().add(hbox);
         this.setAlignment(Pos.CENTER);
-        VBox.setVgrow(this, Priority.ALWAYS);
 
         newButton.setOnAction(event -> {
             

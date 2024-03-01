@@ -17,23 +17,6 @@ public class EditGeofencingAreaCTRL {
     public EditGeofencingAreaCTRL() {
 
     }
-    
-    /**
-     * fügt runtime liste aller BikeStations eine neue BikeStation hinzu
-     * @param textFieldsBikeStation EingabeFelder der BikeStation
-     * @return BikeStation welche hinzugefügt wurde
-     */
-    public BikeStation addBikeStation(TextField[] textFieldsBikeStation) {
-        BikeStation addedBikeStation = new BikeStation(
-                textFieldsBikeStation[0].getText(),
-                new Coordinate((double) 0, (double) 0),
-                Integer.valueOf(textFieldsBikeStation[1].getText())
-        );
-
-        DataProvider prov = DataProvider.getInstance();
-        prov.addStation(addedBikeStation);
-        return addedBikeStation;
-    }
 
     /**
      * lädt die liste aller GeofencingAreas
