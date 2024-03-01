@@ -31,9 +31,14 @@ public class ReserveBikeCTRL {
 	 * @param bike Fahrrad welches reserviert werden soll
 	 */
 	public void reserveBike(Bike bike) {
+	    
 	    LocalDateTime now = LocalDateTime.now();
 	    var user = AppContext.getInstance().getLoggedInUser();
+	    
 		var reservation = new Reservation(now, user, bike);
+		
+		var data = DataProvider.getInstance();
+		data.addReservation(reservation);
 		
 		bike.setAvailability(Availability.RESERVED);
 	}

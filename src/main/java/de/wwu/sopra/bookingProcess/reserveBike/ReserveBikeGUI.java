@@ -1,6 +1,8 @@
 package de.wwu.sopra.bookingProcess.reserveBike;
 
 import de.wwu.sopra.entity.Bike;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -48,6 +50,10 @@ public class ReserveBikeGUI extends FlowPane {
      * Knopf zum reservieren
      */
     private Button reserveButton;
+    /**
+     * Das Momentan ausgewählte Rad
+     */
+    private Bike currentBike;
 
     /**
      * Standartkonstruktor initialisiert das Overlay
@@ -57,12 +63,12 @@ public class ReserveBikeGUI extends FlowPane {
 
         build();
         
-//        this.reserveButton.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                reserve();
-//            }
-//        });
+        this.reserveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                makeReservation();
+            }
+        });
     }
 
     /**
@@ -116,6 +122,8 @@ public class ReserveBikeGUI extends FlowPane {
      */
     public void update(Bike newBike) {
 
+        this.currentBike = newBike;
+        
         if (null == newBike) {
             this.reserveBox.getChildren().removeFirst();
             this.reserveBox.getChildren().addFirst(this.disclaimer);
@@ -152,5 +160,12 @@ public class ReserveBikeGUI extends FlowPane {
 
             this.reserveButton.setDisable(false);
         }
+    }
+    
+    /**
+     * Reserviere das aktuelle Bike
+     */
+    public void makeReservation() {
+        ctrl.reserveBike(this.currentBike);
     }
 }
