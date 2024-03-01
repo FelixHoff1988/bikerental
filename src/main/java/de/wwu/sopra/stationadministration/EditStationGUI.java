@@ -2,10 +2,13 @@ package de.wwu.sopra.stationadministration;
 
 import java.util.ArrayList;
 
+import com.sothawo.mapjfx.Coordinate;
+
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeStation;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
+import de.wwu.sopra.map.MapGUI;
 import de.wwu.sopra.register.RegisterCTRL;
 import de.wwu.sopra.useradministration.EditUserCTRL;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -24,6 +27,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -31,6 +35,8 @@ import javafx.scene.layout.VBox;
  */
 public class EditStationGUI extends HBox{
     private EditStationCTRL ctrl = new EditStationCTRL();
+    Coordinate c = new Coordinate((double) 0, (double) 0);
+    String s = new String();
 
     /**
      * Konstruktor.
@@ -89,15 +95,54 @@ public class EditStationGUI extends HBox{
         var capacityTextField = new TextField("");
         innerBox.add(capacityLabel, 0, 1);
         innerBox.add(capacityTextField, 1, 1);
+        
+        var standortLabel = new Label("Setze Standort: ");
+        var openMap = new Button("Öffne Karte");
+        innerBox.add(standortLabel, 0, 2);
+        innerBox.add(openMap, 1, 2);
+        
 
         // Buttons zum Navigieren
         var submitButton = new Button("User Speichern");
         var newButton = new Button("Neu");
         var deleteButton = new Button("Löschen");
         
-        innerBox.add(submitButton, 0, 2);
-        innerBox.add(deleteButton, 1, 2);
-        innerBox.add(newButton, 2, 2);
+        innerBox.add(submitButton, 0, 3);
+        innerBox.add(deleteButton, 1, 3);
+        innerBox.add(newButton, 2, 3);
+        
+        s = String.valueOf(c.getLatitude())+" | "+ 
+                String.valueOf(c.getLongitude());
+        var mapLabel = new Label("Koordinaten " + s);
+        mapLabel.setMinWidth(400);
+        innerBox.add(mapLabel, 2, 2);
+        
+        VBox vbox = new VBox(innerBox, tableView);
+        vbox.setFillWidth(true);
+        StackPane stack = new StackPane();
+        this.getChildren().add(stack);
+        stack.getChildren().addAll(vbox);
+        this.setAlignment(Pos.CENTER);
+        VBox.setVgrow(this, Priority.ALWAYS);
+        
+        openMap.setOnAction(event -> {
+            MapGUI map = new MapGUI();
+            map.setMinHeight(600);
+            Button closeButton = new Button("Eingabe beenden");
+            VBox box = new VBox();
+            map.startMarkerPlacement(c);
+            box.getChildren().addAll(map, closeButton);
+            stack.getChildren().add(box);
+            
+            closeButton.setOnAction(event2 -> {
+                stack.getChildren().remove(1);
+                c = map.finalizeMarkerPlacement();
+                s = String.valueOf(c.getLatitude())+" | "+ 
+                        String.valueOf(c.getLongitude());
+                mapLabel.setText(s);
+            });
+            
+        });
 
         newButton.setOnAction(event -> {
             ArrayList<Boolean> list = new ArrayList<Boolean>();
@@ -110,6 +155,7 @@ public class EditStationGUI extends HBox{
                         .filter(node -> node.getClass() == TextField.class)
                         .toArray(TextField[]::new);
                 BikeStation addedBikeStation = ctrl.addBikeStation(textFieldsBikeStation);
+                addedBikeStation.setLocation(c);
                 bikeStations.add(addedBikeStation);
                 tableView.setItems(bikeStations);
             }
@@ -134,7 +180,7 @@ public class EditStationGUI extends HBox{
                 int index = bikeStations.indexOf(selectedBikeStation);
                 selectedBikeStation.setCapacity(Integer.valueOf(capacityTextField.getText()));
                 selectedBikeStation.setName(nameTextField.getText());
-
+                selectedBikeStation.setLocation(c);
                 bikeStations.set(index, selectedBikeStation);
                 tableView.setItems(bikeStations);
             }
@@ -144,16 +190,12 @@ public class EditStationGUI extends HBox{
             if (newSelection != null) {
                 nameTextField.setText(newSelection.getName());
                 capacityTextField.setText(String.valueOf(newSelection.getCapacity()));
+                c = newSelection.getLocation();
+                s = String.valueOf(c.getLatitude())+" | "+ 
+                        String.valueOf(c.getLongitude());
+                mapLabel.setText(s);
             }
         });
-
-        VBox vbox = new VBox(innerBox, tableView);
-        vbox.setFillWidth(true);
-
-        this.getChildren().addAll(vbox);
-        this.setAlignment(Pos.CENTER);
-        VBox.setVgrow(this, Priority.ALWAYS);
-
     }
 
     /**

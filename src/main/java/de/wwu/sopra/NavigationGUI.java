@@ -1,10 +1,8 @@
 package de.wwu.sopra;
 
-<<<<<<< HEAD
+
 import de.wwu.sopra.stationadministration.EditStationGUI;
-=======
 import de.wwu.sopra.reportdefect.ReportGUI;
->>>>>>> main
 import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
