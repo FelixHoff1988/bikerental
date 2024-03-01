@@ -60,6 +60,14 @@ jacocoTestReport {
         csv.required = true
     }
     dependsOn test
+        afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                "de/wwu/sopra/application/App.class",
+                "de/wwu/sopra/**/*GUI.class"
+            ])
+        }))
+    }
 }
 
 

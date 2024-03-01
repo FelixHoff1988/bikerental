@@ -1,6 +1,8 @@
 package de.wwu.sopra;
 
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
+
+import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
@@ -180,7 +182,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Stationsliste
 	 */
 	private void stations() {
-		// TODO AppContext.getInstance().changeViewNode(new StationGUI());
+		AppContext.getInstance().changeViewNode(new EditStationGUI());
 		
 	}
 
