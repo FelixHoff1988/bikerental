@@ -80,8 +80,8 @@ public class AppGUI extends StackPane {
         var messageLabel = new Label(message);
 
         messageLabel.setWrapText(true);
-        messageLabel.setMinWidth(300);
-        messageLabel.setMaxWidth(300);
+        messageLabel.setMinWidth(280);
+        messageLabel.setMaxWidth(280);
 
         messagePane.setMinWidth(300);
         messagePane.setMaxWidth(300);
