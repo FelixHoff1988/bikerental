@@ -3,6 +3,8 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
 import de.wwu.sopra.register.RegisterGUI;
+import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
+import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
@@ -17,7 +19,6 @@ import javafx.scene.layout.Priority;
  * Navigationsleiste der GUI
  */
 public class NavigationGUI extends HBox {
-	
 	/**
 	 * Konstruktor erstellt die Navigationsleiste
 	 */
@@ -29,8 +30,7 @@ public class NavigationGUI extends HBox {
 	 * Erstellt die notwendigen Schaltflächen und Anzeigen und fügt sie zu einer Leiste zusammen
 	 */
 	public void build() {
-		
-		var user = MainGUI.getInstance().getLoggedInUser();
+		var user = AppContext.getInstance().getLoggedInUser();
 		var profileData = new Label();
 		String nameAndRole = user.getFirstName() + " " + user.getLastName() + ": ";
 		switch(user.getRole()) {
@@ -51,7 +51,7 @@ public class NavigationGUI extends HBox {
 			}
 		}
 		profileData.setText(nameAndRole);
-		
+
 		var burgerMenu = new ComboBox<String>();
 		burgerMenu.getItems().addAll("Buchen", "Mein Konto", "Nutzungshistorie", "Schaden melden");
 		switch(user.getRole()) {
@@ -59,7 +59,7 @@ public class NavigationGUI extends HBox {
 				burgerMenu.getItems();
 			}
 			case ADMIN -> {
-				burgerMenu.getItems().addAll("Fahrräder", "Stationen", "Geofencing-Areas", "Benutzer");
+				burgerMenu.getItems().addAll("Fahrräder", "FahrradTypen", "Stationen", "Geofencing-Areas", "Benutzer");
 			}
 			case EXECUTIVE -> {
 				burgerMenu.getItems().addAll("Bilanzen");
@@ -85,10 +85,10 @@ public class NavigationGUI extends HBox {
 		
 		burgerMenuEvents(burgerMenu);
 	}
-	
+
 	/**
 	 * Behandelt die Aufrufe die passieren sollen, wenn ein Item in dem Burger Menü ausgewählt wird
-	 * @param burgerMenu nimmt das erstellte Burger Menü entgegen
+	 * @param burgerMenu nimmt das erstellte Burger-Menü entgegen
 	 */
 	public void burgerMenuEvents(ComboBox<String> burgerMenu) {
 		burgerMenu.setOnAction(event -> {
@@ -107,6 +107,9 @@ public class NavigationGUI extends HBox {
 				}
 				case "Fahrräder" -> {
 					bikes();
+				}
+				case "FahrradTypen" -> {
+				    biketypes();
 				}
 				case "Stationen" -> {
 					stations();
@@ -137,45 +140,50 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf das Startfenster/Buchungsfenster
 	 */
 	private void booking() {
-		// TODO MainGUI.getInstance().changeViewNode(new CustomerGUI());
+		AppContext.getInstance().changeViewNode(new Pane());
 	}
 
 	/**
 	 * Wechsel auf die Accountübersicht
 	 */
 	private void account() {
-		//MainGUI.getInstance().changeViewNode(new AccountGUI());
-		
+		// TODO AppContext.getInstance().changeViewNode(new AccountGUI());
 	}
 
 	/**
 	 * Wechsel auf die Nutzungshistorie
 	 */
 	private void useHistory() {
-		// TODO MainGUI.getInstance().changeViewNode(new HistoryGUI());
-		
+		// TODO AppContext.getInstance().changeViewNode(new HistoryGUI());
 	}
 
 	/**
 	 * Wechsel auf das Schaden melden Formular
 	 */
 	private void report() {
-		MainGUI.getInstance().changeViewNode(new ReportGUI());
+		AppContext.getInstance().changeViewNode(new ReportGUI());
 	}
 
 	/**
 	 * Wechseln auf die Fahrradliste
 	 */
 	private void bikes() {
-		MainGUI.getInstance().changeViewNode(new EditBikeGUI());
-		
+	    AppContext.getInstance().changeViewNode(new EditBikeGUI());
 	}
 
+	/**
+     * Wechseln auf die Fahrradliste
+     */
+    private void biketypes() {
+        AppContext.getInstance().changeViewNode(new EditBikeTypeGUI());
+        
+    }
+    
 	/**
 	 * Wechseln auf die Stationsliste
 	 */
 	private void stations() {
-		// TODO MainGUI.getInstance().changeViewNode(new StationGUI());
+		AppContext.getInstance().changeViewNode(new EditStationGUI());
 		
 	}
 
@@ -183,7 +191,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Geofencing-Area Liste
 	 */
 	private void geofencingAreas() {
-		// TODO MainGUI.getInstance().changeViewNode(new GeofencingGUI());
+		// TODO AppContext.getInstance().changeViewNode(new GeofencingGUI());
 		
 	}
 
@@ -191,38 +199,34 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Benutzerliste
 	 */
 	private void users() {
-		MainGUI.getInstance().changeViewNode(new EditUserGUI());
-		
+		AppContext.getInstance().changeViewNode(new EditUserGUI());
 	}
 
 	/**
 	 * Wechseln auf die Unternehmensbilanz
 	 */
 	private void statistics() {
-		// TODO MainGUI.getInstance().changeViewNode(new StatisticGUI());
-		
+		// TODO AppContext.getInstance().changeViewNode(new StatisticGUI());
 	}
 
 	/**
 	 * Wechseln auf die Wartungs und Schadensliste
 	 */
 	private void service() {
-		// TODO MainGUI.getInstance().changeViewNode(new ServiceGUI());
-		
+		// TODO AppContext.getInstance().changeViewNode(new ServiceGUI());
 	}
 
 	/**
 	 * Wechseln auf die Umverteilungsansicht
 	 */
 	private void bikeManagement() {
-		// TODO MainGUI.getInstance().changeViewNode(new ManagementGUI());
-		
+		// TODO AppContext.getInstance().changeViewNode(new ManagementGUI());
 	}
 
 	/**
 	 * Benutzer Abmelden und wechsel auf Anmeldefenster
 	 */
 	private void logOut() {
-		MainGUI.getInstance().logout();
+		AppContext.getInstance().logout();
 	}
 }

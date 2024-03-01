@@ -16,12 +16,6 @@ public abstract class BikeType {
      * Preis des Fahrrads (in cent)
      */
     protected int price;
-
-    /**
-     * Rufe den Typ als String ab
-     * @return FahrradTyp als String
-     */
-    abstract public String getTypeString();
     
     /**
      * Rufe den Modellnamen ab
@@ -83,6 +77,13 @@ public abstract class BikeType {
         this.price = price;
     }
     
+    /**
+     * Rufe den Typ als String ab
+     * @return FahrradTyp als String
+     */
+    abstract public String getTypeString();
+
+
     /**
      * Abstrakte Methode die zusätzlich Wichtige Daten über das Fahrrad als String zurückgibt.
      * @return String mit wichtigen Informationen über das Rad

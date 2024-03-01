@@ -1,12 +1,9 @@
 package de.wwu.sopra.login;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
-import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.register.RegisterGUI;
-import de.wwu.sopra.useradministration.EditUserGUI;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 /**
  * Steuerungsklasse für den User-Login
@@ -36,15 +33,13 @@ public class LoginCTRL {
         }
 
         if (!validData) {
-            var alert = new Alert(
-                    Alert.AlertType.NONE,
-                    "Deine angegebenen Daten scheinen nicht korrekt zu sein. Überprüfe bitte E-Mail und Passwort. " +
-                    "Solltest du noch keine Account besitzen, kannst du auf 'Registrieren' klicken.",
-                    ButtonType.OK);
-            alert.setHeaderText("Anmeldung nicht möglich");
-            alert.show();
+            AppContext.getInstance().showMessage(
+                    "Deine angegebenen Daten scheinen nicht korrekt zu sein. Überprüfe bitte E-Mail und Passwort. "
+                            + "Solltest du noch keine Account besitzen, kannst du auf 'Registrieren' klicken.",
+                    5,
+                    "#FFCCDD");
         } else {
-            UserManagementGUI.getInstance().login(user);
+            AppContext.getInstance().login(user);
         }
     }
 
@@ -52,31 +47,17 @@ public class LoginCTRL {
      * Handelt den Klick auf den "Registrieren"-Text
      */
     public void registerUser() {
-        UserManagementGUI.getInstance().changeViewNode(new RegisterGUI());
-    }
-    
-    /**
-     * display edit User
-     */
-    public void editUser() {
-    	UserManagementGUI.getInstance().changeViewNode(new EditUserGUI());
+        AppContext.getInstance().changeViewNode(new RegisterGUI());
     }
 
     /**
      * Handelt den Klick auf den "Passwort vergessen"-Text
      */
     public void forgotPassword() {
-
-    	var alert = new Alert(
-                Alert.AlertType.NONE,
+        AppContext.getInstance().showMessage(
                 "Falls Sie Ihr Passwort vergessen haben, bitte wenden Sie sich an den Kundenservice."
-                + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
-                ButtonType.OK);
-        alert.setHeaderText("Passwort Zurücksetzen");
-        alert.setX(0);
-        alert.setY(0);
-        alert.show();
-        
-       
+                        + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
+                5,
+                "#FFCCDD");
     }
 }

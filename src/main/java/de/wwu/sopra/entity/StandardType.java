@@ -29,4 +29,5 @@ public class StandardType extends BikeType {
     public String getFeatureDescription() {
         return null;
     }
+    
 }

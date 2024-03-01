@@ -3,8 +3,8 @@ package de.wwu.sopra.bikeadministration.editbike;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
-import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeType;
@@ -47,7 +47,7 @@ public class EditBikeCTRL {
 			DataProvider prov = DataProvider.getInstance();
 			
 			if(prov.addBike(newBike)) {
-				UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
+				AppContext.getInstance().changeViewNode(new LoginGUI());
 			}
 				
 		}
@@ -112,7 +112,7 @@ public class EditBikeCTRL {
 	}
 	
 	public void backButtonAction() {
-		UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
+		AppContext.getInstance().changeViewNode(new LoginGUI());
 	}
 	
 	public List<String> loadBikeTypesString(){

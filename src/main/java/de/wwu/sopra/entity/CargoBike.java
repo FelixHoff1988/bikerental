@@ -34,7 +34,7 @@ public class CargoBike extends BikeType {
      * Setze die Ladekapazität des Fahrrads
      * @param capacity Neue Ladekapazität des Fahrrads (in kg)
      */
-    public void setChapacity(int capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
     
@@ -56,4 +56,5 @@ public class CargoBike extends BikeType {
         description += " kg";
         return description;
     }
+
 }

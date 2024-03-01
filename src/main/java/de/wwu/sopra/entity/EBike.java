@@ -56,4 +56,5 @@ public class EBike extends BikeType {
         description += "%";
         return description;
     }
+
 }
