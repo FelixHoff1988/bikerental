@@ -3,46 +3,36 @@ package de.wwu.sopra.bookingProcess;
 import com.sothawo.mapjfx.Marker.Provided;
 
 import de.wwu.sopra.DataProvider;
-import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeCTRL;
 import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeGUI;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.map.MapGUI;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
- * 
+ * GUI in der der komplette Fahrradleihvorgang stattfinden soll
  */
 public class BookingProcessGUI extends StackPane {
 
     /**
-     * 
+     * Die Karte
      */
     private MapGUI map;
     /**
-     * 
+     * Das Momentan ausgewählte Rad
      */
     private Bike selectedBike;
     /**
-     * 
+     * Das Fenster zum reservieren eines Rads
      */
     private ReserveBikeGUI reserveBikeGUI;
 
     /**
-     * 
+     * Standartkonstruktor
      */
     public BookingProcessGUI() {
         
@@ -58,7 +48,7 @@ public class BookingProcessGUI extends StackPane {
     }
 
     /**
-     * 
+     * Baut das Overlay zusammen
      */
     public void build() {
 
@@ -80,7 +70,8 @@ public class BookingProcessGUI extends StackPane {
     }
     
     /**
-     * 
+     * Updated, welches Fahrrad momentan angewählt ist
+     * @param bike neues Rad
      */
     public void selectBike(Bike bike) {
         if (this.selectedBike == bike) {

@@ -10,7 +10,7 @@ import de.wwu.sopra.entity.Reservation;
 import de.wwu.sopra.entity.Availability;
 
 /**
- * 
+ * Klasse die das Reservieren von Fahrrädern managed
  */
 public class ReserveBikeCTRL {
 	
@@ -20,26 +20,15 @@ public class ReserveBikeCTRL {
 	private Bike currentBike;
 	
 	/**
-	 * Konstruktor
+	 * Standartkonstruktor
 	 */
 	public ReserveBikeCTRL() {
 		
 	}
 	
 	/**
-	 * @return
-	 */
-	public List<Bike> availableBikes() {
-		
-		var reader = DataProvider.getInstance();
-		
-		var availableBikes = reader.getBikes(bike -> (bike.getAvailability() == Availability.AVAILABLE));
-		
-		return availableBikes;
-	}
-	
-	/**
-	 * 
+	 * Methode die ein Fahrrad reserviert und eine Reservierung erstellt
+	 * @param bike Fahrrad welches reserviert werden soll
 	 */
 	public void reserveBike(Bike bike) {
 	    LocalDateTime now = LocalDateTime.now();

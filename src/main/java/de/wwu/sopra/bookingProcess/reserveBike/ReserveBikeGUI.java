@@ -1,12 +1,6 @@
 package de.wwu.sopra.bookingProcess.reserveBike;
 
-import com.sothawo.mapjfx.Marker.Provided;
-
-import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeCTRL;
 import de.wwu.sopra.entity.Bike;
-import de.wwu.sopra.map.MapGUI;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,49 +10,47 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 /**
- * 
+ * Grenzklasse der Reservierung eines Fahhrads
  */
 public class ReserveBikeGUI extends FlowPane {
 
     /**
-     * 
+     * Speichert die Kontrollklasse ab
      */
     private ReserveBikeCTRL ctrl;
     /**
-     * 
+     * Die äußerste Box
      */
     private HBox reserveBox;
     /**
-     * 
+     * Der Fahrradname
      */
     private Label bikeType;
     /**
-     * 
+     * Preis
      */
     private Label bikePrice;
     /**
-     * 
+     * Zusatzinformationen
      */
     private Label bikeFeature;
     /**
-     * 
+     * Schatelt die Angezeigten Informationen
      */
     private GridPane bikeInfo;
     /**
-     * 
+     * Wenn kein Rad angewählt ist
      */
     private Label disclaimer;
     /**
-     * 
+     * Knopf zum reservieren
      */
     private Button reserveButton;
 
     /**
-     * 
+     * Standartkonstruktor initialisiert das Overlay
      */
     public ReserveBikeGUI() {
         this.ctrl = new ReserveBikeCTRL();
@@ -74,7 +66,7 @@ public class ReserveBikeGUI extends FlowPane {
     }
 
     /**
-     * 
+     * Baut das Anzeigefeld zusammen
      */
     public void build() {
 
@@ -119,8 +111,8 @@ public class ReserveBikeGUI extends FlowPane {
     }
 
     /**
-     * @param newBike
-     * @param oldBike
+     * Updated die übersicht auf ein neues Rad
+     * @param newBike neues Fahrrad welches Angezeigt werden soll
      */
     public void update(Bike newBike) {
 
