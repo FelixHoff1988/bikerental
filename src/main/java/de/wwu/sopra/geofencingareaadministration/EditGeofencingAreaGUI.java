@@ -1,4 +1,4 @@
-package geofencingareaadministration;
+package de.wwu.sopra.geofencingareaadministration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,20 +47,6 @@ public class EditGeofencingAreaGUI extends HBox{
      * Initialisiert das GUI-Layout für die Benutzer-Editierung.
      */
     public void init() {
-        
-        ObservableList<GeofencingArea> geofencingAreas = FXCollections.observableArrayList(ctrl.loadGeofencingAreas());
-
-        TableView<GeofencingArea> tableView = new TableView<GeofencingArea>();
-
-        TableColumn<GeofencingArea, String> column1 = new TableColumn<>("Index");
-        column1.setCellValueFactory(data -> {
-            return new ReadOnlyStringWrapper(String.valueOf(geofencingAreas.indexOf(data)));
-        });
-
-
-        tableView.getColumns().add(column1);
-
-        tableView.setItems(geofencingAreas);
 
         var innerBox = new GridPane();
         innerBox.setHgap(30);
@@ -68,40 +54,31 @@ public class EditGeofencingAreaGUI extends HBox{
         innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
         
+        innerBox.setMinWidth(900);
 
         // Buttons zum Navigieren
-        var submitButton = new Button("User Speichern");
-        var newButton = new Button("Neu");
+        var startDesign = new Button("Erstellen starten");
+        var endDesign = new Button("Erstellen beenden");
         var deleteButton = new Button("Löschen");
-        
-        innerBox.add(submitButton, 0, 0);
-        innerBox.add(deleteButton, 1, 0);
-        innerBox.add(newButton, 2, 0);
-        
-        
-        VBox vbox = new VBox(innerBox, tableView);
-        vbox.setFillWidth(true);
+       
+        innerBox.add(deleteButton, 0, 0);
+        innerBox.add(startDesign, 1, 0);
+        innerBox.add(endDesign, 2, 0);
         
         MapGUI map = new MapGUI();
+        map.setMinHeight(600);
+        ctrl.initializeAreas(map);
         
+        startDesign.setOnAction(event -> {
+            map.drawArea();
+        });
         
-        HBox hbox = new HBox(map, vbox);
-        this.getChildren().add(hbox);
+        endDesign.setOnAction(event -> {
+            map.finalizeArea();
+        });
+        
+        VBox vbox = new VBox(map, innerBox);
+        this.getChildren().add(vbox);
         this.setAlignment(Pos.CENTER);
-
-        newButton.setOnAction(event -> {
-            
-        });
-
-        deleteButton.setOnAction(event -> {
-            GeofencingArea selectedArea = tableView.getSelectionModel().getSelectedItem();
-            geofencingAreas.remove(selectedArea);
-            ctrl.removeGeofencingArea(selectedArea);
-            tableView.setItems(geofencingAreas);
-        });
-
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-           
-        });
     }
 }

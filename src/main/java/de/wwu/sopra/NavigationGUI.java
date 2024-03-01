@@ -2,9 +2,9 @@ package de.wwu.sopra;
 
 
 import de.wwu.sopra.stationadministration.EditStationGUI;
+import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
-import geofencingareaadministration.EditGeofencingAreaGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
