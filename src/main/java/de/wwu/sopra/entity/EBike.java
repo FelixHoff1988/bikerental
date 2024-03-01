@@ -37,4 +37,15 @@ public class EBike extends BikeType {
     public void setCharge(int charge) {
         this.charge = charge;
     }
+    
+    /**
+     * Gebe aktuellen Ladestand eines EBikes als String aus
+     * @return String mit Ladestand
+     */
+    public String getFeatureDescription() {
+        String description = "Ladestand: ";
+        description += String.valueOf(this.charge);
+        description += "%";
+        return description;
+    }
 }

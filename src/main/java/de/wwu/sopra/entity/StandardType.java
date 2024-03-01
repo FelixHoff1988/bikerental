@@ -14,4 +14,12 @@ public class StandardType extends BikeType {
 	public StandardType(String model, int size, int price) {
 		super(model, size, price);
 	}
+	
+	/**
+     * Implementierung der Methode, ohne jegliche Berechnungen
+     * @return null weil ein StandartBike keine Features hat
+     */
+    public String getFeatureDescription() {
+        return null;
+    }
 }

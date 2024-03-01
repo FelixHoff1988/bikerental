@@ -2,6 +2,7 @@ package de.wwu.sopra.register;
 
 
 
+import de.wwu.sopra.AppContext;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,9 +17,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.regex.*;
-
-import de.wwu.sopra.UserManagementGUI;
 import de.wwu.sopra.login.LoginGUI;
 
 
@@ -163,9 +161,7 @@ public class RegisterGUI extends HBox {
 			
 		});
 		
-		goBackButton.setOnAction(event -> {
-	        UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
-		});
+		goBackButton.setOnAction(event -> AppContext.getInstance().changeViewNode(new LoginGUI()));
 		
 		this.getChildren().addAll(innerBox);
 		this.setAlignment(Pos.CENTER);

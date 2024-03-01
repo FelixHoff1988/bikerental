@@ -14,7 +14,7 @@ public class LoginGUI extends HBox {
     /**
      * Login Steuerungsklasse
      */
-    private LoginCTRL controller = new LoginCTRL();
+    private final LoginCTRL controller = new LoginCTRL();
 
     /**
      * Standardkonstruktor: Initialisiert das Basislayout
@@ -56,7 +56,6 @@ public class LoginGUI extends HBox {
 
         var passwordLink = new Hyperlink("Passwort vergessen");
         passwordLink.setOnAction(event -> controller.forgotPassword());
-
 
         controls.getChildren().addAll(anmeldeButton, spacer, registerLink, passwordLink);
         innerBox.add(emailInput, 0, 0);

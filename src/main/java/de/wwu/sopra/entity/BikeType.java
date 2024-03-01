@@ -76,4 +76,10 @@ public abstract class BikeType {
         this.size = size;
         this.price = price;
     }
+    
+    /**
+     * Abstrakte Methode die zusätzlich Wichtige Daten über das Fahrrad als String zurückgibt.
+     * @return String mit wichtigen Informationen über das Rad
+     */
+    public abstract String getFeatureDescription();
 }
