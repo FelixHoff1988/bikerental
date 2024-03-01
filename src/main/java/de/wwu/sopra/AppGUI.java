@@ -74,8 +74,9 @@ public class AppGUI extends StackPane {
      *
      * @param message Nachrichtentext
      * @param duration Anzeigedauer in Sekunden
+     * @param color Hintergrundfarbe
      */
-    public void showMessage(String message, int duration) {
+    public void showMessage(String message, int duration, String color) {
         var messagePane = new FlowPane();
         var messageLabel = new Label(message);
 
@@ -87,7 +88,7 @@ public class AppGUI extends StackPane {
         messagePane.setMaxWidth(300);
         messagePane.setAlignment(Pos.CENTER_LEFT);
         messagePane.setPadding(new Insets(10));
-        messagePane.setStyle("-fx-background-color: #e6e6e6;"
+        messagePane.setStyle("-fx-background-color: " + color + ";"
                 + "-fx-border-radius: 10;"
                 + "-fx-border-style: solid;"
                 + "-fx-border-color: #bfbfbf;"
