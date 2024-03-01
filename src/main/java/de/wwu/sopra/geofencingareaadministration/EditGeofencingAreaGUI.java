@@ -60,6 +60,8 @@ public class EditGeofencingAreaGUI extends HBox{
         var startDesign = new Button("Erstellen starten");
         var endDesign = new Button("Erstellen beenden");
         var deleteButton = new Button("Löschen");
+        
+        endDesign.setDisable(true);
        
         innerBox.add(deleteButton, 0, 0);
         innerBox.add(startDesign, 1, 0);
@@ -74,8 +76,16 @@ public class EditGeofencingAreaGUI extends HBox{
         });
         
         endDesign.setOnAction(event -> {
-            map.finalizeArea();
+            GeofencingArea geoArea = map.finalizeArea();
+            if (geoArea != null)
+            {
+                DataProvider prov = DataProvider.getInstance();
+                prov.addGeoArea(geoArea);
+                ctrl.initializeAreas(map);
+            }
         });
+        
+        //map.onClickCoordinateLine(, "purple", "red");
         
         VBox vbox = new VBox(map, innerBox);
         this.getChildren().add(vbox);
