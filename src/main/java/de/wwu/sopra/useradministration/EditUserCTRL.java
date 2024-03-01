@@ -41,7 +41,7 @@ public class EditUserCTRL {
         boolean emailNotExistsAlready = prov.addUser(registeredUser);
         if (!emailNotExistsAlready) {
             AppContext.getInstance().showMessage("Die angegebene E-Mail wird bereits von einem anderen Account verwendet."
-                    + "Wähle eine andere E-Mail-Adresse für den neuen User aus.", 5);
+                    + "Wähle eine andere E-Mail-Adresse für den neuen User aus.", 5, "#FFCCDD");
             return null;
         } else {
             prov.addUser(registeredUser);

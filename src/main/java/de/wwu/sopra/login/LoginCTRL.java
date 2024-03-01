@@ -36,7 +36,8 @@ public class LoginCTRL {
             AppContext.getInstance().showMessage(
                     "Deine angegebenen Daten scheinen nicht korrekt zu sein. Überprüfe bitte E-Mail und Passwort. "
                             + "Solltest du noch keine Account besitzen, kannst du auf 'Registrieren' klicken.",
-                    5);
+                    5,
+                    "#FFCCDD");
         } else {
             AppContext.getInstance().login(user);
         }
@@ -56,6 +57,7 @@ public class LoginCTRL {
         AppContext.getInstance().showMessage(
                 "Falls Sie Ihr Passwort vergessen haben, bitte wenden Sie sich an den Kundenservice."
                         + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
-                5);
+                5,
+                "#FFCCDD");
     }
 }
