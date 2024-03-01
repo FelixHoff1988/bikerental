@@ -1,5 +1,6 @@
 package de.wwu.sopra.bikeadministration.editbike;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.wwu.sopra.DataProvider;
@@ -112,6 +113,16 @@ public class EditBikeCTRL {
 	
 	public void backButtonAction() {
 		UserManagementGUI.getInstance().changeViewNode(new LoginGUI());
+	}
+	
+	public List<String> loadBikeTypesString(){
+	    var bikeTypesString = new ArrayList<String>();
+	    var bikeTypes = DataProvider.getInstance().getBikeTypes();
+	    for(int i=0;i<bikeTypes.size();i++) {
+	        bikeTypesString.add(bikeTypes.get(i).getTypeString());
+	    }
+	    
+	    return bikeTypesString;
 	}
 	
 	public List<Bike> loadBikes() {

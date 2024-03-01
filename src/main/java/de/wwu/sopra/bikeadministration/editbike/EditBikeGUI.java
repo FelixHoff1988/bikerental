@@ -113,7 +113,7 @@ public class EditBikeGUI extends HBox {
         //Eingabe des Fahrradtyp´s
         var bikeTypeLabel = new Label("Fahrrad-Typ: ");
         var bikeTypeBox = new ComboBox<String>();
-        bikeTypeBox.getItems().addAll("Standard", "Cargo", "EBike");
+        bikeTypeBox.getItems().addAll(ctrl.loadBikeTypesString());
         
         //Eingabe des Zustand´s
         var availabilityLabel = new Label("Zustand: ");
@@ -141,45 +141,6 @@ public class EditBikeGUI extends HBox {
         var backButton = new Button("Zurück");
         var saveButton = new Button("Speichern");
         var deleteButton = new Button("Löschen");
-        
-        //Label der Kapazität für CargoBikes
-        var capacityLabel = new Label("Kapazität: ");
-        var capacityTextField = new TextField();
-        capacityLabel.setVisible(false);
-        capacityTextField.setVisible(false);
-        
-        //Label für charge von EBikes
-        var chargeLabel = new Label("AkkuKapazität");
-        var chargeTextField = new TextField();
-        chargeLabel.setVisible(false);
-        chargeTextField.setVisible(false);
-        
-        //Extra Eingaben für CargoBikes und EBikes
-        bikeTypeBox.setOnAction(evt ->{
-            switch(bikeTypeBox.getValue()) {
-            case "Cargo":
-                chargeLabel.setVisible(false);
-                chargeTextField.setVisible(false);
-                capacityLabel.setVisible(true);
-                capacityTextField.setVisible(true);
-                break;
-            
-            case "EBike":
-                chargeLabel.setVisible(true);
-                chargeTextField.setVisible(true);
-                capacityLabel.setVisible(false);
-                capacityTextField.setVisible(false);
-                break;
-                
-            default:
-                chargeLabel.setVisible(false);
-                chargeTextField.setVisible(false);
-                capacityLabel.setVisible(false);
-                capacityTextField.setVisible(false);
-                break;
-            
-            }
-        });
         
         createButton.setOnAction(evt ->{
             String frameId = frameIdTextField.getText();
