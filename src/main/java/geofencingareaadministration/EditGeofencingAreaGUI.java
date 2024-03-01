@@ -35,8 +35,6 @@ public class EditGeofencingAreaGUI extends HBox{
      * Constructor
      */
     private EditGeofencingAreaCTRL ctrl = new EditGeofencingAreaCTRL();
-    Coordinate c = new Coordinate((double) 0, (double) 0);
-    String s = new String();
 
     /**
      * Konstruktor.
@@ -90,20 +88,7 @@ public class EditGeofencingAreaGUI extends HBox{
         VBox.setVgrow(this, Priority.ALWAYS);
 
         newButton.setOnAction(event -> {
-            ArrayList<Boolean> list = new ArrayList<Boolean>();
-
-            list.add(ctrl.testTextField("^[a-zA-Z0-9]*$", nameTextField));
-            list.add(ctrl.testTextField("^[0-9]+$", capacityTextField));
-
-            if (areAllTrue(list)) {
-                TextField[] textFieldsBikeStation = innerBox.getChildren().stream()
-                        .filter(node -> node.getClass() == TextField.class)
-                        .toArray(TextField[]::new);
-                BikeStation addedBikeStation = ctrl.addBikeStation(textFieldsBikeStation);
-                addedBikeStation.setLocation(c);
-                bikeStations.add(addedBikeStation);
-                tableView.setItems(bikeStations);
-            }
+            
         });
 
         deleteButton.setOnAction(event -> {
@@ -113,43 +98,8 @@ public class EditGeofencingAreaGUI extends HBox{
             tableView.setItems(geofencingAreas);
         });
 
-        submitButton.setOnAction(value -> {
-
-            if (areAllTrue(list)) {
-                int index = bikeStations.indexOf(selectedBikeStation);
-                selectedBikeStation.setCapacity(Integer.valueOf(capacityTextField.getText()));
-                selectedBikeStation.setName(nameTextField.getText());
-                selectedBikeStation.setLocation(c);
-                bikeStations.set(index, selectedBikeStation);
-                tableView.setItems(bikeStations);
-            }
-            GeofencingArea selectedArea = tableView.getSelectionModel().getSelectedItem();
-            geofencingAreas.set(geofencingAreas.indexOf(selectedArea), selectedArea);
-            tableView.setItems(selectedArea);
-        });
-
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                nameTextField.setText(newSelection.getName());
-                capacityTextField.setText(String.valueOf(newSelection.getCapacity()));
-                c = newSelection.getLocation();
-                s = String.valueOf(c.getLatitude())+" | "+ 
-                        String.valueOf(c.getLongitude());
-                mapLabel.setText(s);
-            }
+           
         });
-    }
-
-    /**
-     * Prüft, ob alle Elemente einer ArrayList von Typ Boolean wahr sind
-     * 
-     * @param array
-     * @return
-     */
-    private static boolean areAllTrue(ArrayList<Boolean> array) {
-        for (boolean b : array)
-            if (!b)
-                return false;
-        return true;
     }
 }
