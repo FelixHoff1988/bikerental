@@ -6,6 +6,7 @@ package de.wwu.sopra.biketypeadministration;
 
 import java.util.ArrayList;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeType;
 import de.wwu.sopra.entity.CargoBike;
@@ -161,6 +162,14 @@ public class EditBikeTypeGUI extends HBox{
         });
         newButton.setOnAction(event -> {
             String model = modelTextField.getText();
+            for(BikeType b : biketypes) {
+                if(b.getModel().equals(model)) {
+                    AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5);
+                    return;
+                }
+                    
+            }
+            
             int size = (int) Integer.valueOf(sizeTextField.getText());
             int price = (int) Integer.valueOf(priceTextField.getText());
             String type1 = typeBox.getValue();
@@ -176,9 +185,9 @@ public class EditBikeTypeGUI extends HBox{
             if(type!=null) {
                 biketypes.add(type);
                 tableView.setItems(biketypes);
-                successionLabel.setVisible(true);
+                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich hinzugefügt", 5);
             } else {
-                successionLabel.setVisible(false);
+                AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5);            
             }
             
         });
@@ -188,9 +197,9 @@ public class EditBikeTypeGUI extends HBox{
             if(ctrl.deleteButtonAction(selectedType)) {
                 biketypes.remove(selectedType);
                 tableView.setItems(biketypes);
-                successionLabel.setVisible(true);
+                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich gelöscht", 5);
             } else {
-                successionLabel.setVisible(false);
+                AppContext.getInstance().showMessage("Fahrradtyp löschen fehlgeschlagen!", 5);
             }
         });
 
@@ -201,7 +210,6 @@ public class EditBikeTypeGUI extends HBox{
             int price = (int) Integer.valueOf(priceTextField.getText());
             int capacity = (int) Integer.valueOf(capacityTextField.getText());
             int charge = (int) Integer.valueOf(capacityTextField.getText());;
-            String type1 = typeBox.getValue();
             BikeType selectedType = tableView.getSelectionModel().getSelectedItem();
             int index = biketypes.indexOf(selectedType);
             
@@ -209,9 +217,9 @@ public class EditBikeTypeGUI extends HBox{
             if(selectedType!=null) {
                 biketypes.set(index, newType);
                 tableView.setItems(biketypes);
-                successionLabel.setVisible(true);
+                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich geändert", 5);
             } else {
-                successionLabel.setVisible(false);
+                AppContext.getInstance().showMessage("Fahrradtyp ändern fehlgeschlagen!", 5);
             }
             
         });
