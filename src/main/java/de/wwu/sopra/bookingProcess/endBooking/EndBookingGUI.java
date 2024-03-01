@@ -1,6 +1,7 @@
 package de.wwu.sopra.bookingProcess.endBooking;
 
 import de.wwu.sopra.entity.Bike;
+import de.wwu.sopra.entity.Reservation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,13 +19,17 @@ public class EndBookingGUI extends FlowPane {
 
     /**
      * Standartkonstruktor
-     * @param bike das Gebuchte Rad
+     * @param reservation Die aktuelle Buchung
      */
-    public EndBookingGUI(Bike bike) {
-        build(bike);
+    public EndBookingGUI(Reservation reservation) {
+        build(reservation);
     }
 
-    public void build(Bike bike) {
+    /**
+     * Aufbau des GUI
+     * @param reservation Die aktuelle Buchung
+     */
+    public void build(Reservation reservation) {
         
         var endBookBox = new HBox();
         var bikeInfo = new GridPane();

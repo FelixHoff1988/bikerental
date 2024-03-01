@@ -2,6 +2,7 @@ package de.wwu.sopra.bookingProcess;
 
 import com.sothawo.mapjfx.Marker.Provided;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.bookingProcess.bookBike.BookBikeGUI;
 import de.wwu.sopra.bookingProcess.endBooking.EndBookingGUI;
@@ -14,12 +15,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
 
 /**
  * GUI in der der komplette Fahrradleihvorgang stattfinden soll
  */
 public class BookingProcessGUI extends StackPane {
 
+    /**
+     * Instanz des DataProviders
+     */
+    private DataProvider data = DataProvider.getInstance();
+    /**
+     * Instanz der Kontrollklasse
+     */
+    private BookingProcessCTRL ctrl = new BookingProcessCTRL();
     /**
      * Die Karte
      */
@@ -29,26 +39,29 @@ public class BookingProcessGUI extends StackPane {
      */
     private Bike selectedBike;
     /**
-     * Das Fenster zum reservieren eines Rads
+     * Das aktuell geöffnete GUI
      */
-    private ReserveBikeGUI reserveBikeGUI;
-    /**
-     * Fenster zum bestätigen der Reservierung
-     */
-    private BookBikeGUI bookBikeGUI;
-    /**
-     * Fenster zum Beenden einer Fahrt
-     */
-    private EndBookingGUI endBookingGUI;
+    private FlowPane currentGUI;
 
     /**
      * Standartkonstruktor
      */
     public BookingProcessGUI() {
-        
-        this.reserveBikeGUI = new ReserveBikeGUI();
-        
-        build();
+
+        switch (ctrl.currentGUI()) {
+        case 1 -> {
+            this.currentGUI = new ReserveBikeGUI();
+            build(this.currentGUI);
+        }
+        case 2 -> {
+            this.currentGUI = new BookBikeGUI(ctrl.getReservation());
+            build(this.currentGUI);
+        }
+        case 3 -> {
+            this.currentGUI = new EndBookingGUI(ctrl.getReservation());
+            build(this.currentGUI);
+        }
+        }
 
         this.map.<Bike>onClickMarker(bike -> {
             selectBike(bike);
@@ -59,8 +72,10 @@ public class BookingProcessGUI extends StackPane {
 
     /**
      * Baut das Overlay zusammen
+     * 
+     * @param gui das aktuell notwendige GUI
      */
-    public void build() {
+    public void build(FlowPane gui) {
 
         HBox.setHgrow(this, Priority.ALWAYS);
         VBox.setVgrow(this, Priority.ALWAYS);
@@ -70,17 +85,17 @@ public class BookingProcessGUI extends StackPane {
         HBox.setHgrow(map, Priority.ALWAYS);
         VBox.setVgrow(map, Priority.ALWAYS);
 
-       this.getChildren().addAll(map, this.reserveBikeGUI);
+        this.getChildren().addAll(map, this.reserveBikeGUI);
 
-        var reader = DataProvider.getInstance();
-        var availableBikes = reader.getBikes(bike -> (bike.getAvailability() == Availability.AVAILABLE));
+        var availableBikes = data.getBikes(bike -> (bike.getAvailability() == Availability.AVAILABLE));
 
         this.map.displayMarkers(availableBikes, bike -> bike.getLocation(), Provided.ORANGE);
 
     }
-    
+
     /**
      * Updated, welches Fahrrad momentan angewählt ist
+     * 
      * @param bike neues Rad
      */
     public void selectBike(Bike bike) {
