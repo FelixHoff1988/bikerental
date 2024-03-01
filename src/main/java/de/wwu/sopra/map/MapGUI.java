@@ -5,6 +5,7 @@ import com.sothawo.mapjfx.event.MapViewEvent;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import de.wwu.sopra.entity.GeofencingArea;
 import javafx.animation.Transition;
+import javafx.event.EventHandler;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -53,6 +54,11 @@ public class MapGUI extends BorderPane {
      * Farben den Marker-Typen zugeordnet
      */
     private final HashMap<Class<?>, Marker.Provided> markerColors = new HashMap<>();
+
+    /**
+     * OnClick-Funktionen den Marker-Typen zugeordnet
+     */
+    private final HashMap<Class<?>, EventHandler<MarkerEvent>> onClickActions = new HashMap<>();
 
     /**
      * Standardkonstruktor: Initialisiert den MapView
@@ -174,7 +180,8 @@ public class MapGUI extends BorderPane {
      * @param <T> Type des Markers
      */
     public <T> void onClickMarker(Consumer<T> consumer, Marker.Provided changeColor) {
-        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+        var consumerClass = consumer.getClass();
+        EventHandler<MarkerEvent> eventHandler = event -> {
             var object = this.markers.get(event.getMarker());
 
             T typedObject = null;
@@ -189,20 +196,46 @@ public class MapGUI extends BorderPane {
                     .entrySet()
                     .stream()
                     .anyMatch(entry -> entry.getValue() == event.getMarker());
-            deselectMarker(type);
+            deselectMarker(type, null);
             if (!isCurrentMarker)
                 selectMarker(event.getMarker(), type, changeColor);
 
             consumer.accept(typedObject);
-        });
+        };
+
+        onClickActions.put(consumerClass, eventHandler);
+        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, eventHandler);
+    }
+
+    /**
+     * Entfernt die onClickMarker Aktion.
+     *
+     * @param consumer Gleiche Funktion, welche bei onClickMarker übergeben wurde.
+     * @param <T> Typ des mit dem Marker assoziierten Objektes
+     */
+    public <T> void removeOnClickAction(Consumer<T> consumer) {
+        mapView.removeEventHandler(MarkerEvent.MARKER_CLICKED, onClickActions.get(consumer.getClass()));
+        onClickActions.remove(consumer.getClass());
+    }
+
+    /**
+     * Hebt die Hervorhebung eines Markers auf.
+     *
+     * @param object Zum Marker zugeordnetes Objekt
+     * @param changeColor Neue Farbe des Markers
+     * @param <T> Typ des Objekts
+     */
+    public <T> void deselectMarker(T object, Marker.Provided changeColor) {
+        deselectMarker(object.getClass(), changeColor);
     }
 
     /**
      * Stellt die originale Farbe für alle Marker eines bestimmten Types wieder her.
      *
      * @param type Repräsentierter Datentyp
+     * @param changeColor Neue Anzeigefarbe (kann null sein)
      */
-    private void deselectMarker(Class<?> type) {
+    private void deselectMarker(Class<?> type, Marker.Provided changeColor) {
         var marker = clickedMarkers.get(type);
 
         if (marker == null)
@@ -215,12 +248,29 @@ public class MapGUI extends BorderPane {
         clickedMarkers.remove(type);
 
         var prevMarker = Marker
-                .createProvided(markerColors.get(type))
+                .createProvided(changeColor == null ? markerColors.get(type) : changeColor)
                 .setPosition(marker.getPosition())
                 .setVisible(true);
 
         mapView.addMarker(prevMarker);
         markers.put(prevMarker, object);
+    }
+
+    /**
+     * Wählt den zum Objekt gehörigen Marker aus.
+     *
+     * @param object Zum marker gehöriges Objekt
+     * @param changeColor Neue Farbe des Markers
+     * @param <T> Typ des Objekts
+     */
+    public <T> void selectMarker(T object, Marker.Provided changeColor) {
+        var type = object.getClass();
+        var filtered = markers.entrySet().stream().filter(entry -> entry.getValue() == object).toList();
+
+        if (filtered.isEmpty())
+            return;
+
+        selectMarker(filtered.getFirst().getKey(), type, changeColor);
     }
 
     /**
