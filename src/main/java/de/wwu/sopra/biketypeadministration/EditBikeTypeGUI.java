@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeType;
+import de.wwu.sopra.entity.CargoBike;
+import de.wwu.sopra.entity.EBike;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
 import de.wwu.sopra.register.RegisterCTRL;
@@ -66,10 +68,30 @@ public class EditBikeTypeGUI extends HBox{
         column3.setCellValueFactory(data -> {
             return new ReadOnlyStringWrapper(String.valueOf(data.getValue().getPrice()));
         });
+        
+        TableColumn<BikeType, String> column4 = new TableColumn<>("Akku-Kapazität");
+        column4.setCellValueFactory(data -> {
+            if(data.getValue().getTypeString().equals("EBike")) {
+                EBike eb = (EBike) data.getValue();
+                return new ReadOnlyStringWrapper(String.valueOf(eb.getCharge()));            
+                }
+            return new ReadOnlyStringWrapper("");
+        });
+        
+        TableColumn<BikeType, String> column5 = new TableColumn<>("Ladungs-Kapazität");
+        column5.setCellValueFactory(data -> {
+            if(data.getValue().getTypeString().equals("CargoBike")) {
+                CargoBike cb = (CargoBike) data.getValue();
+                return new ReadOnlyStringWrapper(String.valueOf(cb.getCapacity()));            
+                }
+            return new ReadOnlyStringWrapper("");
+        });
 
         tableView.getColumns().add(column1);
         tableView.getColumns().add(column2);
         tableView.getColumns().add(column3);
+        tableView.getColumns().add(column4);
+        tableView.getColumns().add(column5);
 
         ObservableList<BikeType> biketypes = FXCollections.observableArrayList(ctrl.loadBikeTypes());
         tableView.setItems(biketypes);
@@ -85,12 +107,12 @@ public class EditBikeTypeGUI extends HBox{
         innerBox.add(modelLabel, 0, 0);
         innerBox.add(modelTextField, 1, 0);
         
-        var sizeLabel = new Label("Größe: ");
+        var sizeLabel = new Label("Größe in Zoll: ");
         var sizeTextField = new TextField("");
         innerBox.add(sizeLabel, 0, 1);
         innerBox.add(sizeTextField, 1, 1);
         
-        var priceLabel = new Label("Preis: ");
+        var priceLabel = new Label("Preis in Cent: ");
         var priceTextField = new TextField("");
         innerBox.add(priceLabel, 0, 2);
         innerBox.add(priceTextField, 1, 2);
@@ -108,10 +130,10 @@ public class EditBikeTypeGUI extends HBox{
         innerBox.add(chargeLabel, 0, 4);
         innerBox.add(chargeTextField, 1, 4);
         
-        var capacityLabel = new Label("Lade-Kapazität");
+        var capacityLabel = new Label("Ladungs-Kapazität: ");
         var capacityTextField = new TextField("");
         capacityLabel.setVisible(false);
-        chargeTextField.setVisible(false);
+        capacityTextField.setVisible(false);
         innerBox.add(capacityLabel, 0, 4);
         innerBox.add(capacityTextField, 1, 4);
         
@@ -127,10 +149,11 @@ public class EditBikeTypeGUI extends HBox{
         innerBox.add(submitButton, 5, 12);
         innerBox.add(deleteButton, 4, 12);
         innerBox.add(newButton, 0, 12);
+        
 
         Label successionLabel = new Label("Änderung erfolgreich");
         successionLabel.setVisible(false);
-        innerBox.add(successionLabel, 0, 12);
+        innerBox.add(successionLabel, 0, 13);
 
         
         typeBox.setOnAction(event -> {
@@ -142,10 +165,20 @@ public class EditBikeTypeGUI extends HBox{
             int price = (int) Integer.valueOf(priceTextField.getText());
             String type1 = typeBox.getValue();
             
-            BikeType type = ctrl.newButtonAction(model, size, price, type1);
+            int capacity = 0;
+            int charge = 0;
+            if(!capacityTextField.getText().isBlank())
+                capacity = (int) Integer.valueOf(capacityTextField.getText());
+            if(!chargeTextField.getText().isBlank())
+                charge = (int) Integer.valueOf(chargeTextField.getText());
+            
+            BikeType type = ctrl.newButtonAction(model, size, price, type1, capacity, charge);
             if(type!=null) {
                 biketypes.add(type);
                 tableView.setItems(biketypes);
+                successionLabel.setVisible(true);
+            } else {
+                successionLabel.setVisible(false);
             }
             
         });
@@ -155,23 +188,30 @@ public class EditBikeTypeGUI extends HBox{
             if(ctrl.deleteButtonAction(selectedType)) {
                 biketypes.remove(selectedType);
                 tableView.setItems(biketypes);
+                successionLabel.setVisible(true);
+            } else {
+                successionLabel.setVisible(false);
             }
         });
 
         submitButton.setOnAction(value -> {
+            tableView.getSelectionModel().clearSelection();
             String model = modelTextField.getText();
             int size = (int) Integer.valueOf(sizeTextField.getText());
             int price = (int) Integer.valueOf(priceTextField.getText());
-            int capacity = -1;
-            int charge = -1;
+            int capacity = (int) Integer.valueOf(capacityTextField.getText());
+            int charge = (int) Integer.valueOf(capacityTextField.getText());;
             String type1 = typeBox.getValue();
             BikeType selectedType = tableView.getSelectionModel().getSelectedItem();
             int index = biketypes.indexOf(selectedType);
             
-            ctrl.submitButtonAction(selectedType, model, size, price, capacity, charge);
+            BikeType newType = ctrl.submitButtonAction(selectedType, model, size, price, capacity, charge);
             if(selectedType!=null) {
-                biketypes.set(index, selectedType);
+                biketypes.set(index, newType);
                 tableView.setItems(biketypes);
+                successionLabel.setVisible(true);
+            } else {
+                successionLabel.setVisible(false);
             }
             
         });

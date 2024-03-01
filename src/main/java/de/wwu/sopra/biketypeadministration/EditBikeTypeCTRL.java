@@ -24,18 +24,16 @@ public class EditBikeTypeCTRL {
         return prov.getBikeTypes();
     }
     
-    public BikeType newButtonAction(String model, int size, int price, String type1) {
+    public BikeType newButtonAction(String model, int size, int price, String type1, int capacity, int charge) {
         DataProvider prov = DataProvider.getInstance();
         BikeType type = null;
-        int capacity = 0;
-        int charge = 0;
         if(!(model.isBlank()||type1.isBlank())) {
             switch(type1) {
             case "Standard":
                 type = new StandardType(model, size, price);
                 prov.addBikeType(type);
                 break;
-            case "Ebike":
+            case "EBike":
                 type = new EBike(model, size, price, charge);
                 prov.addBikeType(type);
                 break;
@@ -53,8 +51,9 @@ public class EditBikeTypeCTRL {
         return prov.removeBikeType(type);
     }
     
-    public void submitButtonAction(BikeType type,String model, int size, int price, int capacity,  int charge) {
-        
+    public BikeType submitButtonAction(BikeType type,String model, int size, int price, int capacity,  int charge) {
+        if(type==null)
+            return type;
         switch(type.getTypeString()) {
         case "EBike":
             EBike eb = (EBike) type;
@@ -71,7 +70,7 @@ public class EditBikeTypeCTRL {
         type.setModel(model);
         type.setSize(size);
         type.setPrice(price);
-        
+        return type;
     }
     
 
@@ -86,7 +85,7 @@ public class EditBikeTypeCTRL {
             capacityTextField.setVisible(false);
             break;
             
-        case "Ebike":
+        case "EBike":
             chargeLabel.setVisible(true);
             chargeTextField.setVisible(true);
             capacityLabel.setVisible(false);
