@@ -4,17 +4,10 @@
  */
 package de.wwu.sopra.biketypeadministration;
 
-import java.util.ArrayList;
-
 import de.wwu.sopra.AppContext;
-import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeType;
 import de.wwu.sopra.entity.CargoBike;
 import de.wwu.sopra.entity.EBike;
-import de.wwu.sopra.entity.User;
-import de.wwu.sopra.entity.UserRole;
-import de.wwu.sopra.register.RegisterCTRL;
-import de.wwu.sopra.useradministration.EditUserCTRL;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,13 +16,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -39,6 +30,9 @@ import javafx.scene.layout.VBox;
 public class EditBikeTypeGUI extends HBox{
     
 
+    /**
+     * Kontrollinstanz für als Anbindung zum System
+     */
     private EditBikeTypeCTRL ctrl = new EditBikeTypeCTRL();
 
     /**
@@ -164,7 +158,7 @@ public class EditBikeTypeGUI extends HBox{
             String model = modelTextField.getText();
             for(BikeType b : biketypes) {
                 if(b.getModel().equals(model)) {
-                    AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5);
+                    AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5, "#FFCCDD");
                     return;
                 }
                     
@@ -185,9 +179,9 @@ public class EditBikeTypeGUI extends HBox{
             if(type!=null) {
                 biketypes.add(type);
                 tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich hinzugefügt", 5);
+                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich hinzugefügt", 5, "#CCFFCC");
             } else {
-                AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5);            
+                AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5, "#FFCCDD");            
             }
             
         });
@@ -197,9 +191,9 @@ public class EditBikeTypeGUI extends HBox{
             if(ctrl.deleteButtonAction(selectedType)) {
                 biketypes.remove(selectedType);
                 tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich gelöscht", 5);
+                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich gelöscht", 5, "#CCFFCC");
             } else {
-                AppContext.getInstance().showMessage("Fahrradtyp löschen fehlgeschlagen!", 5);
+                AppContext.getInstance().showMessage("Fahrradtyp löschen fehlgeschlagen!", 5, "#FFCCDD");
             }
         });
 
@@ -217,9 +211,9 @@ public class EditBikeTypeGUI extends HBox{
             if(selectedType!=null) {
                 biketypes.set(index, newType);
                 tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich geändert", 5);
+                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich geändert", 5, "#CCFFCC");
             } else {
-                AppContext.getInstance().showMessage("Fahrradtyp ändern fehlgeschlagen!", 5);
+                AppContext.getInstance().showMessage("Fahrradtyp ändern fehlgeschlagen!", 5, "'FFCCDD");
             }
             
         });

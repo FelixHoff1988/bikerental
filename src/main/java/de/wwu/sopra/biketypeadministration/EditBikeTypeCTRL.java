@@ -19,11 +19,32 @@ import javafx.scene.control.TextField;
  */
 public class EditBikeTypeCTRL {
     
+    /**
+     * Konstruktor
+     */
+    public EditBikeTypeCTRL() {
+        
+    }
+    
+    /**
+     * BikeTypes als Liste laden
+     * @return Liste aller BikeTypes im System
+     */
     public List<BikeType> loadBikeTypes(){
         DataProvider prov = DataProvider.getInstance();
         return prov.getBikeTypes();
     }
     
+    /**
+     * Methode für die Aktion des Buttons zum erstellen eines Fahrrad-Typ
+     * @param model Modell den neuen Bikes
+     * @param size Größe des neuen Bikes
+     * @param price Preis des neuen Bikes
+     * @param type1 Typ des neuen Bikes
+     * @param capacity Kapazität des neuen Bikes
+     * @param charge AkkuKapazität des neuen Bikes
+     * @return erstellten FahrradTyp
+     */
     public BikeType newButtonAction(String model, int size, int price, String type1, int capacity, int charge) {
         DataProvider prov = DataProvider.getInstance();
         BikeType type = null;
@@ -46,11 +67,26 @@ public class EditBikeTypeCTRL {
         return type;
         }
     
+    /**
+     * Methode für den Button zum löschen eines Fahrrad-Typ
+     * @param type zu löschender Typ
+     * @return true, falls erfolgrecih, sonst false
+     */
     public boolean deleteButtonAction(BikeType type) {
         DataProvider prov = DataProvider.getInstance();
         return prov.removeBikeType(type);
     }
     
+    /**
+     * Methode für den Button zum ändern eines Fahrrad-Typ
+     * @param type zu ändernder Typ
+     * @param model Model des zu ändernden Fahrrad-Typ
+     * @param size Größe des zu ändernden Fahrrad-Typ
+     * @param price Preis des zu ändernden Fahrrad-Typ
+     * @param capacity Kapazität des zu ändernden Fahrrad-Typ
+     * @param charge AkkuKapazität des zu ändernden Fahrrad-Typ
+     * @return geänderter Fahrrad-Typ
+     */
     public BikeType submitButtonAction(BikeType type,String model, int size, int price, int capacity,  int charge) {
         if(type==null)
             return type;
@@ -75,6 +111,14 @@ public class EditBikeTypeCTRL {
     
 
 
+    /**
+     * Mehtode für die Aktion der Box für die 3 Typen
+     * @param chargeLabel Label der AkkuKapazität
+     * @param chargeTextField TextFeld der AkkuKapazität
+     * @param capacityLabel Label der Kapazität
+     * @param capacityTextField TextFeld der Kapazität
+     * @param selectedItem ausgewählter Typ
+     */
     public void typeBoxAction(Label chargeLabel, TextField chargeTextField, Label capacityLabel,
             TextField capacityTextField, String selectedItem) {
         switch(selectedItem) {
