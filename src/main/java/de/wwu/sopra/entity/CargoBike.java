@@ -26,7 +26,7 @@ public class CargoBike extends BikeType {
      * Rufe die Ladekapazität des Fahrrads ab
      * @return Ladekapazität des Fahrrads (in kg)
      */
-    public int getCharge() {
+    public int getCapacity() {
         return capacity;
     }
 
@@ -34,7 +34,7 @@ public class CargoBike extends BikeType {
      * Setze die Ladekapazität des Fahrrads
      * @param capacity Neue Ladekapazität des Fahrrads (in kg)
      */
-    public void setCharge(int capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
     
@@ -47,5 +47,11 @@ public class CargoBike extends BikeType {
         description += String.valueOf(this.capacity);
         description += " kg";
         return description;
+    }
+
+    @Override
+    public String getTypeString() {
+        // TODO Auto-generated method stub
+        return "CargoBike";
     }
 }
