@@ -3,10 +3,9 @@ package de.wwu.sopra.register;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
-import de.wwu.sopra.UserManagementGUI;
-import de.wwu.sopra.entity.Reservation;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
 import javafx.scene.control.Alert;
@@ -47,7 +46,7 @@ public class RegisterCTRL {
 		Boolean emailNotExistsAlready = prov.addUser(registeredUser);
 		if (emailNotExistsAlready)
 		{
-			UserManagementGUI.getInstance().login(registeredUser);
+			AppContext.getInstance().login(registeredUser);
 		}
 		else
 		{

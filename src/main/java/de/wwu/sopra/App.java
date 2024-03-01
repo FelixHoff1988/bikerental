@@ -28,22 +28,17 @@ public class App extends Application {
 	 * Sie setzt den Titel des Hauptfensters und erstellt eine GridPane für die Benutzeroberfläche.
 	 * 
 	 * @param primaryStage Das Hauptfenster der Anwendung
-	 * @throws Exception Wenn ein Fehler beim Starten der Anwendung auftritt
 	 */
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Leihrad-\u00dcbersicht");
+	public void start(Stage primaryStage) {
+		primaryStage.setTitle("BikeRental.de");
+		DataProvider.getInstance();
 
-		var userManagementGUI = UserManagementGUI.getInstance();
-		Scene scene = new Scene(userManagementGUI);
+		var gui = new AppGUI();
+		AppContext.create(gui);
+		Scene scene = new Scene(gui);
 
-		userManagementGUI.onLogin(user -> {
-			var mainGUI = MainGUI.init(user);
-			scene.setRoot(mainGUI);
-			mainGUI.onLogout(() -> scene.setRoot(UserManagementGUI.getInstance()));
-		});
-
-		primaryStage.setFullScreen(true);
+		primaryStage.setMaximized(true);
 		primaryStage.setMinWidth(1080);
 		primaryStage.setMinHeight(720);
 		primaryStage.setScene(scene);
