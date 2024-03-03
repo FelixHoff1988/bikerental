@@ -8,16 +8,17 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeType;
-import de.wwu.sopra.entity.CargoBike;
-import de.wwu.sopra.entity.EBike;
-import de.wwu.sopra.entity.StandardType;
 import de.wwu.sopra.login.LoginGUI;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 
 public class EditBikeCTRL {
 	
+	/**
+	 * Methode um ein Fahhrad hinzuzufügen
+	 * @param frameId Rahmennummer des Fahrrads
+	 * @param model Modell des Fahrrads
+	 * @param availability Verfügbarkeit des Fahrrads
+	 * @return Das Objekt des erstellten Fahrrads, null falls es nicht hinzugefügt werden konnte
+	 */
 	public Bike addBike(String frameId, String model,
 			Availability availability) {
 		Bike newBike = null;
@@ -37,11 +38,23 @@ public class EditBikeCTRL {
 		
 	}
 	
+	/**
+	 * Methode zum löschen eines Fahrrads
+	 * @param bike zu löschendes Fahrrad
+	 * @return true falls erfolgreich gelöscht, sonst false
+	 */
 	public boolean removeBike(Bike bike) {
 		DataProvider prov = DataProvider.getInstance();
 		return prov.removeBike(bike);
 	}
 	
+	/**
+	 * Methode für die Aktion des Button zum hinzufügen eines Fahhrads
+	 * @param frameId Rahemnnummer des Fahrrads
+	 * @param model Model des Fahrrads
+	 * @param availability Verfügbarkeit des Fahrrads
+	 * @return das erstellte Fahrrad, null falls es nicht erstellt werden konnnte
+	 */
 	public Bike createButtonAction(String frameId, String model, Availability availability) {
 	    Bike newBike = null;
 		//Mindestens eine Eingabe ist leer
@@ -59,6 +72,14 @@ public class EditBikeCTRL {
 		}
 		return newBike;
 	}
+	/**
+	 * Methode für die Aktion des Buttons zum ändern von Fahrraddaten
+	 * @param bike zu änderndes Fahrrad
+	 * @param frameId neue Rahmennummer des Fahrrads
+	 * @param model neues Modell des Fahrrads
+	 * @param availability neue Verfügbarkeit des Fahrrads
+	 * @return das geänderte Fahrrad mit den Änderungen
+	 */
 	public Bike saveButtonAction(Bike bike, String frameId, String model, Availability availability) {
 	    
 	    
@@ -86,18 +107,11 @@ public class EditBikeCTRL {
 	    
 	}
 	
+	/**
+	 * Aktion des Buttons um zurück dur AdminGUI zu gelangen
+	 */
 	public void backButtonAction() {
 		AppContext.getInstance().changeViewNode(new LoginGUI());
-	}
-	
-	public List<String> loadBikeTypesString(){
-	    var bikeTypesString = new ArrayList<String>();
-	    var bikeTypes = DataProvider.getInstance().getBikeTypes();
-	    for(int i=0;i<bikeTypes.size();i++) {
-	        bikeTypesString.add(bikeTypes.get(i).getTypeString());
-	    }
-	    
-	    return bikeTypesString;
 	}
 	
 	public List<String> loadModels(){
@@ -112,6 +126,10 @@ public class EditBikeCTRL {
 	    return models;
 	}
 	
+	/**
+	 * Methode zum Laden der Bikes
+	 * @return Liste der gespeicherten Bikes
+	 */
 	public List<Bike> loadBikes() {
 		return DataProvider.getInstance().getBikes();
 	}

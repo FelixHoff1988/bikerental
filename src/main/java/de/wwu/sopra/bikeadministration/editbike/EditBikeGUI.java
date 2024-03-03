@@ -1,29 +1,14 @@
 package de.wwu.sopra.bikeadministration.editbike;
 
-
-
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import de.wwu.sopra.AppContext;
-import de.wwu.sopra.DataProvider;
-import de.wwu.sopra.PasswordHashing;
-import de.wwu.sopra.PasswordHashing.PasswordHash;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
-import de.wwu.sopra.register.RegisterCTRL;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -31,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -56,14 +40,15 @@ public class EditBikeGUI extends HBox {
      */
 	public void init() {
 		
+	    //Tabelle mit den Spalten erstellen
 		TableView<Bike> tableView = new TableView<Bike>();
-
 		TableColumn<Bike,String> frameIdColumn = new TableColumn<>("Rahmennummer");
 		TableColumn<Bike,String> availabilityColumn = new TableColumn<>("Status");
 		TableColumn<Bike,String> coordinateColumn = new TableColumn<>("Standort");
 		TableColumn<Bike,String> modelColumn = new TableColumn<>("Modell");
 		TableColumn<Bike,String> typeColumn = new TableColumn<>("Typ");
 		
+		//Werte für die Spalten der Tabelle konfigurieren
 		frameIdColumn.setCellValueFactory(data -> {
         	return new ReadOnlyStringWrapper(data.getValue().getFrameId());
         });
@@ -85,22 +70,25 @@ public class EditBikeGUI extends HBox {
         	return new ReadOnlyStringWrapper(data.getValue().getType().getTypeString());
         });
         
+		//Spalten zur Tabelle hinzufügen
 		tableView.getColumns().add(frameIdColumn);
         tableView.getColumns().add(availabilityColumn);
         tableView.getColumns().add(coordinateColumn);
         tableView.getColumns().add(modelColumn);
         tableView.getColumns().add(typeColumn);
 
+        //Breite der Spalten festlegen
         frameIdColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
         availabilityColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
         coordinateColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.12));
         modelColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
         typeColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
         
+        //Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
         ObservableList<Bike> Bikes = FXCollections.observableArrayList(ctrl.loadBikes());
         tableView.setItems(Bikes);
         
-		
+		//Box zum hinzufügen
 		var innerBox = new GridPane();
 		innerBox.setHgap(30);
 		innerBox.setPadding(new Insets(25, 25, 25, 25));
@@ -127,12 +115,13 @@ public class EditBikeGUI extends HBox {
         var modelBox = new ComboBox<String>();
         modelBox.getItems().addAll(ctrl.loadModels());  
         
-        //Button zum hinzufügen und zum zurückkehren auf AdminGUI
+        //Buttons zum verwalten der Fahrräder, ein zurück Button zum AdminGUI
         var createButton = new Button("Fahhrad hinzufügen");
         var backButton = new Button("Zurück");
         var saveButton = new Button("Speichern");
         var deleteButton = new Button("Löschen");
         
+        //Aktion beim drücken auf den Hinzufügen Button
         createButton.setOnAction(evt ->{
             String frameId = frameIdTextField.getText();
             String model = modelBox.getValue();
@@ -153,10 +142,12 @@ public class EditBikeGUI extends HBox {
             tableView.setItems(Bikes);
         });
         
+        //Aktion beim drücken des zurück Buttons
         backButton.setOnAction(evt ->{
             ctrl.backButtonAction();
         });
         
+        //Aktion beim drücken des Speichern Button
         saveButton.setOnAction(evt ->{
             String frameId = frameIdTextField.getText();
             String model = modelBox.getValue();
@@ -180,6 +171,7 @@ public class EditBikeGUI extends HBox {
             tableView.setItems(Bikes);
         });
         
+        //Aktion beim drücken des Löschen Button
         deleteButton.setOnAction(evt ->{
             Bike bike = tableView.getSelectionModel().getSelectedItem();
             if(!(ctrl.removeBike(bike) )) {
@@ -193,6 +185,7 @@ public class EditBikeGUI extends HBox {
             tableView.setItems(Bikes);
         });
         
+        //GUI Komponenten in der InnerBox hinzufügen
         innerBox.add(frameIdLabel, 0, 0);
         innerBox.add(frameIdTextField, 1, 0);
         
@@ -207,7 +200,7 @@ public class EditBikeGUI extends HBox {
         innerBox.add(deleteButton, 2, 3);
         innerBox.add(createButton, 3, 3);
         
-        
+        //Eingabefelder auf ausgewähltes Fahrrad setzen
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if(newSelection != null) {
 			    frameIdTextField.setText(newSelection.getFrameId());
@@ -218,9 +211,9 @@ public class EditBikeGUI extends HBox {
 			}
 		});
 		
+		//VBox zum anzeigen der Tabelle und des EingabeFelds erstellen und konfigurieren
 		VBox vbox = new VBox(innerBox, tableView);
 		vbox.setFillWidth(true);
-		
 		this.getChildren().addAll(vbox);
 		this.setAlignment(Pos.CENTER);
 		VBox.setVgrow(this, Priority.ALWAYS);
