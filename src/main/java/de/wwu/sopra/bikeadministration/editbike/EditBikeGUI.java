@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.PasswordHashing.PasswordHash;
@@ -110,11 +111,6 @@ public class EditBikeGUI extends HBox {
         var frameIdLabel = new Label("Rahmennummer: ");
         var frameIdTextField = new TextField("");
         
-        //Eingabe des Fahrradtyp´s
-        var bikeTypeLabel = new Label("Fahrrad-Typ: ");
-        var bikeTypeBox = new ComboBox<String>();
-        bikeTypeBox.getItems().addAll(ctrl.loadBikeTypesString());
-        
         //Eingabe des Zustand´s
         var availabilityLabel = new Label("Zustand: ");
         var availabilityBox = new ComboBox<Availability>();
@@ -126,15 +122,10 @@ public class EditBikeGUI extends HBox {
                 Availability.MAINTENANCE,
                 Availability.RESERVED);
         
-        //Eingabe der Größe
-        var sizeLabel = new Label("Größe: ");
-        var sizeBox = new ComboBox<Integer>();
-        for(Integer i=12;i<=25;i++) {
-            sizeBox.getItems().add(i);
-        }
         //Eingabe des Modell´s
         var modelLabel = new Label("Modell: ");
-        var modelTextField = new TextField();
+        var modelBox = new ComboBox<String>();
+        modelBox.getItems().addAll(ctrl.loadModels());  
         
         //Button zum hinzufügen und zum zurückkehren auf AdminGUI
         var createButton = new Button("Fahhrad hinzufügen");
@@ -144,11 +135,19 @@ public class EditBikeGUI extends HBox {
         
         createButton.setOnAction(evt ->{
             String frameId = frameIdTextField.getText();
-            String bikeType = bikeTypeBox.getValue();
-            String model = modelTextField.getText();
+            String model = modelBox.getValue();
             Availability availability = availabilityBox.getValue();
 
-            Bike newBike = ctrl.createButtonAction(frameId, bikeType, model, availability);
+            for(Bike b:Bikes) {
+                if(b.getFrameId().equals(frameId)) {
+                    AppContext.getInstance().showMessage("Fahrrad hinzufügen fehlgeschlagen! \n"
+                            + "Rahmennummer bereits vergeben", 5, "#FFCCDD");
+                    return;
+                }
+                    
+            }
+            
+            Bike newBike = ctrl.createButtonAction(frameId, model, availability);
             if(newBike!=null)
                 Bikes.add(newBike);
             tableView.setItems(Bikes);
@@ -160,12 +159,22 @@ public class EditBikeGUI extends HBox {
         
         saveButton.setOnAction(evt ->{
             String frameId = frameIdTextField.getText();
-            String bikeType = bikeTypeBox.getValue();
-            String model = modelTextField.getText();
+            String model = modelBox.getValue();
             Availability availability = availabilityBox.getValue();
             Bike currentBike = tableView.getSelectionModel().getSelectedItem();
             
-            Bike newBike = ctrl.saveButtonAction(currentBike, frameId, bikeType, model, availability);
+            if(!frameId.equals(currentBike.getFrameId())) {
+                for(Bike b:Bikes) {
+                    if(b.getFrameId().equals(frameId)) {
+                        AppContext.getInstance().showMessage("Fahrrad hinzufügen fehlgeschlagen! \n"
+                                + "Rahmennummer bereits vergeben", 5, "#FFCCDD");
+                        return;
+                    }
+                        
+                }
+            }
+            
+            Bike newBike = ctrl.saveButtonAction(currentBike, frameId, model, availability);
             if(newBike!=null)
                 Bikes.set(Bikes.indexOf(currentBike),newBike);
             tableView.setItems(Bikes);
@@ -174,37 +183,36 @@ public class EditBikeGUI extends HBox {
         deleteButton.setOnAction(evt ->{
             Bike bike = tableView.getSelectionModel().getSelectedItem();
             if(!(ctrl.removeBike(bike) )) {
-                deleteButton.setStyle("-fx-background-color: #FFA59D;");
+                AppContext.getInstance().showMessage("Fahrrad löschen fehlgeschlagen!", 5, "#FFCCDD");
             }
-            if(bike!=null)
+            if(bike!=null) {
                 Bikes.remove(bike);
+                AppContext.getInstance().showMessage("Fahrrad erfolgreich gelöscht!", 5, "#CCFFCC");
+            }
+                
             tableView.setItems(Bikes);
         });
         
         innerBox.add(frameIdLabel, 0, 0);
         innerBox.add(frameIdTextField, 1, 0);
         
-        innerBox.add(bikeTypeLabel, 0, 1);
-        innerBox.add(bikeTypeBox, 1, 1);
+        innerBox.add(availabilityLabel, 0, 1);
+        innerBox.add(availabilityBox, 1, 1);
         
-        innerBox.add(availabilityLabel, 0, 2);
-        innerBox.add(availabilityBox, 1, 2);
+        innerBox.add(modelLabel, 0, 2);
+        innerBox.add(modelBox, 1, 2);
         
-        innerBox.add(modelLabel, 0, 3);
-        innerBox.add(modelTextField, 1, 3);
-        
-        innerBox.add(backButton, 0, 4);
-        innerBox.add(saveButton, 1, 4);
-        innerBox.add(deleteButton, 2, 4);
-        innerBox.add(createButton, 3, 4);
+        innerBox.add(backButton, 0, 3);
+        innerBox.add(saveButton, 1, 3);
+        innerBox.add(deleteButton, 2, 3);
+        innerBox.add(createButton, 3, 3);
         
         
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if(newSelection != null) {
 			    frameIdTextField.setText(newSelection.getFrameId());
-			    bikeTypeBox.setValue(newSelection.getType().getTypeString());
 			    availabilityBox.setValue(newSelection.getAvailability());
-			    modelTextField.setText(newSelection.getType().getModel());
+			    modelBox.setValue(newSelection.getType().getModel());
 			    
 			    tableView.setItems(Bikes);
 			}

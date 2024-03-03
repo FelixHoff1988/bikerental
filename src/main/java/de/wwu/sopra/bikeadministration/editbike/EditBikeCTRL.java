@@ -18,38 +18,20 @@ import javafx.scene.control.TextField;
 
 public class EditBikeCTRL {
 	
-	public Bike addBike(String frameId, String bikeType, String model,
+	public Bike addBike(String frameId, String model,
 			Availability availability) {
 		Bike newBike = null;
-		int size = 0;
-		int price = 0;
-		BikeType type;
-		switch(bikeType) {
-		case "Standard":
-			type = new StandardType(model, size, price);
-			break;
-			
-		case "Cargo":
-			type = new CargoBike(model, size, price, 0);
-			break;
-			
-		case "EBike":
-			type = new EBike(model, size, price, 0);
-			break;
-			
-		default:
-			type = new StandardType(model, size, price);
-			break;
+		List<BikeType> types = DataProvider.getInstance().getBikeTypes();
+		BikeType type = null;
+		for(BikeType t:types) {
+		    if(t.getModel().equals(model))
+		        type = t;
 		}
 		
 		if(type != null) {
-			newBike = new Bike(type, model, null, null);
-			DataProvider prov = DataProvider.getInstance();
-			
-			if(prov.addBike(newBike)) {
-				AppContext.getInstance().changeViewNode(new LoginGUI());
-			}
-				
+			newBike = new Bike(type, frameId, null, null);
+			newBike.setAvailability(availability);
+			DataProvider.getInstance().addBike(newBike);	
 		}
 		return newBike;
 		
@@ -60,52 +42,45 @@ public class EditBikeCTRL {
 		return prov.removeBike(bike);
 	}
 	
-	public Bike createButtonAction(String frameId, String bikeType, String model, Availability availability) {
+	public Bike createButtonAction(String frameId, String model, Availability availability) {
 	    Bike newBike = null;
 		//Mindestens eine Eingabe ist leer
-		if(frameId.isBlank() || model.isBlank() || availability==null
-				 || bikeType==null){
+		if(frameId.isBlank() || availability==null
+				 || model==null){
 			
-			var alert = new Alert(
-		            Alert.AlertType.NONE,
-		            "Leere Eingaben sind nicht erlaubt!",
-		            ButtonType.OK);
-		    alert.setHeaderText("Fehlerhafte Eingaben");
-		    alert.show();
+		    AppContext.getInstance().showMessage("Fahrrad hinzufügen fehlgeschlagen! \n"
+		            + "Leere Eingabe", 5, "#FFCCDD");
 		}
 		//Alles korrekt, Fahhrad hinzufügen
 		else{
-			newBike = addBike(frameId, bikeType, model, availability);
+		    
+			newBike = addBike(frameId, model, availability);
+			AppContext.getInstance().showMessage("Fahrrad erfolgreich hinzugefügt", 5, "#CCFFCC");
 		}
 		return newBike;
 	}
-	public Bike saveButtonAction(Bike bike, String frameId, String bikeType, String model,
-             Availability availability) {
+	public Bike saveButtonAction(Bike bike, String frameId, String model, Availability availability) {
 	    
 	    
 	    //Mindestens eine Eingabe ist leer
-        if(frameId.isBlank() || model.isBlank() || availability==null
-                 || bikeType==null){
+        if(frameId.isBlank() || availability==null
+                 || model==null){
             
-            var alert = new Alert(
-                    Alert.AlertType.NONE,
-                    "Leere Eingaben sind nicht erlaubt!",
-                    ButtonType.OK);
-            alert.setHeaderText("Fehlerhafte Eingaben");
-            alert.show();
+            AppContext.getInstance().showMessage("Fahrrad-Daten ändern fehlgeschlagen! \n"
+                    + "Leere Eingabe", 5, "#FFCCDD");
         }
         //Alles korrekt, Fahrraddaten ändern
         else {
-            int price = 0;
-            int size = 0;
             bike.setFrameId(frameId);
-            BikeType type;
-            switch(bikeType) {
-            default:
-                type = new StandardType(model, size, price);
+            BikeType type = null;
+            List<BikeType> types = DataProvider.getInstance().getBikeTypes();
+            for(BikeType t:types) {
+                if(t.getModel().equals(model))
+                    type = t;
             }
             bike.setType(type);
             bike.setAvailability(availability);
+            AppContext.getInstance().showMessage("Fahrrad-Daten erfolgreich geändert", 5, "#CCFFCC");
         }
         return bike;
 	    
@@ -123,6 +98,18 @@ public class EditBikeCTRL {
 	    }
 	    
 	    return bikeTypesString;
+	}
+	
+	public List<String> loadModels(){
+	    List<String> models = new ArrayList<String>();
+	    List<BikeType> types = DataProvider.getInstance().getBikeTypes();
+	    
+	    for(BikeType t:types) {
+	        String s = t.getModel();
+	        if(!models.contains(s))
+	            models.add(s);
+	    }
+	    return models;
 	}
 	
 	public List<Bike> loadBikes() {
