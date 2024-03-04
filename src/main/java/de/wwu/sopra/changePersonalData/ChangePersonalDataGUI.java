@@ -96,28 +96,33 @@ public class ChangePersonalDataGUI extends HBox {
         innerBox.add(houseNumberLabel, 0, 5);
         innerBox.add(houseNumberTextField, 1, 5);
         
+        var plz = String.valueOf(user.getPostalCode());
         var plzLabel = new Label("PLZ: ");
-        var plzTextField = new TextField("");
+        var plzTextField = new TextField(plz);
         innerBox.add(plzLabel, 0, 6);
         innerBox.add(plzTextField, 1, 6);
         
+        var town = user.getCity();
         var townLabel = new Label("Stadt: ");
-        var townTextField = new TextField("");
+        var townTextField = new TextField(town);
         innerBox.add(townLabel, 0, 7);
         innerBox.add(townTextField, 1, 7);
         
+        var iban = String.valueOf(user.getIban());
         var IBANLabel = new Label("IBAN: ");
-        var IBANTextField = new TextField("");
+        var IBANTextField = new TextField(iban);
         innerBox.add(IBANLabel, 0, 8);
         innerBox.add(IBANTextField, 1, 8);
         
+        var bic = user.getBic();
         var BICLabel = new Label("BIC: ");
-        var BICTextField = new TextField("");
+        var BICTextField = new TextField(bic);
         innerBox.add(BICLabel, 0, 9);
         innerBox.add(BICTextField, 1, 9);
         
+        var email = user.getEmail();
         var emailLabel = new Label("E-Mail: ");
-        var emailTextField = new TextField("");
+        var emailTextField = new TextField(email);
         innerBox.add(emailLabel, 4, 0);
         innerBox.add(emailTextField, 5, 0);
         
