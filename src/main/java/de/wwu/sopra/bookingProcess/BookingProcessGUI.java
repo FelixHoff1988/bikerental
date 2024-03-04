@@ -55,7 +55,7 @@ public class BookingProcessGUI extends StackPane {
                 || (!bike.getReservationList().isEmpty() && bike.getReservationList().getLast() == reservation));
         this.map.displayMarkers(availableBikes, Bike::getLocation, Provided.ORANGE);
 
-        if (reservation != null)
+        if (reservation != null && reservation.getEndTime() == null)
             this.map.selectMarker(reservation.getBike(), Provided.GREEN);
     }
 
