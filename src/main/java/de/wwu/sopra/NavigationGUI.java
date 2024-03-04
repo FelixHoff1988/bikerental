@@ -3,6 +3,7 @@ package de.wwu.sopra;
 
 import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
 import de.wwu.sopra.bookingProcess.BookingProcessGUI;
+import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
@@ -214,7 +215,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Wartungs und Schadensliste
 	 */
 	private void service() {
-		// TODO AppContext.getInstance().changeViewNode(new ServiceGUI());
+		AppContext.getInstance().changeViewNode(new BikeMaintenanceGUI());
 	}
 
 	/**
