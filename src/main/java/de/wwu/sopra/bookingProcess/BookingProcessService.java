@@ -13,6 +13,20 @@ import java.time.temporal.ChronoUnit;
  */
 public class BookingProcessService extends Service<Void> {
     /**
+     * Frequenz, in welcher die Reservierungen überprüft werden sollen (in Sekunden)
+     */
+    private int frequency;
+
+    /**
+     * Konstruktor: Setzt die gewünschte Frequenz.
+     *
+     * @param frequency Frequenz, in welcher die Reservierungen überprüft werden sollen (in Sekunden)
+     */
+    public BookingProcessService(int frequency) {
+        this.frequency = frequency;
+    }
+
+    /**
      * Erstellt die Task, welche im Hintergrund laufen soll.
      *
      * @return Task, welche die Reservierungen überprüft
@@ -35,7 +49,7 @@ public class BookingProcessService extends Service<Void> {
                             if (bike != null && bike.getAvailability() == Availability.RESERVED)
                                 bike.setAvailability(Availability.AVAILABLE);
                         });
-                Thread.sleep(60000);
+                Thread.sleep(frequency);
                 return null;
             }
         };

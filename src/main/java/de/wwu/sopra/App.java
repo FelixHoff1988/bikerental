@@ -34,7 +34,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("BikeRental.de");
 		DataProvider.getInstance();
-		new BookingProcessService().start();
+		new BookingProcessService(60000).start();
 
 		var gui = new AppGUI();
 		AppContext.create(gui);
