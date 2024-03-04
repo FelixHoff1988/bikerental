@@ -13,14 +13,14 @@ import java.time.temporal.ChronoUnit;
  */
 public class BookingProcessService extends Service<Void> {
     /**
-     * Frequenz, in welcher die Reservierungen überprüft werden sollen (in Sekunden)
+     * Frequenz, in welcher die Reservierungen überprüft werden sollen (in Millisekunden)
      */
-    private int frequency;
+    private final int frequency;
 
     /**
      * Konstruktor: Setzt die gewünschte Frequenz.
      *
-     * @param frequency Frequenz, in welcher die Reservierungen überprüft werden sollen (in Sekunden)
+     * @param frequency Frequenz, in welcher die Reservierungen überprüft werden sollen (in Millisekunden)
      */
     public BookingProcessService(int frequency) {
         this.frequency = frequency;

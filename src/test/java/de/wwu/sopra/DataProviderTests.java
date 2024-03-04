@@ -1,118 +1,32 @@
 package de.wwu.sopra;
 
-import com.sothawo.mapjfx.Coordinate;
 import de.wwu.sopra.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import static de.wwu.sopra.DataProviderMock.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests für die DataProvider Klasse
  */
 public class DataProviderTests {
-    // Es folgen Mock-Daten
-    private DataProvider provider = DataProvider.getInstance();
-    private final String bikeTypeName = "Fahrrad";
-    private final StandardType mockBikeType = new StandardType(bikeTypeName, 52, 100);
-
-    private final Coordinate[] mockCoordinates = new Coordinate[] {
-            new Coordinate(0.0, 0.0),
-            new Coordinate(1.0, 1.0),
-    };
-    private final GeofencingArea mockGeoArea = new GeofencingArea(new ArrayList<>(List.of(mockCoordinates)));
-
-    private final String mockBikeId = "RM001896T8";
-    private final Bike mockBike = new Bike(mockBikeType, mockBikeId, mockCoordinates[0], mockGeoArea);
-
-    private final String stationName = "Meine Station";
-    private final BikeStation mockBikeStation = new BikeStation(stationName, mockCoordinates[1], 20);
-
-    private final String userEmail = "günther-der-große@gmail.com";
-    private final User mockUser = new User(
-            "Heinz",
-            "Günther",
-            "Fress-Mich-Doch-Weg",
-            (int) 15,
-            (int) 76856,
-            "Maiwöldchen",
-            userEmail,
-            "DE87 3728 0000 1123 3947 12",
-            "CIBILIDUSQUACK",
-            new PasswordHashing.PasswordHash(
-                    // Password: ¦'?>4g¾ì©íc¨0IfûÃßO`»)c={kAl¡Ñ`d;;ÝxgrkK#÷Ý¿M°XãËÿ¦³;Ãf~\c(huÏMú
-                    "b6e8012386d585bbd9b5057b759ebc9d",
-                    "2ac4fcabf13bf1cb57ab450f553e747bb9fc2f0c9f709645bac62b27c0e66371496764a5638dc84524a8d47c388b2c690016c02c55a7a7f03c146bd6d2a4b17f"),
-            UserRole.MAINTAINER);
-
-    private final LocalDateTime reservationStartDate = LocalDateTime.of(2024, 2, 24, 10, 42);
-    private final Reservation mockReservation = new Reservation(
-            reservationStartDate,
-            mockUser,
-            mockBike);
-
-    private final LocalDateTime serviceStartDate = LocalDateTime.of(2024, 2, 25, 9, 42);
-    private final Service mockService = new Maintenance(
-            serviceStartDate,
-            mockBike);
-
     /**
-     * Setzt den Provider auf einen optimalen Testzustand zurück
+     * Instanz des DataProviders
      */
-    private void resetProvider(boolean resetData) {
-        try {
-            // Setze den DataProvider zurück
-            var instanceField = DataProvider.class.getDeclaredField("instance");
-            instanceField.setAccessible(true);
-            instanceField.set(null, null);
-
-            // Setze einen anderen Dateipfad zum Testen
-            var dataPathField = DataProvider.class.getDeclaredField("dataFilePath");
-            dataPathField.setAccessible(true);
-            dataPathField.set(null, "./testdata.xml");
-
-            if (resetData) {
-                // Lösche die Datei mit den Testdaten
-                var testFile = new File("./testdata.xml");
-                if (testFile.exists())
-                    testFile.delete();
-            }
-
-            // Reinstanziere den provider
-            provider = DataProvider.getInstance();
-        } catch (Exception ignored) {
-            fail();
-        }
-    }
-
+    private DataProvider provider;
+    
     /**
      * Setzt den Provider auf einen optimalen Testzustand zurück
      */
     @BeforeEach
     public void resetProvider() {
-        resetProvider(true);
-    }
-
-    /**
-     * Initialisiere den DataProvider mit Mock-Daten
-     */
-    private void prepareData() {
-        // Füge die Mock-Daten zum DataProvider hinzu
-        provider.addBikeType(mockBikeType);
-        provider.addGeoArea(mockGeoArea);
-        provider.addBike(mockBike);
-        provider.addStation(mockBikeStation);
-        provider.addUser(mockUser);
-        provider.addReservation(mockReservation);
-        provider.addService(mockService);
+        this.provider = DataProviderMock.resetProvider(true);
     }
 
     /**
@@ -133,7 +47,7 @@ public class DataProviderTests {
      * @param <T> Zu testender Datentyp
      */
     private <T> void testGetList(Supplier<List<T>> functionToTest, T mock) {
-        prepareData();
+        DataProviderMock.prepareData(provider);
 
         var data = functionToTest.get();
 
@@ -160,7 +74,7 @@ public class DataProviderTests {
      * @param <T> Zu testender Datentyp
      */
     private <T> void testGetListFilter(Function<Predicate<T>, List<T>> functionToTest, T mock) {
-        prepareData();
+        DataProviderMock.prepareData(provider);
 
         var data = functionToTest.apply(obj -> obj == mock);
 
@@ -189,7 +103,7 @@ public class DataProviderTests {
      */
     @Test
     void getUser() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         assertEquals(mockUser, provider.getUser(mockUser.getEmail()));
     }
 
@@ -215,7 +129,7 @@ public class DataProviderTests {
      */
     @Test
     void removeUser() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         assertTrue(provider.removeUser(mockUser));
         assertTrue(provider.getUsers().isEmpty());
     }
@@ -226,7 +140,7 @@ public class DataProviderTests {
      */
     @Test
     void addUser() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         // Ein Nutzer muss eine eindeutige E-Mail haben
         assertFalse(provider.addUser(mockUser));
         assertFalse(provider.getUsers(user -> user == mockUser).isEmpty());
@@ -241,7 +155,7 @@ public class DataProviderTests {
      */
     @Test
     void getBike() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         assertEquals(mockBike, provider.getBike(mockBike.getFrameId()));
     }
 
@@ -267,7 +181,7 @@ public class DataProviderTests {
      */
     @Test
     void removeBike() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         assertTrue(provider.removeBike(mockBike));
         assertTrue(provider.getBikes().isEmpty());
     }
@@ -277,7 +191,7 @@ public class DataProviderTests {
      */
     @Test
     void addBike() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         // Ein Fahrrad muss eine eindeutige Rahmennummer haben
         assertFalse(provider.addBike(mockBike));
         assertFalse(provider.getBikes(bike -> bike == mockBike).isEmpty());
@@ -311,7 +225,7 @@ public class DataProviderTests {
      */
     @Test
     void removeBikeType() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         // Da ein Fahrrad des Typen existiert sollte er nicht entfernt werden können
         assertFalse(provider.removeBikeType(mockBikeType));
         // Nach dem Entfernen des Fahrrads dann schon
@@ -360,8 +274,14 @@ public class DataProviderTests {
         assertTrue(provider.addBike(mockBike));
         assertTrue(provider.addUser(mockUser));
 
+        // Bike und User sollten die Reservierung noch nicht enthalten
+        assertTrue(mockBike.getReservationList().isEmpty());
+        assertTrue(mockUser.getReservationList().isEmpty());
+
         assertTrue(provider.addReservation(mockReservation));
         assertFalse(provider.getReservations(r -> r == mockReservation).isEmpty());
+        assertSame(mockBike.getReservationList().getLast(), mockReservation);
+        assertSame(mockUser.getReservationList().getLast(), mockReservation);
     }
 
 
@@ -388,7 +308,7 @@ public class DataProviderTests {
      */
     @Test
     void removeStation() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         assertTrue(provider.removeStation(mockBikeStation));
         assertTrue(provider.getStations().isEmpty());
     }
@@ -425,7 +345,7 @@ public class DataProviderTests {
      */
     @Test
     void removeGeoArea() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         assertTrue(provider.removeGeoArea(mockGeoArea));
         assertTrue(provider.getGeoAreas().isEmpty());
     }
@@ -467,8 +387,16 @@ public class DataProviderTests {
 
         assertTrue(provider.addBikeType(mockBikeType));
         assertTrue(provider.addBike(mockBike));
+
+        // Das Bike sollte nun noch keine Services haben
+        assertTrue(mockBike.getServiceList().isEmpty());
+
         assertTrue(provider.addService(mockService));
+
+        // Der Service ist vorhanden
         assertFalse(provider.getServices(s -> s == mockService).isEmpty());
+        // Auch im Bike
+        assertSame(mockBike.getServiceList().getLast(), mockService);
     }
 
     /**
@@ -476,9 +404,9 @@ public class DataProviderTests {
      */
     @Test
     public void saveAndLoadData() {
-        prepareData();
+        DataProviderMock.prepareData(provider);
         provider.saveData();
-        resetProvider(false);
+        this.provider = DataProviderMock.resetProvider(false);
 
         // mockService vorhanden
         assertFalse(provider.getServices(service -> service.getStartTime().isEqual(serviceStartDate)).isEmpty());
