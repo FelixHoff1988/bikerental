@@ -1,6 +1,7 @@
 package de.wwu.sopra.bookingProcess;
 
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.entity.Availability;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -10,7 +11,7 @@ import java.time.temporal.ChronoUnit;
 public class BookingProcessService extends Service<Void> {
     @Override
     protected Task<Void> createTask() {
-        var service = this;
+        this.setOnSucceeded(event -> this.restart());
         return new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -20,13 +21,14 @@ public class BookingProcessService extends Service<Void> {
                         .stream()
                         .filter(res -> res.getEndTime() == null
                                 && res.getBookingTime() == null
-                                && res.getStartTime().until(LocalDateTime.now(), ChronoUnit.MILLIS) >= 60000)
-                        .forEach(res -> res.setEndTime(LocalDateTime.now()));
-
-                wait(60000);
-
-                service.reset();
-                service.start();
+                                && res.getStartTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) >= 3600)
+                        .forEach(res -> {
+                            res.setEndTime(LocalDateTime.now());
+                            var bike = res.getBike();
+                            if (bike != null && bike.getAvailability() == Availability.RESERVED)
+                                bike.setAvailability(Availability.AVAILABLE);
+                        });
+                Thread.sleep(60000);
                 return null;
             }
         };
