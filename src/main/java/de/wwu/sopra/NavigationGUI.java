@@ -6,6 +6,7 @@ import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
 import de.wwu.sopra.register.RegisterGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
+import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
@@ -192,7 +193,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Geofencing-Area Liste
 	 */
 	private void geofencingAreas() {
-		// TODO AppContext.getInstance().changeViewNode(new GeofencingGUI());
+		AppContext.getInstance().changeViewNode(new EditGeofencingAreaGUI());
 		
 	}
 
