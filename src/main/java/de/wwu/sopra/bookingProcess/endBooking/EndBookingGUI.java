@@ -115,8 +115,9 @@ public class EndBookingGUI extends FlowPane {
      */
     public void onStepFinish(Consumer<Reservation> consumer) {
         this.endBookButton.setOnAction(event -> {
-            ctrl.endBooking(this.reservation);
-            consumer.accept(this.reservation);
+            var success = ctrl.endBooking(this.reservation);
+            if (success)
+                consumer.accept(this.reservation);
         });
     }
 }

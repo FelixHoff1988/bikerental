@@ -225,12 +225,17 @@ public class MapGUI extends BorderPane {
     /**
      * Definiert eine Aktion, welche ausgeführt wird, wenn ein markierter Bereich vom Typ T angeklickt wird.
      *
+     * @param objClass Klasse der zu verwaltenden Objekte
      * @param consumer Funktion, welche das Objekt entgegennimmt, auf welches geklickt wurde.
      * @param changeFillColor Neue Füllfarbe des Bereichs (kann null sein)
      * @param changeLineColor Neue Kantenfarbe des Bereichs (kann null sein)
      * @param <T> Type des Bereichs
      */
-    public <T> void onClickCoordinateLine(Consumer<T> consumer, String changeFillColor, String changeLineColor) {
+    public <T> void onClickCoordinateLine(
+            Class<T> objClass,
+            Consumer<T> consumer,
+            String changeFillColor,
+            String changeLineColor) {
         var consumerClass = consumer.getClass();
         EventHandler<MapViewEvent> eventHandler = event -> {
             var lines = coordinateLines
@@ -242,13 +247,11 @@ public class MapGUI extends BorderPane {
             if (lines.isEmpty())
                 return;
 
-            T typedObject = null;
-            try { typedObject = (T) lines.getFirst().getValue(); } catch (Exception ignored) {}
+            var object = lines.getFirst().getValue();
+            var type = object.getClass();
 
-            if (typedObject == null)
+            if (objClass != type)
                 return;
-
-            var type = typedObject.getClass();
 
             var isCurrentLine = clickedLines
                     .entrySet()
@@ -258,7 +261,7 @@ public class MapGUI extends BorderPane {
             if (!isCurrentLine)
                 selectCoordinateLine(lines.getFirst().getKey(), type, changeFillColor, changeLineColor);
 
-            consumer.accept(typedObject);
+            consumer.accept(objClass.cast(object));
         };
 
         onAreaClickActions.put(consumerClass, eventHandler);
@@ -323,22 +326,19 @@ public class MapGUI extends BorderPane {
     /**
      * Definiert eine Aktion, welche ausgeführt wird, wenn ein Marker vom Typ T angeklickt wird.
      *
+     * @param objClass Klasse der zu verwaltenden Objekte
      * @param consumer Funktion, welche das Objekt entgegennimmt, auf welches geklickt wurde.
      * @param changeColor Neue Farbe des Markers (kann null sein)
      * @param <T> Type des Markers
      */
-    public <T> void onClickMarker(Consumer<T> consumer, Marker.Provided changeColor) {
+    public <T> void onClickMarker(Class<T> objClass, Consumer<T> consumer, Marker.Provided changeColor) {
         var consumerClass = consumer.getClass();
         EventHandler<MarkerEvent> eventHandler = event -> {
             var object = this.markers.get(event.getMarker());
+            var type = object.getClass();
 
-            T typedObject = null;
-            try { typedObject = (T) object; } catch (Exception ignored) {}
-
-            if (typedObject == null)
+            if (objClass != type)
                 return;
-
-            var type = typedObject.getClass();
 
             var isCurrentMarker = clickedMarkers
                     .entrySet()
@@ -348,7 +348,7 @@ public class MapGUI extends BorderPane {
             if (!isCurrentMarker)
                 selectMarker(event.getMarker(), type, changeColor);
 
-            consumer.accept(typedObject);
+            consumer.accept(objClass.cast(object));
         };
 
         onClickActions.put(consumerClass, eventHandler);

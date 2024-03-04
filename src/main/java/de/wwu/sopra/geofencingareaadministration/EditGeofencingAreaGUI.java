@@ -102,7 +102,7 @@ public class EditGeofencingAreaGUI extends HBox{
             selectedArea = null;
         });
 
-        map.<GeofencingArea>onClickCoordinateLine(area -> {
+        map.onClickCoordinateLine(GeofencingArea.class, area -> {
             if (area == this.selectedArea)
                 this.selectedArea = null;
             else
