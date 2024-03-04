@@ -17,11 +17,10 @@ public class BookingProcessService extends Service<Void> {
             protected Void call() throws Exception {
                 DataProvider
                         .getInstance()
-                        .getReservations()
-                        .stream()
-                        .filter(res -> res.getEndTime() == null
-                                && res.getBookingTime() == null
-                                && res.getStartTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) >= 3600)
+                        .getReservations(
+                                res -> res.getEndTime() == null
+                                    && res.getBookingTime() == null
+                                    && res.getStartTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) >= 3600)
                         .forEach(res -> {
                             res.setEndTime(LocalDateTime.now());
                             var bike = res.getBike();
