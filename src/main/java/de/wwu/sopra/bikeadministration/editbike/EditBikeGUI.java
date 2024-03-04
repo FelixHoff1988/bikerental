@@ -82,9 +82,11 @@ public class EditBikeGUI extends HBox {
         tableView.getColumns().add(availabilityColumn);        
         tableView.getColumns().add(coordinateColumn);
         
-        //Breite der Tabelle und Spalten festlegen
+        //Breite der Tabelle festlegen
         tableView.setMaxWidth(700);
         tableView.setMinWidth(700);
+        
+        //Breite der Spalten festlegen
         frameIdColumn.setPrefWidth(125);
         availabilityColumn.setPrefWidth(125);
         coordinateColumn.setPrefWidth(200);
