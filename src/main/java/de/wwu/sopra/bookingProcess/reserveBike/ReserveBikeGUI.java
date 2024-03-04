@@ -1,8 +1,7 @@
 package de.wwu.sopra.bookingProcess.reserveBike;
 
 import de.wwu.sopra.entity.Bike;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import de.wwu.sopra.entity.Reservation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,15 +12,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 
+import java.util.function.Consumer;
+
 /**
- * Grenzklasse der Reservierung eines Fahhrads
+ * Grenzklasse der Reservierung eines Fahrrads
  */
 public class ReserveBikeGUI extends FlowPane {
 
     /**
      * Speichert die Kontrollklasse ab
      */
-    private ReserveBikeCTRL ctrl;
+    private final ReserveBikeCTRL ctrl;
     /**
      * Die äußerste Box
      */
@@ -39,7 +40,7 @@ public class ReserveBikeGUI extends FlowPane {
      */
     private Label bikeFeature;
     /**
-     * Schatelt die Angezeigten Informationen
+     * Zeigt die Informationen an
      */
     private GridPane bikeInfo;
     /**
@@ -47,7 +48,7 @@ public class ReserveBikeGUI extends FlowPane {
      */
     private Label disclaimer;
     /**
-     * Knopf zum reservieren
+     * Knopf zum Reservieren
      */
     private Button reserveButton;
     /**
@@ -60,22 +61,13 @@ public class ReserveBikeGUI extends FlowPane {
      */
     public ReserveBikeGUI() {
         this.ctrl = new ReserveBikeCTRL();
-
         build();
-        
-        this.reserveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                makeReservation();
-            }
-        });
     }
 
     /**
      * Baut das Anzeigefeld zusammen
      */
     public void build() {
-
         this.reserveBox = new HBox();
         this.bikeInfo = new GridPane();
         this.bikeType = new Label("Fahrradtyp: ");
@@ -92,11 +84,11 @@ public class ReserveBikeGUI extends FlowPane {
                 + "-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);");
         this.reserveBox.setAlignment(Pos.CENTER);
 
-        this.reserveButton.setStyle("-fx-font-size:22");
-        this.bikeType.setStyle("-fx-font-size:22");
-        this.bikePrice.setStyle("-fx-font-size:22");
-        this.disclaimer.setStyle("-fx-font-size:22");
-        this.bikeFeature.setStyle("-fx-font-size:22");
+        this.reserveButton.setStyle("-fx-font-size: 18;");
+        this.bikeType.setStyle("-fx-font-size: 18;");
+        this.bikePrice.setStyle("-fx-font-size: 18;");
+        this.disclaimer.setStyle("-fx-font-size: 18;");
+        this.bikeFeature.setStyle("-fx-font-size: 18;");
 
         this.bikeInfo.setMinWidth(300);
         this.disclaimer.setMinWidth(300);
@@ -121,7 +113,6 @@ public class ReserveBikeGUI extends FlowPane {
      * @param newBike neues Fahrrad welches Angezeigt werden soll
      */
     public void update(Bike newBike) {
-
         this.currentBike = newBike;
         
         if (null == newBike) {
@@ -137,9 +128,7 @@ public class ReserveBikeGUI extends FlowPane {
             cent %= 100;
             String centString = String.valueOf(cent);
             centString = "0" + centString;
-            if (centString.length() >= 2) {
-                centString = centString.substring(centString.length() - 2);
-            }
+            centString = centString.substring(centString.length() - 2);
 
             String price = euro + "," + centString + "€";
 
@@ -149,11 +138,7 @@ public class ReserveBikeGUI extends FlowPane {
             this.bikePrice.setText("Preis: " + price + "/h");
             this.bikeFeature.setText(feature);
 
-            if (feature == null) {
-                this.bikeFeature.setVisible(false);
-            } else {
-                this.bikeFeature.setVisible(true);
-            }
+            this.bikeFeature.setVisible(feature != null);
 
             this.reserveBox.getChildren().removeFirst();
             this.reserveBox.getChildren().addFirst(this.bikeInfo);
@@ -161,11 +146,16 @@ public class ReserveBikeGUI extends FlowPane {
             this.reserveButton.setDisable(false);
         }
     }
-    
+
     /**
-     * Reserviere das aktuelle Bike
+     * Definiert, was nach dem Erstellen einer Reservierung passiert.
+     *
+     * @param consumer Funktion, welche die erstellte Reservierung entgegennimmt
      */
-    public void makeReservation() {
-        ctrl.reserveBike(this.currentBike);
+    public void onStepFinish(Consumer<Reservation> consumer) {
+        this.reserveButton.setOnAction(event -> {
+            var reservation = ctrl.reserveBike(this.currentBike);
+            consumer.accept(reservation);
+        });
     }
 }

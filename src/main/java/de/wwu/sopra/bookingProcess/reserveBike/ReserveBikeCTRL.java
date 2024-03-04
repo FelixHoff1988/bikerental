@@ -1,7 +1,6 @@
 package de.wwu.sopra.bookingProcess.reserveBike;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
@@ -13,12 +12,6 @@ import de.wwu.sopra.entity.Availability;
  * Klasse die das Reservieren von Fahrrädern managed
  */
 public class ReserveBikeCTRL {
-	
-	/**
-	 * Das aktuell betrachtete Fahrrad
-	 */
-	private Bike currentBike;
-	
 	/**
 	 * Standartkonstruktor
 	 */
@@ -28,10 +21,11 @@ public class ReserveBikeCTRL {
 	
 	/**
 	 * Methode die ein Fahrrad reserviert und eine Reservierung erstellt
+	 *
 	 * @param bike Fahrrad welches reserviert werden soll
+	 * @return Erstellte Reservierung
 	 */
-	public void reserveBike(Bike bike) {
-	    
+	public Reservation reserveBike(Bike bike) {
 	    LocalDateTime now = LocalDateTime.now();
 	    var user = AppContext.getInstance().getLoggedInUser();
 	    
@@ -41,5 +35,7 @@ public class ReserveBikeCTRL {
 		data.addReservation(reservation);
 		
 		bike.setAvailability(Availability.RESERVED);
+
+		return reservation;
 	}
 }

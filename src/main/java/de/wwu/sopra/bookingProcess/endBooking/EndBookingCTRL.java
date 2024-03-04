@@ -1,5 +1,10 @@
 package de.wwu.sopra.bookingProcess.endBooking;
 
+import de.wwu.sopra.entity.Availability;
+import de.wwu.sopra.entity.Reservation;
+
+import java.time.LocalDateTime;
+
 /**
  * Kontrollklasse um eine Reservierung zu beenden
  */
@@ -8,8 +13,18 @@ public class EndBookingCTRL {
     /**
      * Standartkonstruktor
      */
-    public EndBookingCTRL() {
-        
+    public EndBookingCTRL() {}
+
+    /**
+     * Beendet eine Reservierung.
+     *
+     * @param reservation Zu beendende Reservierung
+     */
+    public void endBooking(Reservation reservation) {
+        reservation.setEndTime(LocalDateTime.now());
+
+        var bike = reservation.getBike();
+        if (bike != null)
+            bike.setAvailability(Availability.AVAILABLE);
     }
-    
 }
