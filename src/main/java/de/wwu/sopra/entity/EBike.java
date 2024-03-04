@@ -8,7 +8,7 @@ public class EBike extends BikeType {
      * Ladestand (in Prozent)
      */
     private int charge;
-
+    
     /**
      * Konstruktor: Initialisiert alle Attribute mit den übergebenen Parametern
      *
@@ -38,6 +38,14 @@ public class EBike extends BikeType {
         this.charge = charge;
     }
     
+	/**
+	 * Rufe den FahrradTyp EBike als String auf
+	 */
+	@Override
+	public String getTypeString() {
+		return "EBike";
+	}
+    
     /**
      * Gebe aktuellen Ladestand eines EBikes als String aus
      * @return String mit Ladestand
@@ -48,4 +56,5 @@ public class EBike extends BikeType {
         description += "%";
         return description;
     }
+
 }

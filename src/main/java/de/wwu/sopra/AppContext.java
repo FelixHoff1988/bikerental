@@ -93,8 +93,11 @@ public class AppContext {
      *
      * @param text Nachrichtentext
      * @param duration Anzeigedauer in Sekunden
+     * @param color Hintergrundfarbe (kann null sein)
      */
-    public void showMessage(String text, int duration) {
-        this.appGui.showMessage(text, duration);
+    public void showMessage(String text, int duration, String color) {
+        if (color == null)
+            color = "#e6e6e6";
+        this.appGui.showMessage(text, duration, color);
     }
 }

@@ -51,14 +51,34 @@ public class MapGUI extends BorderPane {
     private final HashMap<Class<?>, Marker> clickedMarkers = new HashMap<>();
 
     /**
+     * Aktuell angeklickte CoordinateLines
+     */
+    private final HashMap<Class<?>, CoordinateLine> clickedLines = new HashMap<>();
+
+    /**
      * Farben den Marker-Typen zugeordnet
      */
     private final HashMap<Class<?>, Marker.Provided> markerColors = new HashMap<>();
 
     /**
+     * Kantenfarben den CoordinateLine-Typen zugeordnet
+     */
+    private final HashMap<Class<?>, String> coordinateLineColors = new HashMap<>();
+
+    /**
+     * Füllfarben den CoordinateLine-Typen zugeordnet
+     */
+    private final HashMap<Class<?>, String> coordinateLineFillColors = new HashMap<>();
+
+    /**
      * OnClick-Funktionen den Marker-Typen zugeordnet
      */
     private final HashMap<Class<?>, EventHandler<MarkerEvent>> onClickActions = new HashMap<>();
+
+    /**
+     * OnClick-Funktionen den Marker-Typen zugeordnet
+     */
+    private final HashMap<Class<?>, EventHandler<MapViewEvent>> onAreaClickActions = new HashMap<>();
 
     /**
      * Standardkonstruktor: Initialisiert den MapView
@@ -148,6 +168,9 @@ public class MapGUI extends BorderPane {
      */
     public <T> void displayCoordinateLines(List<T> objects, Function<T, List<Coordinate>> lineSelector, String fillColor, String lineColor) {
         var areaList = new ArrayList<CoordinateLine>();
+        var type = objects.getFirst().getClass();
+        coordinateLineColors.put(type, lineColor);
+        coordinateLineFillColors.put(type, fillColor);
         objects.forEach(area -> {
             var line = new CoordinateLine(lineSelector.apply(area))
                     .setColor(Color.web(lineColor, 1))
@@ -170,6 +193,116 @@ public class MapGUI extends BorderPane {
         for (var area : areas) {
             mapView.addCoordinateLine(area);
         }
+    }
+
+    /**
+     * Entfernt eine CoordinateLine von der Map.
+     *
+     * @param object Mit der CoordinateLine assoziiertes Objekt
+     * @param <T> Typ des Objekts
+     */
+    public <T> void removeCoordinateLine(T object) {
+        var filter = coordinateLines.entrySet().stream().filter(entry -> entry.getValue() == object).toList();
+
+        if (filter.isEmpty())
+            return;
+
+        coordinateLines.remove(filter.getFirst().getKey());
+        mapView.removeCoordinateLine(filter.getFirst().getKey());
+    }
+
+    /**
+     * Definiert eine Aktion, welche ausgeführt wird, wenn ein markierter Bereich vom Typ T angeklickt wird.
+     *
+     * @param consumer Funktion, welche das Objekt entgegennimmt, auf welches geklickt wurde.
+     * @param changeFillColor Neue Füllfarbe des Bereichs (kann null sein)
+     * @param changeLineColor Neue Kantenfarbe des Bereichs (kann null sein)
+     * @param <T> Type des Bereichs
+     */
+    public <T> void onClickCoordinateLine(Consumer<T> consumer, String changeFillColor, String changeLineColor) {
+        var consumerClass = consumer.getClass();
+        EventHandler<MapViewEvent> eventHandler = event -> {
+            var lines = coordinateLines
+                    .entrySet()
+                    .stream()
+                    .filter(entry -> MapFunctions.isCoordinateInArea(event.getCoordinate(), entry.getKey().getCoordinateStream().toList()))
+                    .toList();
+
+            if (lines.isEmpty())
+                return;
+
+            T typedObject = null;
+            try { typedObject = (T) lines.getFirst().getValue(); } catch (Exception ignored) {}
+
+            if (typedObject == null)
+                return;
+
+            var type = typedObject.getClass();
+
+            var isCurrentLine = clickedLines
+                    .entrySet()
+                    .stream()
+                    .anyMatch(entry -> entry.getValue() == lines.getFirst().getKey());
+            deselectCoordinateLine(type, null, null);
+            if (!isCurrentLine)
+                selectCoordinateLine(lines.getFirst().getKey(), type, changeFillColor, changeLineColor);
+
+            consumer.accept(typedObject);
+        };
+
+        onAreaClickActions.put(consumerClass, eventHandler);
+        mapView.addEventHandler(MapViewEvent.MAP_CLICKED, eventHandler);
+    }
+
+    /**
+     * Entfernt die onClickCoordinateLine Aktion.
+     *
+     * @param consumer Gleiche Funktion, welche bei onClickCoordinateLine übergeben wurde.
+     * @param <T> Typ des mit der CoordinateLine assoziierten Objektes
+     */
+    public <T> void removeCoordinateLineOnClickAction(Consumer<T> consumer) {
+        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, onAreaClickActions.get(consumer.getClass()));
+        onAreaClickActions.remove(consumer.getClass());
+    }
+
+    /**
+     * Stellt die originale Farbe für eine CoordinateLines eines bestimmten Types wieder her.
+     *
+     * @param type Repräsentierter Datentyp
+     * @param changeFillColor Neue Füllfarbe (kann null sein)
+     * @param changeLineColor Neue Kantenfarbe (kann null sein)
+     */
+    private void deselectCoordinateLine(Class<?> type, String changeFillColor, String changeLineColor) {
+        var line = clickedLines.get(type);
+
+        if (line == null)
+            return;
+
+        line.setColor(changeLineColor != null ? Color.web(changeLineColor) : Color.web(coordinateLineColors.get(type)));
+        line.setFillColor(changeFillColor != null ? Color.web(changeFillColor) : Color.web(coordinateLineFillColors.get(type)));
+
+        mapView.removeCoordinateLine(line);
+        mapView.addCoordinateLine(line);
+        clickedLines.remove(type);
+    }
+
+    /**
+     * Wähle einen bestehenden Bereich aus.
+     *
+     * @param coordinateLine Auszuwählender Bereich
+     * @param type Type des Bereichs
+     * @param changeFillColor Neue Füllfarbe des Bereichs (kann null sein)
+     * @param changeLineColor Neue Kantenfarbe des Bereichs (kann null sein)
+     */
+    private void selectCoordinateLine(CoordinateLine coordinateLine, Class<?> type, String changeFillColor, String changeLineColor) {
+        if (changeLineColor != null)
+            coordinateLine.setColor(Color.web(changeLineColor));
+        if (changeFillColor != null)
+            coordinateLine.setFillColor(Color.web(changeFillColor));
+
+        mapView.removeCoordinateLine(coordinateLine);
+        mapView.addCoordinateLine(coordinateLine);
+        clickedLines.put(type, coordinateLine);
     }
 
     /**
