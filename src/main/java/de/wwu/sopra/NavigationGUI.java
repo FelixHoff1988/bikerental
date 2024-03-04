@@ -2,8 +2,8 @@ package de.wwu.sopra;
 
 
 import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
+import de.wwu.sopra.bookingProcess.BookingProcessGUI;
 import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
-import de.wwu.sopra.register.RegisterGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
@@ -142,7 +142,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf das Startfenster/Buchungsfenster
 	 */
 	private void booking() {
-		AppContext.getInstance().changeViewNode(new Pane());
+		AppContext.getInstance().changeViewNode(new BookingProcessGUI());
 	}
 
 	/**

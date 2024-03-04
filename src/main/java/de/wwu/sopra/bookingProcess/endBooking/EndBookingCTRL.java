@@ -20,14 +20,27 @@ public class EndBookingCTRL {
      * Beendet eine Reservierung.
      *
      * @param reservation Zu beendende Reservierung
+     * @return Wurde die Buchung erfolgreich beendet
      */
-    public void endBooking(Reservation reservation) {
-        reservation.setEndTime(LocalDateTime.now());
-
+    public boolean endBooking(Reservation reservation) {
         var bike = reservation.getBike();
+
+        if (bike != null && bike.getCurrentArea() == null) {
+            AppContext.getInstance().showMessage(
+                    "Bitte stelle dein Fahrrad in einem der markierten Bereiche ab!",
+                    5,
+                    "#FFCCDD");
+            return false;
+        }
+
+        reservation.setEndTime(LocalDateTime.now());
         if (bike != null)
             bike.setAvailability(Availability.AVAILABLE);
 
-        AppContext.getInstance().showMessage("Vielen Dank für ihre Fahrt mit BikeRental.de!", 5, "#CCFFCC");
+        AppContext.getInstance().showMessage(
+                "Vielen Dank für ihre Fahrt mit BikeRental.de!",
+                5,
+                "#CCFFCC");
+        return true;
     }
 }
