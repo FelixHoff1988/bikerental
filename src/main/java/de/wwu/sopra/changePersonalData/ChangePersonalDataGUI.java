@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.entity.User;
 import de.wwu.sopra.login.LoginGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -43,31 +44,37 @@ public class ChangePersonalDataGUI extends HBox {
      * Standartkonstruktor
      */
     public ChangePersonalDataGUI() {
-        init();
+        var user = context.getLoggedInUser();
+        init(user);
     }
     
     /**
      * Initialisiert die GUI-Übersicht zur bearbeitung der eigenen Nutzerdaten
+     * 
+     * @param user der angemeldete Nutzer
      */
-    public void init() {
+    public void init(User user) {
         var innerBox = new GridPane();
         innerBox.setHgap(30);
         innerBox.setPadding(new Insets(25, 25, 25, 25));
         innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
         
+        var firstName = user.getFirstName();
         var firstNameLabel = new Label("Vorname: ");
-        var firstNameTextField = new TextField("");
+        var firstNameTextField = new TextField(firstName);
         innerBox.add(firstNameLabel, 0, 0);
         innerBox.add(firstNameTextField, 1, 0);
         
+        var lastName = user.getLastName();
         var lastNameLabel = new Label("Nachname: ");
-        var lastNameTextField = new TextField("");
+        var lastNameTextField = new TextField(lastName);
         innerBox.add(lastNameLabel, 0, 1);
         innerBox.add(lastNameTextField, 1, 1);
         
+        var role = ctrl.getRoleString(user);
         var roleNameLabel = new Label("Rolle: ");
-        var roleLabel = new Label("");
+        var roleLabel = new Label(role);
         innerBox.add(roleNameLabel, 0, 2);
         innerBox.add(roleLabel, 1, 2);
         
@@ -77,14 +84,15 @@ public class ChangePersonalDataGUI extends HBox {
         innerBox.add(spacer2, 0, 4);
         
         
-        
+        var street = user.getStreet();
         var streetLabel = new Label("Stra\u00DFe: ");
-        var streetTextField = new TextField("");
+        var streetTextField = new TextField(street);
         innerBox.add(streetLabel, 0, 4);
         innerBox.add(streetTextField, 1, 4);
         
+        var houseNumber = String.valueOf(user.getHouseNumber());
         var houseNumberLabel = new Label("Hausnummer: ");
-        var houseNumberTextField = new TextField("");
+        var houseNumberTextField = new TextField(houseNumber);
         innerBox.add(houseNumberLabel, 0, 5);
         innerBox.add(houseNumberTextField, 1, 5);
         
