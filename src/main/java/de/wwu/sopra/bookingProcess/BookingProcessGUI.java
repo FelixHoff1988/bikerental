@@ -2,7 +2,6 @@ package de.wwu.sopra.bookingProcess;
 
 import com.sothawo.mapjfx.Marker.Provided;
 
-import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.bookingProcess.bookBike.BookBikeGUI;
 import de.wwu.sopra.bookingProcess.endBooking.EndBookingGUI;
@@ -21,7 +20,6 @@ import javafx.scene.layout.FlowPane;
  * GUI in der der komplette Fahrradleihvorgang stattfinden soll
  */
 public class BookingProcessGUI extends StackPane {
-
     /**
      * Instanz des DataProviders
      */
@@ -38,36 +36,30 @@ public class BookingProcessGUI extends StackPane {
      * Das Momentan ausgewählte Rad
      */
     private Bike selectedBike;
-    /**
-     * Das aktuell geöffnete GUI
-     */
-    private FlowPane currentGUI;
 
     /**
      * Standartkonstruktor
      */
     public BookingProcessGUI() {
+        var currentGUI = ctrl.currentGUI();
+        this.map = new MapGUI();
 
-        switch (ctrl.currentGUI()) {
-        case 1 -> {
-            this.currentGUI = new ReserveBikeGUI();
-            build(this.currentGUI);
+        switch (currentGUI) {
+            case 1 -> {
+                var reserveBikeGUI = new ReserveBikeGUI();
+                this.map.<Bike>onClickMarker(bike -> {
+                    selectBike(bike);
+                    reserveBikeGUI.update(this.selectedBike);
+                }, Provided.GREEN);
+                build(reserveBikeGUI);
+            }
+            case 2 -> {
+                build(new BookBikeGUI(ctrl.getReservation()));
+            }
+            case 3 -> {
+                build(new EndBookingGUI(ctrl.getReservation()));
+            }
         }
-        case 2 -> {
-            this.currentGUI = new BookBikeGUI(ctrl.getReservation());
-            build(this.currentGUI);
-        }
-        case 3 -> {
-            this.currentGUI = new EndBookingGUI(ctrl.getReservation());
-            build(this.currentGUI);
-        }
-        }
-
-        this.map.<Bike>onClickMarker(bike -> {
-            selectBike(bike);
-            this.reserveBikeGUI.update(this.selectedBike);
-        }, Provided.GREEN);
-
     }
 
     /**
@@ -76,21 +68,18 @@ public class BookingProcessGUI extends StackPane {
      * @param gui das aktuell notwendige GUI
      */
     public void build(FlowPane gui) {
-
         HBox.setHgrow(this, Priority.ALWAYS);
         VBox.setVgrow(this, Priority.ALWAYS);
         this.setAlignment(Pos.BOTTOM_RIGHT);
 
-        this.map = new MapGUI();
         HBox.setHgrow(map, Priority.ALWAYS);
         VBox.setVgrow(map, Priority.ALWAYS);
 
-        this.getChildren().addAll(map, this.reserveBikeGUI);
+        this.getChildren().addAll(map, gui);
 
         var availableBikes = data.getBikes(bike -> (bike.getAvailability() == Availability.AVAILABLE));
 
-        this.map.displayMarkers(availableBikes, bike -> bike.getLocation(), Provided.ORANGE);
-
+        this.map.displayMarkers(availableBikes, Bike::getLocation, Provided.ORANGE);
     }
 
     /**

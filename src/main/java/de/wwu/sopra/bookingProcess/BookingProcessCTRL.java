@@ -16,13 +16,12 @@ public class BookingProcessCTRL {
     }
     
     /**
-     * Methode prüft in welchem Reservierungsschritt der aktuelle Nutzer ist
+     * Methode prüft, in welchem Reservierungsschritt der aktuelle Nutzer ist
      * @return 1: Der Nutzer hat keine offene Reservierung, 
      *         2: Der Nutzer hat eine Reservierung, 
      *         3: Der Nutzer hat eine aktuelle Fahrt
      */
     public int currentGUI() {
-        
         var latestReservation = getReservation();
         
         if (latestReservation == null) {
@@ -40,7 +39,7 @@ public class BookingProcessCTRL {
     /**
      * Gebe die letzte Reservierung zurück
      * @return letzte Reservierung
-     *         null wenn es keine letzte Reservierung gibt
+     *         null, wenn es keine letzte Reservierung gibt
      */
     public Reservation getReservation() {
         var context = AppContext.getInstance();
