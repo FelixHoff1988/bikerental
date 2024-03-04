@@ -58,14 +58,17 @@ public class EditGeofencingAreaGUI extends HBox{
 
         // Buttons zum Navigieren
         var startDesign = new Button("Erstellen starten");
-        var endDesign = new Button("Erstellen beenden");
+        var endAndSaveButton = new Button("Area hinzufügen");
+        var endAndDiscardButton = new Button("Area verwerfen");
         var deleteButton = new Button("Löschen");
         
-        endDesign.setDisable(true);
+        endAndSaveButton.setDisable(true);
+        endAndDiscardButton.setDisable(true);
        
         innerBox.add(deleteButton, 0, 0);
         innerBox.add(startDesign, 1, 0);
-        innerBox.add(endDesign, 2, 0);
+        innerBox.add(endAndSaveButton, 2, 0);
+        innerBox.add(endAndDiscardButton, 3, 0);
         
         MapGUI map = new MapGUI();
         map.setMinHeight(600);
@@ -73,9 +76,11 @@ public class EditGeofencingAreaGUI extends HBox{
         
         startDesign.setOnAction(event -> {
             map.drawArea();
+            endAndSaveButton.setDisable(false);
+            endAndDiscardButton.setDisable(false);
         });
         
-        endDesign.setOnAction(event -> {
+        endAndSaveButton.setOnAction(event -> {
             GeofencingArea geoArea = map.finalizeArea();
             if (geoArea != null)
             {
@@ -83,6 +88,14 @@ public class EditGeofencingAreaGUI extends HBox{
                 prov.addGeoArea(geoArea);
                 ctrl.initializeAreas(map);
             }
+            endAndSaveButton.setDisable(true);
+            endAndDiscardButton.setDisable(true);
+        });
+        
+        endAndDiscardButton.setOnAction(event -> {
+            map.finalizeArea();
+            endAndSaveButton.setDisable(true);
+            endAndDiscardButton.setDisable(true);
         });
         
         //map.onClickCoordinateLine(, "purple", "red");
