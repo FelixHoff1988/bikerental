@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import com.sothawo.mapjfx.Coordinate;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.BikeStation;
 import de.wwu.sopra.entity.GeofencingArea;
@@ -33,7 +34,26 @@ public class EditGeofencingAreaCTRL {
      */
     public void removeGeofencingArea(GeofencingArea toRemove) {
         DataProvider prov = DataProvider.getInstance();
-        prov.removeGeoArea(toRemove);
+        var success = prov.removeGeoArea(toRemove);
+        if (success)
+            AppContext.getInstance().showMessage(
+                    "Die Geofencing-Area wurde erfolgreich entfernt!",
+                    5,
+                    "#CCFFCC");
+    }
+
+    /**
+     * Fügt eine GeofencingArea hinzu
+     * @param toAdd GeofencingArea, welche hinzugefügt werden soll
+     */
+    public void addGeofencingArea(GeofencingArea toAdd) {
+        DataProvider prov = DataProvider.getInstance();
+        var success = prov.addGeoArea(toAdd);
+        if (success)
+            AppContext.getInstance().showMessage(
+                    "Die Geofencing-Area wurde erfolgreich hinzugefügt!",
+                    5,
+                    "#CCFFCC");
     }
     
     /**
@@ -43,9 +63,6 @@ public class EditGeofencingAreaCTRL {
     public void initializeAreas(MapGUI map)
     {
         DataProvider prov = DataProvider.getInstance();
-        if (!prov.getGeoAreas().isEmpty())
-        {
-            map.displayCoordinateLines(prov.getGeoAreas(), GeofencingArea::getEdges, "limegreen", "dodgerblue");
-        }
+        map.displayCoordinateLines(prov.getGeoAreas(), GeofencingArea::getEdges, "limegreen", "dodgerblue");
     }
 }

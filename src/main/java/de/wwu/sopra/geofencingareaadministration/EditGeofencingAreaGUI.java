@@ -1,40 +1,30 @@
 package de.wwu.sopra.geofencingareaadministration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import com.sothawo.mapjfx.Coordinate;
-
-import de.wwu.sopra.DataProvider;
-import de.wwu.sopra.entity.BikeStation;
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.entity.GeofencingArea;
 import de.wwu.sopra.map.MapGUI;
-import de.wwu.sopra.stationadministration.EditStationCTRL;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
+
 /**
- * Klasse zur Darstellung der Editierung von Geofencing Areas
+ * Klasse zur Darstellung des Editierens von Geofencing Areas
  */
 public class EditGeofencingAreaGUI extends HBox{
     /**
-     * Constructor
+     * Steuerungsklasse für das GUI
      */
-    private EditGeofencingAreaCTRL ctrl = new EditGeofencingAreaCTRL();
+    private final EditGeofencingAreaCTRL ctrl = new EditGeofencingAreaCTRL();
+
+    /**
+     * Aktuell angeklickte GeofencingArea
+     */
+    private GeofencingArea selectedArea;
 
     /**
      * Konstruktor.
@@ -44,10 +34,9 @@ public class EditGeofencingAreaGUI extends HBox{
     }
 
     /**
-     * Initialisiert das GUI-Layout für die Benutzer-Editierung.
+     * Initialisiert das GUI-Layout für das Benutzer-Editieren.
      */
     public void init() {
-
         var innerBox = new GridPane();
         innerBox.setHgap(30);
         innerBox.setPadding(new Insets(25, 25, 25, 25));
@@ -81,15 +70,21 @@ public class EditGeofencingAreaGUI extends HBox{
         });
         
         endAndSaveButton.setOnAction(event -> {
-            GeofencingArea geoArea = map.finalizeArea();
-            if (geoArea != null)
-            {
-                DataProvider prov = DataProvider.getInstance();
-                prov.addGeoArea(geoArea);
-                ctrl.initializeAreas(map);
+            var geoArea = map.finalizeArea();
+            if (geoArea == null) {
+                AppContext.getInstance().showMessage(
+                        "Die Geofencing-Area muss mindestens drei Eckpunkte besitzen!",
+                        5,
+                        "#FFCCDD");
+            } else {
+                ctrl.addGeofencingArea(geoArea);
+                map.displayCoordinateLines(
+                        List.of(geoArea), GeofencingArea::getEdges,
+                        "limegreen",
+                        "dodgerblue");
+                endAndSaveButton.setDisable(true);
+                endAndDiscardButton.setDisable(true);
             }
-            endAndSaveButton.setDisable(true);
-            endAndDiscardButton.setDisable(true);
         });
         
         endAndDiscardButton.setOnAction(event -> {
@@ -97,8 +92,22 @@ public class EditGeofencingAreaGUI extends HBox{
             endAndSaveButton.setDisable(true);
             endAndDiscardButton.setDisable(true);
         });
-        
-        //map.onClickCoordinateLine(, "purple", "red");
+
+        deleteButton.setOnAction(event -> {
+            if (selectedArea == null)
+                return;
+
+            ctrl.removeGeofencingArea(selectedArea);
+            map.removeCoordinateLine(selectedArea);
+            selectedArea = null;
+        });
+
+        map.<GeofencingArea>onClickCoordinateLine(area -> {
+            if (area == this.selectedArea)
+                this.selectedArea = null;
+            else
+                this.selectedArea = area;
+        }, "orange", "red");
         
         VBox vbox = new VBox(map, innerBox);
         this.getChildren().add(vbox);
