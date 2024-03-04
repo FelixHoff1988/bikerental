@@ -377,6 +377,9 @@ public class DataProvider {
             || this.appData.users.stream().noneMatch(user -> user == reservation.getUser()))
             return false;
 
+        reservation.getUser().reservationListAdd(reservation);
+        reservation.getBike().reservationListAdd(reservation);
+
         return this.appData.reservations.add(reservation);
     }
 
@@ -496,6 +499,8 @@ public class DataProvider {
     public boolean addService(Service service) {
         if (this.appData.bikes.stream().noneMatch(bike -> bike == service.getBike()))
             return false;
+
+        service.getBike().serviceListAdd(service);
 
         return this.appData.services.add(service);
     }

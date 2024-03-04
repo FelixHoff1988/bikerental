@@ -70,7 +70,8 @@ public class EditStationCTRL {
     
     /**
      * löscht eine BikeStation
-     * @param bikeStation
+     *
+     * @param bikeStation Zu löschende BikeStation
      */
     public void removeBikeStation(BikeStation bikeStation) {
         DataProvider prov = DataProvider.getInstance();

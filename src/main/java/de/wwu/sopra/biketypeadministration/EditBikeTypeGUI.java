@@ -64,11 +64,11 @@ public class EditBikeTypeGUI extends HBox{
             return new ReadOnlyStringWrapper(String.valueOf(data.getValue().getPrice()));
         });
         
-        TableColumn<BikeType, String> column4 = new TableColumn<>("Akku-Kapazität");
+        TableColumn<BikeType, String> column4 = new TableColumn<>("Reichweite");
         column4.setCellValueFactory(data -> {
             if(data.getValue().getTypeString().equals("EBike")) {
                 EBike eb = (EBike) data.getValue();
-                return new ReadOnlyStringWrapper(String.valueOf(eb.getCharge()));            
+                return new ReadOnlyStringWrapper(String.valueOf(eb.getDistance()));
                 }
             return new ReadOnlyStringWrapper("");
         });
@@ -203,11 +203,11 @@ public class EditBikeTypeGUI extends HBox{
             int size = (int) Integer.valueOf(sizeTextField.getText());
             int price = (int) Integer.valueOf(priceTextField.getText());
             int capacity = (int) Integer.valueOf(capacityTextField.getText());
-            int charge = (int) Integer.valueOf(capacityTextField.getText());;
+            int distance = (int) Integer.valueOf(capacityTextField.getText());;
             BikeType selectedType = tableView.getSelectionModel().getSelectedItem();
             int index = biketypes.indexOf(selectedType);
             
-            BikeType newType = ctrl.submitButtonAction(selectedType, model, size, price, capacity, charge);
+            BikeType newType = ctrl.submitButtonAction(selectedType, model, size, price, capacity, distance);
             if(selectedType!=null) {
                 biketypes.set(index, newType);
                 tableView.setItems(biketypes);

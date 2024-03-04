@@ -1,7 +1,9 @@
 package de.wwu.sopra;
 
-import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 
+import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
+import de.wwu.sopra.register.RegisterGUI;
+import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
@@ -167,8 +169,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Fahrradliste
 	 */
 	private void bikes() {
-		// TODO AppContext.getInstance().changeViewNode(new BikeGUI());
-		
+	    AppContext.getInstance().changeViewNode(new EditBikeGUI());
 	}
 
 	/**

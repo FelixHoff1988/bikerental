@@ -130,6 +130,9 @@ public class MapGUI extends BorderPane {
      * @param <T> Typ der Objects
      */
     public <T> void displayMarkers(List<T> objects, Function<T, Coordinate> coordinateSelector, Marker.Provided color) {
+        if (objects.isEmpty())
+            return;
+
         var markerList = new ArrayList<Marker>();
         var type = objects.getFirst().getClass();
         markerColors.put(type, color);
@@ -167,6 +170,9 @@ public class MapGUI extends BorderPane {
      * @param <T> Typ der Objekte
      */
     public <T> void displayCoordinateLines(List<T> objects, Function<T, List<Coordinate>> lineSelector, String fillColor, String lineColor) {
+        if (objects.isEmpty())
+            return;
+
         var areaList = new ArrayList<CoordinateLine>();
         var type = objects.getFirst().getClass();
         coordinateLineColors.put(type, lineColor);

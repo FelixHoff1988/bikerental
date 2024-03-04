@@ -16,7 +16,7 @@ public abstract class BikeType {
      * Preis des Fahrrads (in cent)
      */
     protected int price;
-
+    
     /**
      * Rufe den Modellnamen ab
      * @return Der Modellname dieses Typs
