@@ -9,11 +9,18 @@ import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeType;
 
+/**
+ * Steuerungsklasse zur Fahrradbearbeitungs-GUI
+ */
 public class EditBikeCTRL {
-	
+
+	/**
+	 * Standardkonstruktor
+	 */
+	public EditBikeCTRL() {}
     
 	/**
-	 * Methode um ein Fahhrad hinzuzufügen
+	 * Methode um ein Fahrrad hinzuzufügen
 	 * @param frameId Rahmennummer des Fahrrads
 	 * @param model Modell des Fahrrads
 	 * @param availability Verfügbarkeit des Fahrrads
@@ -106,7 +113,12 @@ public class EditBikeCTRL {
         return bike;
 	    
 	}
-	
+
+	/**
+	 * Ruft verfügbare Fahrradmodelle ab.
+	 *
+	 * @return Verfügbare Fahrradmodelle
+	 */
 	public List<String> loadModels(){
 	    List<String> models = new ArrayList<String>();
 	    List<BikeType> types = DataProvider.getInstance().getBikeTypes();
