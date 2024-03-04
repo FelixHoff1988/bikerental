@@ -33,7 +33,7 @@ public class LoginGUI extends HBox {
         innerBox.setVgap(5);
 
         var emailInput = new TextField();
-        emailInput.setPromptText("E-Mail");
+        emailInput.setPromptText("E-Maill");
         emailInput.setPrefWidth(400);
 
         var passwordInput = new PasswordField();
