@@ -1,3 +1,7 @@
+/**
+ * @author David
+ * @author Nisa
+ */
 package de.wwu.sopra.bikemaintenance;
 
 import java.time.LocalDateTime;
@@ -26,6 +30,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Grafische Oberfläche für die Wartung der Fahrräder
+ */
 public class BikeMaintenanceGUI extends HBox{
 
     
@@ -43,7 +50,7 @@ public class BikeMaintenanceGUI extends HBox{
     }
     
       /**
-     * Initialisiert das GUI-Layout für die Benutzer-Editierung.
+     * Initialisiert das GUI-Layout für die Fahrrad-Wartung.
      */
     public void init() {
         
@@ -202,6 +209,7 @@ public class BikeMaintenanceGUI extends HBox{
             tableView.setItems(Bikes);
         });
         
+        //Aktion beim drücken des Buttons zum Anzeigen der Fährrader in Wartung
         maintainBikesButton.setOnAction(event ->{
             Bikes.setAll(ctrl.loadBikes(Availability.MAINTENANCE));
             tableView.setItems(Bikes);
@@ -226,6 +234,7 @@ public class BikeMaintenanceGUI extends HBox{
             });
         });
         
+        //Aktion beim drücken des Button zum Anzeigen der defekten Fahrräden
         faultyBikesButton.setOnAction(event ->{
             Bikes.setAll(ctrl.loadBikes(Availability.FAULTY));
             tableView.setItems(Bikes);
@@ -249,6 +258,7 @@ public class BikeMaintenanceGUI extends HBox{
             });
         });
         
+        //Aktion beim drücken des Buttons zum Anzeigen der verfügbaren Fahrräder
         availableBikesButton.setOnAction(event ->{
             Bikes.setAll(ctrl.loadBikes(Availability.AVAILABLE));
             tableView.setItems(Bikes);
@@ -272,6 +282,7 @@ public class BikeMaintenanceGUI extends HBox{
             });
         });
         
+        //Aktion des Buttons zum beenden einer Wartung
         finishButton.setOnAction(event ->{
             Bike currentBike = tableView.getSelectionModel().getSelectedItem();
             Bike newBike = currentBike;
@@ -282,6 +293,7 @@ public class BikeMaintenanceGUI extends HBox{
             tableView.getItems().remove(currentBike);
         });
         
+        //Aktion des Buttons zum warten eines Fahrrads
         maintainButton.setOnAction(event ->{
             Bike currentBike = tableView.getSelectionModel().getSelectedItem();
             Bike newBike = currentBike;
