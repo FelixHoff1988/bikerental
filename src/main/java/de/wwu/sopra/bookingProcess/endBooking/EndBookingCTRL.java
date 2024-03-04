@@ -1,5 +1,6 @@
 package de.wwu.sopra.bookingProcess.endBooking;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Reservation;
 
@@ -26,5 +27,7 @@ public class EndBookingCTRL {
         var bike = reservation.getBike();
         if (bike != null)
             bike.setAvailability(Availability.AVAILABLE);
+
+        AppContext.getInstance().showMessage("Vielen Dank für ihre Fahrt mit BikeRental.de!", 5, "#CCFFCC");
     }
 }
