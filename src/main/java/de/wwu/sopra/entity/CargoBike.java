@@ -38,6 +38,14 @@ public class CargoBike extends BikeType {
         this.capacity = capacity;
     }
     
+	/**
+	 * Rufe den FahrradTyp CargoBike als String auf
+	 */
+	@Override
+	public String getTypeString() {
+		return "CargoBike";
+	}
+
     /**
      * Gebe die zulässige Kapazität eines CargoBikes als String aus
      * @return String mit Kapazitätslimit
@@ -49,9 +57,4 @@ public class CargoBike extends BikeType {
         return description;
     }
 
-    @Override
-    public String getTypeString() {
-        // TODO Auto-generated method stub
-        return "CargoBike";
-    }
 }

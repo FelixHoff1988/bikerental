@@ -1,9 +1,9 @@
 package de.wwu.sopra;
 
+import de.wwu.sopra.bookingProcess.BookingProcessGUI;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.login.LoginGUI;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 
 /**
  * Verwaltet im globalen Kontext der App wichtige Funktionen
@@ -67,7 +67,7 @@ public class AppContext {
     public void login(User user) {
         this.loggedInUser = user;
         this.appGui.toggleNavigation();
-        this.appGui.changeViewNode(new Pane());
+        this.appGui.changeViewNode(new BookingProcessGUI());
     }
 
     /**

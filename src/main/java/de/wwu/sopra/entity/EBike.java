@@ -5,53 +5,58 @@ package de.wwu.sopra.entity;
  */
 public class EBike extends BikeType {
     /**
-     * Ladestand (in Prozent)
+     * Reichweite des Fahrrads (in Metern)
      */
-    private int charge;
-
+    private int distance;
+    
     /**
      * Konstruktor: Initialisiert alle Attribute mit den übergebenen Parametern
      *
      * @param model Name des Fahrradmodells
      * @param size  Größe des Fahrrads (in Zoll)
      * @param price Preis des Fahrrads (in cent)
-     * @param charge Ladestand (in Prozent)
+     * @param distance Reichweite des Fahrrads (in Metern)
      */
-    public EBike(String model, int size, int price, int charge) {
+    public EBike(String model, int size, int price, int distance) {
         super(model, size, price);
-        this.charge = charge;
+        this.distance = distance;
     }
 
     /**
-     * Rufe den aktuellen Ladestand des Fahrrads ab
-     * @return Aktueller Ladestand des Fahrrads (in Prozent)
+     * Rufe die Reichweite des Fahrrads ab
+     * @return Reichweite des Fahrrads (in Metern)
      */
-    public int getCharge() {
-        return charge;
+    public int getDistance() {
+        return distance;
     }
 
     /**
-     * Setze den aktuellen Ladestand des Fahrrads
-     * @param charge Neuer Ladestand des Fahrrads (in Prozent)
+     * Setze die Reichweite des Fahrrads
+     * @param distance Neue Reichweite des Fahrrads (in Metern)
      */
-    public void setCharge(int charge) {
-        this.charge = charge;
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
     
+	/**
+	 * Rufe den FahrradTyp E-Bikes als String auf
+	 */
+	@Override
+	public String getTypeString() {
+		return "EBike";
+	}
+    
     /**
-     * Gebe aktuellen Ladestand eines EBikes als String aus
-     * @return String mit Ladestand
+     * Gebe die Reichweite eines E-Bikes als String aus
+     * @return String mit Reichweite
      */
     public String getFeatureDescription() {
-        String description = "Ladestand: ";
-        description += String.valueOf(this.charge);
-        description += "%";
+        String description = "Reichweite: ";
+        description += String.valueOf(this.distance / 1000);
+        description += ",";
+        description += String.valueOf(this.distance % 1000);
+        description += " km";
         return description;
     }
 
-    @Override
-    public String getTypeString() {
-        // TODO Auto-generated method stub
-        return "EBike";
-    }
 }
