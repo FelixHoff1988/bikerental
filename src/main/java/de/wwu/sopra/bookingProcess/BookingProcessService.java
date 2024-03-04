@@ -8,7 +8,15 @@ import javafx.concurrent.Task;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Service, welche im Hintergrund jede Minute auf überzogene Reservierungen prüft und diese abbricht.
+ */
 public class BookingProcessService extends Service<Void> {
+    /**
+     * Erstellt die Task, welche im Hintergrund laufen soll.
+     *
+     * @return Task, welche die Reservierungen überprüft
+     */
     @Override
     protected Task<Void> createTask() {
         this.setOnSucceeded(event -> this.restart());
