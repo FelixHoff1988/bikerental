@@ -20,6 +20,10 @@ class BookingProcessServiceTest {
      */
     @Test
     void testReservationCancellation() throws Exception {
+        // JavaFX Tests laufen auf Gitlab nicht
+        if (System.getenv("GITLAB_CI") != null)
+            return;
+
         Platform.startup(() -> {});
 
         var provider = DataProviderMock.resetProvider(true);
