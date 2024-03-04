@@ -1,8 +1,11 @@
 package de.wwu.sopra.bikeadministration.editbike;
 
+import com.sothawo.mapjfx.Coordinate;
+
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
+import de.wwu.sopra.map.MapGUI;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
@@ -27,7 +31,8 @@ import javafx.scene.layout.VBox;
 public class EditBikeGUI extends HBox {
 	
 	private EditBikeCTRL ctrl = new EditBikeCTRL();
-	
+    private Coordinate c = new Coordinate((double) 0, (double) 0);
+    private String s = new String();
 	 /**
      * Konstruktor.
      */
@@ -39,7 +44,7 @@ public class EditBikeGUI extends HBox {
      * Initialisiert das GUI-Layout für die Benutzer-Editierung.
      */
 	public void init() {
-		
+	    
 	    //Tabelle mit den Spalten erstellen
 		TableView<Bike> tableView = new TableView<Bike>();
 		TableColumn<Bike,String> frameIdColumn = new TableColumn<>("Rahmennummer");
@@ -72,17 +77,19 @@ public class EditBikeGUI extends HBox {
         
 		//Spalten zur Tabelle hinzufügen
 		tableView.getColumns().add(frameIdColumn);
-        tableView.getColumns().add(availabilityColumn);
+		tableView.getColumns().add(modelColumn);
+		tableView.getColumns().add(typeColumn);
+        tableView.getColumns().add(availabilityColumn);        
         tableView.getColumns().add(coordinateColumn);
-        tableView.getColumns().add(modelColumn);
-        tableView.getColumns().add(typeColumn);
-
-        //Breite der Spalten festlegen
-        frameIdColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
-        availabilityColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
-        coordinateColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.12));
-        modelColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
-        typeColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.22));
+        
+        //Breite der Tabelle und Spalten festlegen
+        tableView.setMaxWidth(700);
+        tableView.setMinWidth(700);
+        frameIdColumn.setPrefWidth(125);
+        availabilityColumn.setPrefWidth(125);
+        coordinateColumn.setPrefWidth(200);
+        modelColumn.setPrefWidth(125);
+        typeColumn.setPrefWidth(125);
         
         //Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
         ObservableList<Bike> Bikes = FXCollections.observableArrayList(ctrl.loadBikes());
@@ -117,9 +124,17 @@ public class EditBikeGUI extends HBox {
         
         //Buttons zum verwalten der Fahrräder, ein zurück Button zum AdminGUI
         var createButton = new Button("Fahhrad hinzufügen");
-        var backButton = new Button("Zurück");
         var saveButton = new Button("Speichern");
         var deleteButton = new Button("Löschen");
+        
+        //Eingabe des Standorts
+        var standortLabel = new Label("Setze Standort: ");
+        var openMap = new Button("Öffne Karte");
+        
+        s = String.valueOf(c.getLatitude())+" | "+ 
+                String.valueOf(c.getLongitude());
+        var mapLabel = new Label("Koordinaten " + s);
+        mapLabel.setMinWidth(400);
         
         //Aktion beim drücken auf den Hinzufügen Button
         createButton.setOnAction(evt ->{
@@ -137,14 +152,11 @@ public class EditBikeGUI extends HBox {
             }
             
             Bike newBike = ctrl.createButtonAction(frameId, model, availability);
-            if(newBike!=null)
+            if(newBike!=null) {
+                newBike.setLocation(c);
                 Bikes.add(newBike);
+            }
             tableView.setItems(Bikes);
-        });
-        
-        //Aktion beim drücken des zurück Buttons
-        backButton.setOnAction(evt ->{
-            ctrl.backButtonAction();
         });
         
         //Aktion beim drücken des Speichern Button
@@ -166,8 +178,10 @@ public class EditBikeGUI extends HBox {
             }
             
             Bike newBike = ctrl.saveButtonAction(currentBike, frameId, model, availability);
-            if(newBike!=null)
+            if(newBike!=null) {
+                newBike.setLocation(c);
                 Bikes.set(Bikes.indexOf(currentBike),newBike);
+            }
             tableView.setItems(Bikes);
         });
         
@@ -195,10 +209,13 @@ public class EditBikeGUI extends HBox {
         innerBox.add(modelLabel, 0, 2);
         innerBox.add(modelBox, 1, 2);
         
-        innerBox.add(backButton, 0, 3);
-        innerBox.add(saveButton, 1, 3);
-        innerBox.add(deleteButton, 2, 3);
-        innerBox.add(createButton, 3, 3);
+        innerBox.add(standortLabel, 0, 3);
+        innerBox.add(openMap, 1, 3);
+        innerBox.add(mapLabel, 2, 3);
+        
+        innerBox.add(saveButton, 0, 4);
+        innerBox.add(deleteButton, 1, 4);
+        innerBox.add(createButton, 2, 4);
         
         //Eingabefelder auf ausgewähltes Fahrrad setzen
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -206,19 +223,42 @@ public class EditBikeGUI extends HBox {
 			    frameIdTextField.setText(newSelection.getFrameId());
 			    availabilityBox.setValue(newSelection.getAvailability());
 			    modelBox.setValue(newSelection.getType().getModel());
-			    
+			    c = newSelection.getLocation();
+                s = String.valueOf(c.getLatitude())+" | "+ 
+                        String.valueOf(c.getLongitude());
+                mapLabel.setText(s);
 			    tableView.setItems(Bikes);
 			}
 		});
 		
 		//VBox zum anzeigen der Tabelle und des EingabeFelds erstellen und konfigurieren
-		VBox vbox = new VBox(innerBox, tableView);
-		vbox.setFillWidth(true);
-		this.getChildren().addAll(vbox);
-		this.setAlignment(Pos.CENTER);
-		VBox.setVgrow(this, Priority.ALWAYS);
-		
-		
+        VBox vbox = new VBox(innerBox, tableView);
+        vbox.setFillWidth(true);
+        StackPane stack = new StackPane();
+        this.getChildren().add(stack);
+        stack.getChildren().addAll(vbox);
+        this.setAlignment(Pos.CENTER);
+        VBox.setVgrow(this, Priority.ALWAYS);
+        
+        //Aktion beim drücken des Standort hinzufügen Button
+        openMap.setOnAction(event -> {
+            MapGUI map = new MapGUI();
+            map.setMinHeight(600);
+            Button closeButton = new Button("Eingabe beenden");
+            VBox box = new VBox();
+            map.startMarkerPlacement(c);
+            box.getChildren().addAll(map, closeButton);
+            stack.getChildren().add(box);
+            
+            closeButton.setOnAction(event2 -> {
+                stack.getChildren().remove(1);
+                c = map.finalizeMarkerPlacement();
+                s = String.valueOf(c.getLatitude())+" | "+ 
+                        String.valueOf(c.getLongitude());
+                mapLabel.setText(s);
+            });
+            
+        });
 		
 	}
 }

@@ -3,6 +3,8 @@ package de.wwu.sopra.bikeadministration.editbike;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sothawo.mapjfx.Coordinate;
+
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.Availability;
@@ -12,6 +14,7 @@ import de.wwu.sopra.login.LoginGUI;
 
 public class EditBikeCTRL {
 	
+    
 	/**
 	 * Methode um ein Fahhrad hinzuzufügen
 	 * @param frameId Rahmennummer des Fahrrads
@@ -105,13 +108,6 @@ public class EditBikeCTRL {
         }
         return bike;
 	    
-	}
-	
-	/**
-	 * Aktion des Buttons um zurück dur AdminGUI zu gelangen
-	 */
-	public void backButtonAction() {
-		AppContext.getInstance().changeViewNode(new LoginGUI());
 	}
 	
 	public List<String> loadModels(){
