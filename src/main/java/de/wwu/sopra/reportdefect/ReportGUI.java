@@ -68,7 +68,8 @@ public class ReportGUI extends VBox {
                 AppContext.getInstance().changeViewNode(new Pane());
             } else {
                 AppContext.getInstance().showMessage(
-                        "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.", 5);
+                        "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.", 5,
+                        "#FFCCDD");
             }
         });
 

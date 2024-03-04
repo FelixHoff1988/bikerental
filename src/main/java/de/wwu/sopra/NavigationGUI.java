@@ -1,5 +1,6 @@
 package de.wwu.sopra;
 
+import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
@@ -57,7 +58,7 @@ public class NavigationGUI extends HBox {
 				burgerMenu.getItems();
 			}
 			case ADMIN -> {
-				burgerMenu.getItems().addAll("Fahrräder", "Stationen", "Geofencing-Areas", "Benutzer");
+				burgerMenu.getItems().addAll("Fahrräder", "FahrradTypen", "Stationen", "Geofencing-Areas", "Benutzer");
 			}
 			case EXECUTIVE -> {
 				burgerMenu.getItems().addAll("Bilanzen");
@@ -105,6 +106,9 @@ public class NavigationGUI extends HBox {
 				}
 				case "Fahrräder" -> {
 					bikes();
+				}
+				case "FahrradTypen" -> {
+				    biketypes();
 				}
 				case "Stationen" -> {
 					stations();
@@ -167,6 +171,14 @@ public class NavigationGUI extends HBox {
 		
 	}
 
+	/**
+     * Wechseln auf die Fahrradliste
+     */
+    private void biketypes() {
+        AppContext.getInstance().changeViewNode(new EditBikeTypeGUI());
+        
+    }
+    
 	/**
 	 * Wechseln auf die Stationsliste
 	 */

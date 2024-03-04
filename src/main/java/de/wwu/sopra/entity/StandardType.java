@@ -22,4 +22,10 @@ public class StandardType extends BikeType {
     public String getFeatureDescription() {
         return null;
     }
+
+    @Override
+    public String getTypeString() {
+        // TODO Auto-generated method stub
+        return "Standard";
+    }
 }

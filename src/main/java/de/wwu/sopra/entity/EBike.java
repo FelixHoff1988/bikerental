@@ -48,4 +48,10 @@ public class EBike extends BikeType {
         description += "%";
         return description;
     }
+
+    @Override
+    public String getTypeString() {
+        // TODO Auto-generated method stub
+        return "EBike";
+    }
 }

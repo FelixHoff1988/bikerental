@@ -78,6 +78,13 @@ public abstract class BikeType {
     }
     
     /**
+     * Rufe den Typ als String ab
+     * @return FahrradTyp als String
+     */
+    abstract public String getTypeString();
+
+
+    /**
      * Abstrakte Methode die zusätzlich Wichtige Daten über das Fahrrad als String zurückgibt.
      * @return String mit wichtigen Informationen über das Rad
      */
