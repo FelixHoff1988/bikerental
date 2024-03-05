@@ -1,11 +1,20 @@
 package de.wwu.sopra.reviewbusinessstatistics;
 
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.entity.BikeType;
+import de.wwu.sopra.entity.Reservation;
 import javafx.scene.chart.XYChart;
 
 public class ReviewBusinessStatisticsCTRL {
     public XYChart.Series calculateData()
     {
-        XYChart.Series data = new XYChart.Series();
+        XYChart.Series<Number, Number> data = new XYChart.Series<Number, Number>();
         data.getData().add(new XYChart.Data( 1, 567));
         data.getData().add(new XYChart.Data( 5, 612));
         data.getData().add(new XYChart.Data(10, 800));
@@ -13,5 +22,85 @@ public class ReviewBusinessStatisticsCTRL {
         data.getData().add(new XYChart.Data(40, 810));
         data.getData().add(new XYChart.Data(80, 850));
         return data;
+    }
+    
+    public XYChart.Series calculateDataReal(int slider, boolean normal, boolean lasten, boolean elektro)
+    {
+        XYChart.Series<Number, Number> data = new XYChart.Series<Number, Number>();
+        List<Reservation> filteredReservations = DataProvider.getInstance().getReservations(Reservation -> {
+            ArrayList<Boolean> pruefungenTypeBike = new ArrayList<Boolean>();
+            if (normal)
+            {
+                pruefungenTypeBike.add(Reservation.getBike().getType().getTypeString().equals("Standart"));
+            }
+            if (lasten)
+            {
+                pruefungenTypeBike.add(Reservation.getBike().getType().getTypeString().equals("CargoBike"));
+            }
+            if (elektro)
+            {
+                pruefungenTypeBike.add(Reservation.getBike().getType().getTypeString().equals("EBike"));
+            }
+            
+            ArrayList<Boolean> allePruefungen = new ArrayList<Boolean>();
+            // check selected Bike Types
+            allePruefungen.add(oneTrue(pruefungenTypeBike));
+            
+            //check when started
+            LocalDateTime now = LocalDateTime.now();
+            Period goBack = Period.ofDays(slider);
+            LocalDateTime firstDate = now.minus(goBack);
+            
+            allePruefungen.add(firstDate.isBefore(Reservation.getStartTime()));
+            
+            // to be implemented: check for time 
+            return areAllTrue(allePruefungen);
+            
+        });
+        
+        // berechne gesuchten Wert und füge data hinzu
+        for (int i = slider; i >= 0 ; i--)
+        {
+            LocalDateTime now = LocalDateTime.now();
+            Period goBack = Period.ofDays(i);
+            LocalDateTime correctDay = now.minus(goBack);
+            
+            List<Reservation> reservationsOfDay = filteredReservations.stream().filter(r -> r.getStartTime().toLocalDate() == correctDay.toLocalDate()).collect(Collectors.toList());
+            
+            int calculatedSumOfDay = 0;
+            for (Reservation element: reservationsOfDay)
+            {
+                calculatedSumOfDay += element.getPrice();
+            }
+            
+            data.getData().add(new XYChart.Data(slider - i, calculatedSumOfDay));
+        }
+        return data;
+    }
+    
+    /**
+     * Prüft, ob alle Elemente einer ArrayList von Typ Boolean wahr sind
+     * 
+     * @param array
+     * @return
+     */
+    private static boolean areAllTrue(ArrayList<Boolean> array) {
+        for (boolean b : array)
+            if (!b)
+                return false;
+        return true;
+    }
+    
+    /**
+     * Prüft, ob alle Elemente einer ArrayList von Typ Boolean wahr sind
+     * 
+     * @param array
+     * @return
+     */
+    private static boolean oneTrue(ArrayList<Boolean> array) {
+        for (boolean b : array)
+            if (b)
+                return true;
+        return false;
     }
 }
