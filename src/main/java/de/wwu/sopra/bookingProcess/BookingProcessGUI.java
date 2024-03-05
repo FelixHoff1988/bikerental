@@ -82,7 +82,7 @@ public class BookingProcessGUI extends StackPane {
         this.map.onClickMarker(Bike.class, onBikeClick, Provided.GREEN);
         reserveBikeGUI.onStepFinish(reservation -> {
             initBookingGUI(reservation);
-            map.removeOnClickAction(onBikeClick);
+            map.removeOnClickAction(Bike.class);
         });
 
         if (this.getChildren().size() > 1)
