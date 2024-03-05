@@ -26,7 +26,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -122,24 +124,11 @@ public class BikeMaintenanceGUI extends HBox{
         ObservableList<Bike> Bikes = FXCollections.observableArrayList(ctrl.loadBikes(Availability.MAINTENANCE));
         tableView.setItems(Bikes);
         
-        //Box zum hinzufügen
-        var innerBox = new GridPane();
-        innerBox.setHgap(30);
-        innerBox.setPadding(new Insets(25, 25, 25, 25));
-        innerBox.setAlignment(Pos.CENTER);
-        innerBox.setVgap(5);
-        
-        //Eingabe der Rahmennummer
-        var frameIdLabel = new Label("Rahmennummer: " + frameId);
-        
-        //Eingabe des Zustand´s
-        var availabilityLabel = new Label("Zustand: " + availability.toString());
-        
-        //Eingabe des Modell´s
-        var modelLabel = new Label("Modell: " + model);  
         
         //Buttons zum verwalten der Fahrräder, ein zurück Button zum AdminGUI
         var saveButton = new Button("Standort setzen");
+        //Eingabe des Standorts
+        var openMap = new Button("Öffne Karte");
         
         //Buttons zum in die Wartung geben und beenden
         var finishButton = new Button("Wartung Fertig");
@@ -156,30 +145,36 @@ public class BikeMaintenanceGUI extends HBox{
         flow.setPadding(new Insets(10));
         flow.getChildren().addAll(maintainBikesButton, availableBikesButton, faultyBikesButton);
         
+        /*FlowPane flowMapFunctions = new FlowPane();
+        flowMapFunctions.setHgap(10);
+        //flow.setVgap(10);
+        flowMapFunctions.setPadding(new Insets(10));
+        flowMapFunctions.getChildren().addAll(saveButton, openMap);
         
-        //Eingabe des Standorts
-        var openMap = new Button("Öffne Karte");
+        FlowPane flowManipulateBikes = new FlowPane();
+        flowManipulateBikes.setHgap(10);
+        //flow.setVgap(10);
+        flowManipulateBikes.setPadding(new Insets(10));
+        flowManipulateBikes.getChildren().addAll(finishButton, maintainButton);*/
+        
+        Region region1 = new Region();
+        HBox.setHgrow(region1, Priority.ALWAYS);
+        
+        Region region2 = new Region();
+        region2.setMinWidth(10);
+        
+        Region region3 = new Region();
+        region3.setMinWidth(10);
+        
+        HBox buttonsBelow = new HBox(openMap, region2, saveButton, region1 , finishButton, region3, maintainButton);
+        buttonsBelow.setPadding(new Insets(10));
+        
+        buttonsBelow.setMaxWidth(800);
+        buttonsBelow.setMinWidth(800);
         
         s = String.valueOf(c.getLatitude())+" | "+ 
                 String.valueOf(c.getLongitude());
-        var mapLabel = new Label("Standort: " + s);
-        mapLabel.setMinWidth(400);
         
-        
-        //GUI Komponenten in der InnerBox hinzufügen
-        innerBox.add(frameIdLabel, 0, 0);
-        
-        innerBox.add(availabilityLabel, 0, 1);
-        
-        innerBox.add(modelLabel, 0, 2);
-        
-        innerBox.add(mapLabel, 0, 3);
-        innerBox.add(openMap, 1, 3);
-        
-        innerBox.add(saveButton, 2, 3);
-        
-        innerBox.add(finishButton, 0, 4);
-        innerBox.add(maintainButton, 1, 4);
         finishButton.setDisable(true);
         maintainButton.setDisable(false);
         
@@ -187,15 +182,11 @@ public class BikeMaintenanceGUI extends HBox{
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if(newSelection != null) {
                 frameId = newSelection.getFrameId();
-                frameIdLabel.setText("Rahmennummer: "+ frameId);
                 availability = newSelection.getAvailability();
-                availabilityLabel.setText("Zustand: " + availability.toString());
                 model = newSelection.getType().getModel();
-                modelLabel.setText("Modell: " + model);
                 c = newSelection.getLocation();
                 s = "Standort: " + String.valueOf(c.getLatitude())+" | "+ 
                         String.valueOf(c.getLongitude());
-                mapLabel.setText(s);
                 tableView.setItems(Bikes);
             }
         });
@@ -306,7 +297,11 @@ public class BikeMaintenanceGUI extends HBox{
         
         
         //VBox zum anzeigen der Tabelle und des EingabeFelds erstellen und konfigurieren
-        VBox vbox = new VBox(innerBox, flow,  tableView);
+        Region region4 = new Region();
+        region3.setMinHeight(10);
+        region3.setMaxHeight(10);
+        
+        VBox vbox = new VBox(flow,  tableView, buttonsBelow);
         vbox.setPadding(new Insets(30));
         vbox.setFillWidth(true);
         StackPane stack = new StackPane();
@@ -330,7 +325,6 @@ public class BikeMaintenanceGUI extends HBox{
                 c = map.finalizeMarkerPlacement();
                 s = "Standort: "+String.valueOf(c.getLatitude())+" | "+ 
                         String.valueOf(c.getLongitude());
-                mapLabel.setText(s);
             });
             
         });

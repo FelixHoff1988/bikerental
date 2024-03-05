@@ -7,6 +7,7 @@ package de.wwu.sopra.reportdefect;
 import java.time.LocalDateTime;
 
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.Repair;
 import de.wwu.sopra.entity.Service;
@@ -48,6 +49,14 @@ public class ReportCTRL {
     public Bike findBike(String bikeNumber) {
         DataProvider prov = DataProvider.getInstance();
         return prov.getBike(bikeNumber);
+    }
+    
+    public void setBikeFaulty(Bike chosenBike)
+    {
+        if (chosenBike.getAvailability() != Availability.MAINTENANCE)
+        {
+            chosenBike.setAvailability(Availability.FAULTY);
+        }
     }
 
 }
