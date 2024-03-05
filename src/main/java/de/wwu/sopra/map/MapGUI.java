@@ -412,8 +412,9 @@ public class MapGUI extends BorderPane {
                 .setPosition(marker.getPosition())
                 .setVisible(true);
 
+        var prevColor = markerColors.get(marker);
         markerColors.remove(marker);
-        markerColors.put(prevMarker, color);
+        markerColors.put(prevMarker, prevColor);
         mapView.addMarker(prevMarker);
         markers.put(prevMarker, object);
     }
