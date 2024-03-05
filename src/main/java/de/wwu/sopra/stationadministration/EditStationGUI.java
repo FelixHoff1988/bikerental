@@ -23,6 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -33,7 +34,7 @@ import javafx.scene.layout.VBox;
 /**
  * Darstellung von Bearbeitung von Stationen durch Admin
  */
-public class EditStationGUI extends HBox{
+public class EditStationGUI extends VBox{
     private EditStationCTRL ctrl = new EditStationCTRL();
     Coordinate c = new Coordinate((double) 0, (double) 0);
     String s = new String();
@@ -90,8 +91,6 @@ public class EditStationGUI extends HBox{
 
         var innerBox = new GridPane();
         innerBox.setHgap(30);
-        innerBox.setPadding(new Insets(25, 25, 25, 25));
-        innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
 
         var nameLabel = new Label("Name: ");
@@ -119,22 +118,26 @@ public class EditStationGUI extends HBox{
         var deleteButton = new Button("Löschen");
         deleteButton.setMinWidth(100);
         
-        innerBox.add(submitButton, 0, 3);
-        innerBox.add(deleteButton, 1, 3);
-        innerBox.add(newButton, 2, 3);
+        FlowPane buttons = new FlowPane();
+        buttons.setHgap(10);
+        buttons.setAlignment(Pos.TOP_CENTER);
+        buttons.setPadding(new Insets(10));
+        buttons.getChildren().addAll(newButton, submitButton, deleteButton);
         
         s = String.valueOf(c.getLatitude())+" | "+ 
                 String.valueOf(c.getLongitude());
         var mapLabel = new Label("Koordinaten " + s);
-        mapLabel.setMinWidth(400);
+        mapLabel.setMinWidth(250);
         innerBox.add(mapLabel, 2, 2);
         
-        innerBox.setAlignment(Pos.CENTER);
-        VBox vbox = new VBox(innerBox, tableView);
+        VBox vbox = new VBox(innerBox, buttons, tableView);
         vbox.setAlignment(Pos.CENTER);
+        innerBox.setAlignment(Pos.CENTER);
+        buttons.setAlignment(Pos.CENTER);
         StackPane stack = new StackPane();
         this.getChildren().add(stack);
         stack.getChildren().addAll(vbox);
+        stack.setAlignment(Pos.CENTER);
         this.setAlignment(Pos.CENTER);
         VBox.setVgrow(this, Priority.ALWAYS);
         
