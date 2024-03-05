@@ -191,7 +191,7 @@ public class EditUserGUI extends VBox {
         innerBox.add(PasswordTextField, 5, 1);
 
         // Buttons zum Navigieren
-        var submitButton = new Button("User Speichern");
+        var submitButton = new Button("Speichern");
         submitButton.setMinWidth(100);
         var newButton = new Button("Neu");
         newButton.setMinWidth(100);

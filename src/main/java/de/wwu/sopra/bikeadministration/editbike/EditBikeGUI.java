@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -126,13 +127,24 @@ public class EditBikeGUI extends HBox {
         modelBox.getItems().addAll(ctrl.loadModels());  
         
         //Buttons zum verwalten der Fahrräder, ein zurück Button zum AdminGUI
-        var createButton = new Button("Fahhrad hinzufügen");
+        var createButton = new Button("Neu");
+        createButton.setMinWidth(100);
         var saveButton = new Button("Speichern");
+        saveButton.setMinWidth(100);
         var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
+        
+        FlowPane buttons = new FlowPane();
+        buttons.setHgap(10);
+        buttons.setAlignment(Pos.TOP_CENTER);
+        // flow.setVgap(10);
+        buttons.setPadding(new Insets(10));
+        buttons.getChildren().addAll(createButton, saveButton, deleteButton);
         
         //Eingabe des Standorts
         var standortLabel = new Label("Setze Standort: ");
         var openMap = new Button("Öffne Karte");
+        openMap.setMinWidth(100);
         
         s = String.valueOf(c.getLatitude())+" | "+ 
                 String.valueOf(c.getLongitude());
@@ -228,9 +240,6 @@ public class EditBikeGUI extends HBox {
         innerBox.add(openMap, 1, 3);
         innerBox.add(mapLabel, 2, 3);
         
-        innerBox.add(saveButton, 0, 4);
-        innerBox.add(deleteButton, 1, 4);
-        innerBox.add(createButton, 2, 4);
         
         //Eingabefelder auf ausgewähltes Fahrrad setzen
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -247,13 +256,14 @@ public class EditBikeGUI extends HBox {
 		});
 		
 		//VBox zum anzeigen der Tabelle und des EingabeFelds erstellen und konfigurieren
-        VBox vbox = new VBox(innerBox, tableView);
-        vbox.setFillWidth(true);
+        VBox vbox = new VBox(innerBox, buttons, tableView);
+        innerBox.setAlignment(Pos.CENTER);
+        vbox.setAlignment(Pos.CENTER);
         StackPane stack = new StackPane();
+        stack.setAlignment(Pos.CENTER);
         this.getChildren().add(stack);
         stack.getChildren().addAll(vbox);
         this.setAlignment(Pos.CENTER);
-        VBox.setVgrow(this, Priority.ALWAYS);
         
         //Aktion beim drücken des Standort hinzufügen Button
         openMap.setOnAction(event -> {

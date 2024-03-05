@@ -1,7 +1,3 @@
-/**
- * @author David
- * @author Nisa
- */
 package de.wwu.sopra.biketypeadministration;
 
 import de.wwu.sopra.AppContext;
@@ -146,7 +142,9 @@ public class EditBikeTypeGUI extends HBox{
         
         // Buttons zum Navigieren
         var newButton = new Button("Neu");
+        newButton.setMinWidth(100);
         var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
         
         FlowPane buttons = new FlowPane();
         buttons.setHgap(10);
