@@ -5,6 +5,7 @@
 package de.wwu.sopra.biketypeadministration;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.BikeType;
 import de.wwu.sopra.entity.CargoBike;
 import de.wwu.sopra.entity.EBike;
@@ -165,7 +166,10 @@ public class EditBikeTypeGUI extends HBox{
             String model = modelTextField.getText();
             for(BikeType b : biketypes) {
                 if(b.getModel().equals(model)) {
-                    AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5, "#FFCCDD");
+                    AppContext.getInstance().showMessage(
+                            "Fahrradtyp hinzufügen fehlgeschlagen!",
+                            Design.DIALOG_TIME_STANDARD,
+                            Design.COLOR_DIALOG_FAILURE);
                     return;
                 }
                     
@@ -186,9 +190,15 @@ public class EditBikeTypeGUI extends HBox{
             if(type!=null) {
                 biketypes.add(type);
                 tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich hinzugefügt", 5, "#CCFFCC");
+                AppContext.getInstance().showMessage(
+                        "Fahrradtyp erfolgreich hinzugefügt",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_SUCCESS);
             } else {
-                AppContext.getInstance().showMessage("Fahrradtyp hinzufügen fehlgeschlagen!", 5, "#FFCCDD");            
+                AppContext.getInstance().showMessage(
+                        "Fahrradtyp hinzufügen fehlgeschlagen!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             }
             
         });
@@ -198,9 +208,15 @@ public class EditBikeTypeGUI extends HBox{
             if(ctrl.deleteButtonAction(selectedType)) {
                 biketypes.remove(selectedType);
                 tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich gelöscht", 5, "#CCFFCC");
+                AppContext.getInstance().showMessage(
+                        "Fahrradtyp erfolgreich gelöscht",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_SUCCESS);
             } else {
-                AppContext.getInstance().showMessage("Fahrradtyp löschen fehlgeschlagen!", 5, "#FFCCDD");
+                AppContext.getInstance().showMessage(
+                        "Fahrradtyp löschen fehlgeschlagen!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             }
         });
 
@@ -218,9 +234,15 @@ public class EditBikeTypeGUI extends HBox{
             if(selectedType!=null) {
                 biketypes.set(index, newType);
                 tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage("Fahrradtyp erfolgreich geändert", 5, "#CCFFCC");
+                AppContext.getInstance().showMessage(
+                        "Fahrradtyp erfolgreich geändert",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_SUCCESS);
             } else {
-                AppContext.getInstance().showMessage("Fahrradtyp ändern fehlgeschlagen!", 5, "'FFCCDD");
+                AppContext.getInstance().showMessage(
+                        "Fahrradtyp ändern fehlgeschlagen!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             }
             
         });

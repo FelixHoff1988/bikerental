@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeType;
@@ -68,14 +69,20 @@ public class EditBikeCTRL {
 		if(frameId.isBlank() || availability==null
 				 || model==null){
 			
-		    AppContext.getInstance().showMessage("Fahrrad hinzufügen fehlgeschlagen! \n"
-		            + "Leere Eingabe", 5, "#FFCCDD");
+		    AppContext.getInstance().showMessage(
+					"Fahrrad hinzufügen fehlgeschlagen! \n"
+		            + "Leere Eingabe",
+					Design.DIALOG_TIME_STANDARD,
+					Design.COLOR_DIALOG_FAILURE);
 		}
 		//Alles korrekt, Fahhrad hinzufügen
 		else{
 		    
 			newBike = addBike(frameId, model, availability);
-			AppContext.getInstance().showMessage("Fahrrad erfolgreich hinzugefügt", 5, "#CCFFCC");
+			AppContext.getInstance().showMessage(
+					"Fahrrad erfolgreich hinzugefügt",
+					Design.DIALOG_TIME_STANDARD,
+					Design.COLOR_DIALOG_SUCCESS);
 		}
 		return newBike;
 	}
@@ -94,8 +101,11 @@ public class EditBikeCTRL {
         if(frameId.isBlank() || availability==null
                  || model==null){
             
-            AppContext.getInstance().showMessage("Fahrrad-Daten ändern fehlgeschlagen! \n"
-                    + "Leere Eingabe", 5, "#FFCCDD");
+            AppContext.getInstance().showMessage(
+					"Fahrrad-Daten ändern fehlgeschlagen! \n"
+                    + "Leere Eingabe",
+					Design.DIALOG_TIME_STANDARD,
+					Design.COLOR_DIALOG_FAILURE);
         }
         //Alles korrekt, Fahrraddaten ändern
         else {
@@ -108,7 +118,10 @@ public class EditBikeCTRL {
             }
             bike.setType(type);
             bike.setAvailability(availability);
-            AppContext.getInstance().showMessage("Fahrrad-Daten erfolgreich geändert", 5, "#CCFFCC");
+            AppContext.getInstance().showMessage(
+					"Fahrrad-Daten erfolgreich geändert",
+					Design.DIALOG_TIME_STANDARD,
+					Design.COLOR_DIALOG_SUCCESS);
         }
         return bike;
 	    

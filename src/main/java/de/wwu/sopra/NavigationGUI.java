@@ -6,6 +6,7 @@ import de.wwu.sopra.bookingProcess.BookingProcessGUI;
 import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
+import de.wwu.sopra.usagehistory.UsageHistoryGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
@@ -156,7 +157,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf die Nutzungshistorie
 	 */
 	private void useHistory() {
-		// TODO AppContext.getInstance().changeViewNode(new HistoryGUI());
+	    AppContext.getInstance().changeViewNode(new UsageHistoryGUI());
 	}
 
 	/**

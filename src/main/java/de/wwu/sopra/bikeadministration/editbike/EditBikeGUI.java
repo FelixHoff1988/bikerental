@@ -3,6 +3,7 @@ package de.wwu.sopra.bikeadministration.editbike;
 import com.sothawo.mapjfx.Coordinate;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.map.MapGUI;
@@ -146,8 +147,11 @@ public class EditBikeGUI extends HBox {
 
             for(Bike b:Bikes) {
                 if(b.getFrameId().equals(frameId)) {
-                    AppContext.getInstance().showMessage("Fahrrad hinzufügen fehlgeschlagen! \n"
-                            + "Rahmennummer bereits vergeben", 5, "#FFCCDD");
+                    AppContext.getInstance().showMessage(
+                            "Fahrrad hinzufügen fehlgeschlagen! \n"
+                            + "Rahmennummer bereits vergeben",
+                            Design.DIALOG_TIME_STANDARD,
+                            Design.COLOR_DIALOG_FAILURE);
                     return;
                 }
                     
@@ -171,8 +175,11 @@ public class EditBikeGUI extends HBox {
             if(!frameId.equals(currentBike.getFrameId())) {
                 for(Bike b:Bikes) {
                     if(b.getFrameId().equals(frameId)) {
-                        AppContext.getInstance().showMessage("Fahrrad hinzufügen fehlgeschlagen! \n"
-                                + "Rahmennummer bereits vergeben", 5, "#FFCCDD");
+                        AppContext.getInstance().showMessage(
+                                "Fahrrad hinzufügen fehlgeschlagen! \n"
+                                + "Rahmennummer bereits vergeben",
+                                Design.DIALOG_TIME_STANDARD,
+                                Design.COLOR_DIALOG_FAILURE);
                         return;
                     }
                         
@@ -191,11 +198,17 @@ public class EditBikeGUI extends HBox {
         deleteButton.setOnAction(evt ->{
             Bike bike = tableView.getSelectionModel().getSelectedItem();
             if(!(ctrl.removeBike(bike) )) {
-                AppContext.getInstance().showMessage("Fahrrad löschen fehlgeschlagen!", 5, "#FFCCDD");
+                AppContext.getInstance().showMessage(
+                        "Fahrrad löschen fehlgeschlagen!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             }
             if(bike!=null) {
                 Bikes.remove(bike);
-                AppContext.getInstance().showMessage("Fahrrad erfolgreich gelöscht!", 5, "#CCFFCC");
+                AppContext.getInstance().showMessage(
+                        "Fahrrad erfolgreich gelöscht!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_SUCCESS);
             }
                 
             tableView.setItems(Bikes);
