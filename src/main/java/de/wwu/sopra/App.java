@@ -3,6 +3,7 @@ package de.wwu.sopra;
 import de.wwu.sopra.bookingProcess.BookingProcessService;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -44,6 +45,7 @@ public class App extends Application {
 		primaryStage.setMinWidth(1080);
 		primaryStage.setMinHeight(720);
 		primaryStage.setScene(scene);
+		primaryStage.getIcons().add(new Image("file:logo.png"));
 		primaryStage.show();
 	}
 
