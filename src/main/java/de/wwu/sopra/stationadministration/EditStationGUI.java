@@ -106,14 +106,18 @@ public class EditStationGUI extends HBox{
         
         var standortLabel = new Label("Setze Standort: ");
         var openMap = new Button("Öffne Karte");
+        openMap.setMinWidth(100);
         innerBox.add(standortLabel, 0, 2);
         innerBox.add(openMap, 1, 2);
         
 
         // Buttons zum Navigieren
-        var submitButton = new Button("Eingabe speichern");
+        var submitButton = new Button("Speichern");
+        submitButton.setMinWidth(100);
         var newButton = new Button("Neu");
+        newButton.setMinWidth(100);
         var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
         
         innerBox.add(submitButton, 0, 3);
         innerBox.add(deleteButton, 1, 3);
@@ -125,8 +129,9 @@ public class EditStationGUI extends HBox{
         mapLabel.setMinWidth(400);
         innerBox.add(mapLabel, 2, 2);
         
+        innerBox.setAlignment(Pos.CENTER);
         VBox vbox = new VBox(innerBox, tableView);
-        vbox.setFillWidth(true);
+        vbox.setAlignment(Pos.CENTER);
         StackPane stack = new StackPane();
         this.getChildren().add(stack);
         stack.getChildren().addAll(vbox);
@@ -137,6 +142,7 @@ public class EditStationGUI extends HBox{
             MapGUI map = new MapGUI();
             map.setMinHeight(600);
             Button closeButton = new Button("Eingabe beenden");
+            closeButton.setMinWidth(100);
             VBox box = new VBox();
             map.startMarkerPlacement(c);
             box.getChildren().addAll(map, closeButton);

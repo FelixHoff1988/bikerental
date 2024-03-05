@@ -54,9 +54,13 @@ public class EditGeofencingAreaGUI extends VBox {
 
         // Buttons zum Navigieren
         var startDesign = new Button("Erstellen starten");
+        startDesign.setMinWidth(100);
         var endAndSaveButton = new Button("Area hinzufügen");
+        endAndSaveButton.setMinWidth(100);
         var endAndDiscardButton = new Button("Area verwerfen");
-        deleteButton = new Button("Löschen");
+        endAndDiscardButton.setMinWidth(100);
+        var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
         
         endAndSaveButton.setDisable(true);
         endAndDiscardButton.setDisable(true);
