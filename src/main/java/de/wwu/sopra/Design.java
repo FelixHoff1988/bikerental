@@ -7,6 +7,11 @@ import com.sothawo.mapjfx.Marker;
  */
 public abstract class Design {
     /**
+     * Standardkonstruktor: ungenutzt
+     */
+    public Design() {}
+
+    /**
      * Standard-Anzeigedauer für Dialoge
      */
     public final static int DIALOG_TIME_STANDARD = 5;
