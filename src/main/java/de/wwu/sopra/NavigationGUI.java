@@ -5,6 +5,7 @@ import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
 import de.wwu.sopra.bookingProcess.BookingProcessGUI;
 import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
+import de.wwu.sopra.changePersonalData.ChangePersonalDataGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.usagehistory.UsageHistoryGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
@@ -150,7 +151,7 @@ public class NavigationGUI extends HBox {
 	 * Wechsel auf die Accountübersicht
 	 */
 	private void account() {
-		// TODO AppContext.getInstance().changeViewNode(new AccountGUI());
+		AppContext.getInstance().changeViewNode(new ChangePersonalDataGUI());
 	}
 
 	/**
