@@ -34,6 +34,8 @@ public class ReviewBusinessStatisticsCTRL {
 
         var filteredReservations = DataProvider.getInstance()
                 .getReservations(reservation -> reservation.getBike() != null
+                        && reservation.getEndTime() != null
+                        && reservation.getBookingTime() != null
                         && bikeTypes.contains(reservation.getBike().getType().getClass()));
 
         // berechne gesuchten Wert und füge data hinzu
