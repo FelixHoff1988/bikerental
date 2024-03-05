@@ -3,6 +3,7 @@ package de.wwu.sopra.login;
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.PasswordHashing;
+import de.wwu.sopra.entity.UserRole;
 import de.wwu.sopra.register.RegisterGUI;
 
 /**
@@ -54,9 +55,14 @@ public class LoginCTRL {
      * Handelt den Klick auf den "Passwort vergessen"-Text
      */
     public void forgotPassword() {
+        var admins = DataProvider.getInstance().getUsers(user -> user.getRole() == UserRole.ADMIN);
+        var email = "admin@bikerental.de";
+
+        if (!admins.isEmpty())
+            email = admins.getFirst().getEmail();
+
         AppContext.getInstance().showMessage(
-                "Falls Sie Ihr Passwort vergessen haben, bitte wenden Sie sich an den Kundenservice."
-                        + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
+                "Um dein Passwort zurückzusetzen kontaktiere bitte einen Administrator unter \""+email+"\".",
                 5,
                 "#FFCCDD");
     }
