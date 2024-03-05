@@ -59,10 +59,18 @@ public class UsageHistoryGUI extends HBox {
             return new ReadOnlyStringWrapper(data.getValue().getBike().getType().getTypeString());
         });
         startColumn.setCellValueFactory(data -> {
-            return new ReadOnlyStringWrapper(String.valueOf(data.getValue().getStartTime()));
+            var startTime = data.getValue().getStartTime();
+            String s = "";
+            if(startTime!=null)
+                s = startTime.getDayOfMonth() + "."+ startTime.getMonthValue()+"."+startTime.getYear()+ " , " + startTime.getHour()+":"+startTime.getMinute()+" Uhr"  ;
+            return new ReadOnlyStringWrapper(s);
         });
         endColumn.setCellValueFactory(data -> {
-            return new ReadOnlyStringWrapper(String.valueOf(data.getValue().getEndTime()));
+            var endTime = data.getValue().getEndTime();
+            String s = "";
+            if(endTime!=null)
+                s = endTime.getDayOfMonth() + "."+ endTime.getMonthValue()+"."+endTime.getYear()+ " , " + endTime.getHour()+":"+endTime.getMinute()+" Uhr"  ;
+            return new ReadOnlyStringWrapper(s);
         });
         
         
@@ -75,16 +83,16 @@ public class UsageHistoryGUI extends HBox {
         
      
         //Breite der Tabelle festlegen
-        tableView.setMaxWidth(700);
-        tableView.setMinWidth(700);
+        tableView.setMaxWidth(675);
+        tableView.setMinWidth(675);
         
         //Breite der Spalten festlegen
         frameIdColumn.setPrefWidth(125);
       
         modelColumn.setPrefWidth(125);
         typeColumn.setPrefWidth(125);
-        endColumn.setPrefWidth(125);
-        startColumn.setPrefWidth(125);
+        endColumn.setPrefWidth(150);
+        startColumn.setPrefWidth(150);
         
         //Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
         ObservableList<Reservation> Reservations = FXCollections.observableArrayList((ctrl.loadReservations()));
