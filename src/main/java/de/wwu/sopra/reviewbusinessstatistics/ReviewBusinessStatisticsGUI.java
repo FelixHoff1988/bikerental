@@ -1,27 +1,24 @@
 package de.wwu.sopra.reviewbusinessstatistics;
 
-import java.util.ArrayList;
-
-import de.wwu.sopra.biketypeadministration.EditBikeTypeCTRL;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import de.wwu.sopra.entity.BikeType;
+import de.wwu.sopra.entity.CargoBike;
+import de.wwu.sopra.entity.EBike;
+import de.wwu.sopra.entity.StandardType;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ReviewBusinessStatisticsGUI extends HBox{
-    private ReviewBusinessStatisticsCTRL ctrl = new ReviewBusinessStatisticsCTRL();
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReviewBusinessStatisticsGUI extends GridPane {
+    private final ReviewBusinessStatisticsCTRL ctrl = new ReviewBusinessStatisticsCTRL();
     
     public ReviewBusinessStatisticsGUI()
     {
@@ -30,98 +27,109 @@ public class ReviewBusinessStatisticsGUI extends HBox{
     
     public void init()
     {
-        GridPane grid = new GridPane();
-        Label header = new Label("Geschäftsstatistiken");
-        
         // Eingabe der Suchparameter
-        grid.add(header, 0, 0);
         CheckBox checkBoxNormale = new CheckBox("Normales Fahrrad");
         CheckBox checkBoxLasten = new CheckBox("Lastenfahrrad");
         CheckBox checkBoxElektro = new CheckBox("Elektrofahrrad");
-        VBox v = new VBox();
+
+        checkBoxNormale.setSelected(true);
+
+        VBox searchSettings = new VBox();
+        searchSettings.setSpacing(5);
+        searchSettings.setPadding(new Insets(10, 0, 0, 60));
+
         Slider slider = new Slider(0, 100, 0);
         slider.setMajorTickUnit(10.0);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-        Label letzteXTage = new Label("betrachter Zeitraum: letzte 0 Tage");
-        
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
+        slider.setValue(40);
+        Label letzteXTage = new Label("betrachter Zeitraum: letzte 40 Tage");
 
-            @Override
-            public void changed(
-               ObservableValue<? extends Number> observableValue, 
-               Number oldValue, 
-               Number newValue) { 
-                  letzteXTage.textProperty().setValue(
-                          "betrachter Zeitraum: letzte " + String.valueOf(newValue.intValue())  + " Tage");
-              }
+        slider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            letzteXTage.textProperty().setValue("Betrachter Zeitraum: letzte " + newValue.intValue() + " Tage");
         });
         
-        Label startZeit = new Label("Zeitpunkt von");
-        ChoiceBox<Integer> startZeitpunktChoiceBox = new ChoiceBox<Integer>();
-        for (int i = 1; i <= 24; i++)
-        {
-            startZeitpunktChoiceBox.getItems().add(i);
-        }
-        
-        Label endZeit = new Label("Zeitpunkt von");
-        ChoiceBox<Integer> endZeitpunktChoiceBox = new ChoiceBox<Integer>();
-        for (int i = 1; i <= 24; i++)
-        {
-            endZeitpunktChoiceBox.getItems().add(i);
-        }
-        
-        LineChart umsatzChart = createChart("Tag", "Umsatz", "Umsätze der letzten Woche");
-        LineChart buchungenChart = createChart("Tag", "Buchungen", "Buchungen der letzten Woche");
-        LineChart fahrradChart = createChart("Tag", "Fahrräder", "Reperaturen der letzten Woche");
-        
+        var revenueChart  = createChart("Tag", "Umsatz", "Umsätze");
+        var bookingsChart = createChart("Tag", "Buchungen", "Buchungen");
+        var bikeChart     = createChart("Tag", "Fahrräder", "Reparatur");
+
+        revenueChart.setLegendVisible(false);
+        bookingsChart.setLegendVisible(false);
+        bikeChart.setLegendVisible(false);
+
+        // inserting data
+        var data = ctrl.calculateData(
+                (int) slider.getValue(),
+                checkboxToBikeTypes(
+                        checkBoxNormale.isSelected(),
+                        checkBoxLasten.isSelected(),
+                        checkBoxElektro.isSelected()));
+        revenueChart.getData().add(data.get("revenue"));
+        bookingsChart.getData().add(data.get("bookings"));
+        bikeChart.getData().add(data.get("bikes"));
+
         Button submitButton = new Button("Zeige Statistiken");
         submitButton.setOnAction(event -> {
-            changeChartData(umsatzChart, ctrl.calculateDataReal((int) slider.getValue(), checkBoxNormale.isSelected(), checkBoxLasten.isSelected(), checkBoxElektro.isSelected()));
+            var calculated = ctrl.calculateData(
+                    (int) slider.getValue(),
+                    checkboxToBikeTypes(
+                            checkBoxNormale.isSelected(),
+                            checkBoxLasten.isSelected(),
+                            checkBoxElektro.isSelected()));
+            changeChartData(revenueChart, calculated.get("revenue"));
+            changeChartData(bookingsChart, calculated.get("bookings"));
+            changeChartData(bikeChart, calculated.get("bikes"));
         });
+
+        searchSettings.getChildren().add(checkBoxNormale);
+        searchSettings.getChildren().add(checkBoxLasten);
+        searchSettings.getChildren().add(checkBoxElektro);
+        searchSettings.getChildren().add(letzteXTage);
+        searchSettings.getChildren().add(slider);
+        searchSettings.getChildren().add(submitButton);
+        searchSettings.setMinWidth(300);
+        searchSettings.setMaxWidth(300);
+        searchSettings.setAlignment(Pos.CENTER_LEFT);
+
+        this.add(searchSettings, 0, 1);
         
-        v.getChildren().add(checkBoxNormale);
-        v.getChildren().add(checkBoxLasten);
-        v.getChildren().add(checkBoxElektro);         
-        v.getChildren().add(letzteXTage);
-        v.getChildren().add(slider);
-        v.getChildren().add(submitButton);
-        /*v.getChildren().add(startZeit);
-        v.getChildren().add(startZeitpunktChoiceBox);
-        v.getChildren().add(endZeit);
-        v.getChildren().add(endZeitpunktChoiceBox);*/
-        v.setMinWidth(300);
-        v.setMaxWidth(300);
-        
-        grid.add(v, 0, 1);
-        
-        grid.add(umsatzChart, 1, 1);
-        grid.add(buchungenChart, 1, 2);
-        grid.add(fahrradChart, 1, 3);
+        this.add(revenueChart, 1, 1);
+        this.add(bookingsChart, 0, 2);
+        this.add(bikeChart, 1, 2);
+        this.setPadding(new Insets(50));
         this.setAlignment(Pos.CENTER);
-        this.getChildren().add(grid);
     }
     
-    public LineChart createChart(String xAxisName, String yAxisName, String Title)
+    private LineChart<String, Number> createChart(String xAxisName, String yAxisName, String Title)
     {
         // creating axis
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
+        var xAxis = new CategoryAxis();
+        var yAxis = new NumberAxis();
         xAxis.setLabel(xAxisName);
         yAxis.setLabel(yAxisName);
         
         //creating chart
-        LineChart lineChart = new LineChart(xAxis, yAxis);
+        var lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setTitle(Title);
-        
-        // inserting data
-        lineChart.getData().add(ctrl.calculateData());
+
         return lineChart;
     }
     
-    public void changeChartData(LineChart line, XYChart.Series data)
+    private void changeChartData(LineChart<String, Number> line, XYChart.Series<String, Number> data)
     {
         line.getData().removeAll(line.getData());
         line.getData().add(data);
+    }
+
+    private List<Class<? extends BikeType>> checkboxToBikeTypes(boolean eBike, boolean cargoBike, boolean standardBike) {
+        var list = new ArrayList<Class<? extends BikeType>>();
+        if (eBike)
+            list.add(EBike.class);
+        if (cargoBike)
+            list.add(CargoBike.class);
+        if (standardBike)
+            list.add(StandardType.class);
+
+        return list;
     }
 }
