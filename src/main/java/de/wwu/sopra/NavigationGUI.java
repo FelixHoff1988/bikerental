@@ -4,6 +4,7 @@ package de.wwu.sopra;
 import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
 import de.wwu.sopra.bookingProcess.BookingProcessGUI;
 import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
+import de.wwu.sopra.bikemanagement.BikeManagementGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.changePersonalData.ChangePersonalDataGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
@@ -224,7 +225,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Umverteilungsansicht
 	 */
 	private void bikeManagement() {
-		// TODO AppContext.getInstance().changeViewNode(new ManagementGUI());
+		AppContext.getInstance().changeViewNode(new BikeManagementGUI());
 	}
 
 	/**
