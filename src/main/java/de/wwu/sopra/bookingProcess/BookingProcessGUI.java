@@ -3,6 +3,7 @@ package de.wwu.sopra.bookingProcess;
 import com.sothawo.mapjfx.Marker.Provided;
 
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.bookingProcess.bookBike.BookBikeGUI;
 import de.wwu.sopra.bookingProcess.endBooking.EndBookingGUI;
 import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeGUI;
@@ -51,11 +52,17 @@ public class BookingProcessGUI extends StackPane {
         var availableBikes = data.getBikes(bike ->
                 bike.getAvailability() == Availability.AVAILABLE
                 || (!bike.getReservationList().isEmpty() && bike.getReservationList().getLast() == reservation));
-        this.map.displayMarkers(availableBikes, Bike::getLocation, Provided.ORANGE);
-        this.map.displayMarkers(data.getStations(), BikeStation::getLocation, Provided.BLUE);
+        this.map.displayMarkers(
+                availableBikes,
+                Bike::getLocation,
+                Design.COLOR_MAP_BIKE_DEFAULT);
+        this.map.displayMarkers(
+                data.getStations(),
+                BikeStation::getLocation,
+                Design.COLOR_MAP_STATION_DEFAULT);
 
         if (reservation != null && reservation.getEndTime() == null)
-            this.map.selectMarker(reservation.getBike(), Provided.GREEN);
+            this.map.selectMarker(reservation.getBike(), Design.COLOR_MAP_BIKE_SELECTED);
     }
 
     /**
@@ -79,10 +86,10 @@ public class BookingProcessGUI extends StackPane {
         var reserveBikeGUI = new ReserveBikeGUI();
         Consumer<Bike> onBikeClick = reserveBikeGUI::update;
 
-        this.map.onClickMarker(Bike.class, onBikeClick, Provided.GREEN);
+        this.map.onClickMarker(Bike.class, onBikeClick, Design.COLOR_MAP_BIKE_SELECTED);
         reserveBikeGUI.onStepFinish(reservation -> {
             initBookingGUI(reservation);
-            map.removeOnClickAction(onBikeClick);
+            map.removeOnClickAction(Bike.class);
         });
 
         if (this.getChildren().size() > 1)
@@ -100,7 +107,7 @@ public class BookingProcessGUI extends StackPane {
         var bookingGUI = new BookBikeGUI(reservation);
         bookingGUI.onStepCancel(res -> {
             initReservationGUI();
-            map.deselectMarker(reservation.getBike(), Provided.ORANGE);
+            map.deselectMarker(reservation.getBike(), Design.COLOR_MAP_BIKE_DEFAULT);
         });
         bookingGUI.onStepFinish(this::initEndBookingGUI);
 
@@ -120,12 +127,12 @@ public class BookingProcessGUI extends StackPane {
         this.map.displayCoordinateLines(
                 data.getGeoAreas(),
                 GeofencingArea::getEdges,
-                "limegreen",
-                "dodgerblue");
+                Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                Design.COLOR_MAP_AREA_LINE_DEFAULT);
 
         endBooking.onStepFinish(res -> {
             initReservationGUI();
-            map.deselectMarker(reservation.getBike(), Provided.ORANGE);
+            map.deselectMarker(reservation.getBike(), Design.COLOR_MAP_BIKE_DEFAULT);
             data.getGeoAreas().forEach(map::removeCoordinateLine);
         });
 

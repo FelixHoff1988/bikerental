@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
@@ -40,8 +41,11 @@ public class EditUserCTRL {
         DataProvider prov = DataProvider.getInstance();
         boolean emailNotExistsAlready = prov.addUser(registeredUser);
         if (!emailNotExistsAlready) {
-            AppContext.getInstance().showMessage("Die angegebene E-Mail wird bereits von einem anderen Account verwendet."
-                    + "Wähle eine andere E-Mail-Adresse für den neuen User aus.", 5, "#FFCCDD");
+            AppContext.getInstance().showMessage(
+                    "Die angegebene E-Mail wird bereits von einem anderen Account verwendet."
+                    + "Wähle eine andere E-Mail-Adresse für den neuen User aus.",
+                    Design.DIALOG_TIME_STANDARD,
+                    Design.COLOR_DIALOG_FAILURE);
             return null;
         } else {
             prov.addUser(registeredUser);

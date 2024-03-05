@@ -1,21 +1,20 @@
 package de.wwu.sopra.geofencingareaadministration;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
 import de.wwu.sopra.map.MapGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.util.List;
 
 /**
  * Klasse zur Darstellung des Editierens von Geofencing Areas
  */
-public class EditGeofencingAreaGUI extends HBox{
+public class EditGeofencingAreaGUI extends VBox {
     /**
      * Steuerungsklasse für das GUI
      */
@@ -25,6 +24,11 @@ public class EditGeofencingAreaGUI extends HBox{
      * Aktuell angeklickte GeofencingArea
      */
     private GeofencingArea selectedArea;
+
+    /**
+     * Knopf zum Löschen von GeofencingAreas
+     */
+    private Button deleteButton;
 
     /**
      * Konstruktor.
@@ -37,36 +41,49 @@ public class EditGeofencingAreaGUI extends HBox{
      * Initialisiert das GUI-Layout für das Benutzer-Editieren.
      */
     public void init() {
-        var innerBox = new GridPane();
-        innerBox.setHgap(30);
-        innerBox.setPadding(new Insets(25, 25, 25, 25));
+        var innerBox = new HBox();
+        innerBox.setSpacing(20);
+        innerBox.setPadding(new Insets(25, 0, 25, 0));
         innerBox.setAlignment(Pos.CENTER);
-        innerBox.setVgap(5);
-        
-        innerBox.setMinWidth(900);
+
+        var spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(this, Priority.ALWAYS);
+        VBox.setVgrow(this, Priority.ALWAYS);
+        this.setPadding(new Insets(25));
 
         // Buttons zum Navigieren
         var startDesign = new Button("Erstellen starten");
         var endAndSaveButton = new Button("Area hinzufügen");
         var endAndDiscardButton = new Button("Area verwerfen");
-        var deleteButton = new Button("Löschen");
+        deleteButton = new Button("Löschen");
         
         endAndSaveButton.setDisable(true);
         endAndDiscardButton.setDisable(true);
-       
-        innerBox.add(deleteButton, 0, 0);
-        innerBox.add(startDesign, 1, 0);
-        innerBox.add(endAndSaveButton, 2, 0);
-        innerBox.add(endAndDiscardButton, 3, 0);
+        deleteButton.setDisable(true);
+
+        innerBox.getChildren().addAll(startDesign, deleteButton, spacer, endAndSaveButton, endAndDiscardButton);
         
         MapGUI map = new MapGUI();
-        map.setMinHeight(600);
+        HBox.setHgrow(map, Priority.ALWAYS);
+        VBox.setVgrow(map, Priority.ALWAYS);
         ctrl.initializeAreas(map);
-        
+        enableAreaSelection(map);
+
         startDesign.setOnAction(event -> {
             map.drawArea();
+            startDesign.setDisable(true);
             endAndSaveButton.setDisable(false);
             endAndDiscardButton.setDisable(false);
+            deleteButton.setDisable(true);
+            disableAreaSelection(map);
+            if (this.selectedArea != null) {
+                map.deselectCoordinateLine(
+                        this.selectedArea,
+                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
+                this.selectedArea = null;
+            }
         });
         
         endAndSaveButton.setOnAction(event -> {
@@ -74,16 +91,18 @@ public class EditGeofencingAreaGUI extends HBox{
             if (geoArea == null) {
                 AppContext.getInstance().showMessage(
                         "Die Geofencing-Area muss mindestens drei Eckpunkte besitzen!",
-                        5,
-                        "#FFCCDD");
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             } else {
                 ctrl.addGeofencingArea(geoArea);
                 map.displayCoordinateLines(
                         List.of(geoArea), GeofencingArea::getEdges,
-                        "limegreen",
-                        "dodgerblue");
+                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
                 endAndSaveButton.setDisable(true);
                 endAndDiscardButton.setDisable(true);
+                startDesign.setDisable(false);
+                enableAreaSelection(map);
             }
         });
         
@@ -91,6 +110,8 @@ public class EditGeofencingAreaGUI extends HBox{
             map.finalizeArea();
             endAndSaveButton.setDisable(true);
             endAndDiscardButton.setDisable(true);
+            startDesign.setDisable(false);
+            enableAreaSelection(map);
         });
 
         deleteButton.setOnAction(event -> {
@@ -102,15 +123,43 @@ public class EditGeofencingAreaGUI extends HBox{
             selectedArea = null;
         });
 
-        map.onClickCoordinateLine(GeofencingArea.class, area -> {
-            if (area == this.selectedArea)
-                this.selectedArea = null;
-            else
-                this.selectedArea = area;
-        }, "orange", "red");
-        
-        VBox vbox = new VBox(map, innerBox);
-        this.getChildren().add(vbox);
-        this.setAlignment(Pos.CENTER);
+        this.getChildren().addAll(map, innerBox);
+    }
+
+    /**
+     * Aktiviert die Auswahl von GeoAreas auf der Map.
+     *
+     * @param map MapGUI Komponente
+     */
+    private void enableAreaSelection(MapGUI map) {
+        map.onClickCoordinateLine(
+                GeofencingArea.class,
+                this::onClickArea,
+                Design.COLOR_MAP_AREA_FILL_SELECTED,
+                Design.COLOR_MAP_AREA_LINE_SELECTED);
+    }
+
+    /**
+     * Deaktiviert die Auswahl von GeoAreas auf der Map.
+     *
+     * @param map MapGUI Komponente
+     */
+    private void disableAreaSelection(MapGUI map) {
+        map.removeCoordinateLineOnClickAction(GeofencingArea.class);
+    }
+
+    /**
+     * Wird beim Klick auf eine GeoArea ausgeführt.
+     *
+     * @param area Ausgewählte GeoArea
+     */
+    private void onClickArea(GeofencingArea area) {
+        if (area == this.selectedArea) {
+            this.selectedArea = null;
+            deleteButton.setDisable(true);
+        } else {
+            this.selectedArea = area;
+            deleteButton.setDisable(false);
+        }
     }
 }
