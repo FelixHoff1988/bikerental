@@ -29,8 +29,8 @@ public class ChangePersonalDataCTRL {
      * Wird bei korrekten Werten für Textfields aufgerufen, speichert angegebene
      * Daten
      * 
-     * @param textFieldsRegistration
-     * @param
+     * @param textFieldsRegistration Array mit den neuen Nutzerdaten
+     * @param newPassword true wenn ein neues Passwort gesetzt werden soll
      */
     public void changeData(TextField[] textFieldsRegistration, boolean newPassword) {
         var user = context.getLoggedInUser();

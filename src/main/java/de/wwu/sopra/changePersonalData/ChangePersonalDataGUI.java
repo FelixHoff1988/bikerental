@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.login.LoginGUI;
 import javafx.geometry.Insets;
@@ -182,7 +183,7 @@ public class ChangePersonalDataGUI extends HBox {
                 AppContext.getInstance().showMessage(
                         "Daten erfolgreich geändert.",
                         5,
-                        "#FFCCDD");
+                        Design.COLOR_DIALOG_SUCCESS);
             }
 
         });
