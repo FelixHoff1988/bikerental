@@ -1,4 +1,4 @@
-/*
+/**
  * @author Nisa
  * @author David
  */
@@ -16,35 +16,36 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 
-/*
+/**
  * GUI-Klasse der Nutzungshistorie.
  */
 public class UsageHistoryGUI extends HBox {
-    
+
     private UsageHistoryCTRL ctrl = new UsageHistoryCTRL();
-     /**
+
+    /**
      * Konstruktor.
      */
-    public UsageHistoryGUI(){
+    public UsageHistoryGUI() {
         init();
     }
-    
-      /**
+
+    /**
      * Initialisiert das GUI-Layout für die Nutzungshistorie.
      */
     public void init() {
-        
-        //Tabelle mit den Spalten erstellen
+
+        // Tabelle mit den Spalten erstellen
         TableView<Reservation> tableView = new TableView<>();
-        TableColumn<Reservation,String> frameIdColumn = new TableColumn<>("Rahmennummer");
-        TableColumn<Reservation,String> modelColumn = new TableColumn<>("Modell");
-        TableColumn<Reservation,String> typeColumn = new TableColumn<>("Typ");
-        TableColumn<Reservation,String> startColumn = new TableColumn<>("Startzeit");
-        TableColumn<Reservation,String> endColumn = new TableColumn<>("Endzeit");
-        TableColumn<Reservation,String> statusColumn = new TableColumn<>("Status");
-        TableColumn<Reservation,String> priceColumn = new TableColumn<>("Preis");
-        
-        //Werte für die Spalten der Tabelle konfigurieren
+        TableColumn<Reservation, String> frameIdColumn = new TableColumn<>("Rahmennummer");
+        TableColumn<Reservation, String> modelColumn = new TableColumn<>("Modell");
+        TableColumn<Reservation, String> typeColumn = new TableColumn<>("Typ");
+        TableColumn<Reservation, String> startColumn = new TableColumn<>("Startzeit");
+        TableColumn<Reservation, String> endColumn = new TableColumn<>("Endzeit");
+        TableColumn<Reservation, String> statusColumn = new TableColumn<>("Status");
+        TableColumn<Reservation, String> priceColumn = new TableColumn<>("Preis");
+
+        // Werte für die Spalten der Tabelle konfigurieren
         frameIdColumn.setCellValueFactory(data -> {
             return new ReadOnlyStringWrapper(data.getValue().getBike().getFrameId());
         });
@@ -57,53 +58,53 @@ public class UsageHistoryGUI extends HBox {
         startColumn.setCellValueFactory(data -> {
             var startTime = data.getValue().getStartTime();
             String s = "";
-            if(startTime!=null)
-                s = startTime.getDayOfMonth() + "."+ startTime.getMonthValue()+"."+startTime.getYear()+ " , " + startTime.getHour()+":"+startTime.getMinute()+" Uhr"  ;
+            if (startTime != null)
+                s = startTime.getDayOfMonth() + "." + startTime.getMonthValue() + "." + startTime.getYear() + " , "
+                        + startTime.getHour() + ":" + startTime.getMinute() + " Uhr";
             return new ReadOnlyStringWrapper(s);
         });
         endColumn.setCellValueFactory(data -> {
             var endTime = data.getValue().getEndTime();
             String s = "";
-            if(endTime!=null)
-                s = endTime.getDayOfMonth() + "."+ endTime.getMonthValue()+"."+endTime.getYear()+ " , " + endTime.getHour()+":"+endTime.getMinute()+" Uhr"  ;
+            if (endTime != null)
+                s = endTime.getDayOfMonth() + "." + endTime.getMonthValue() + "." + endTime.getYear() + " , "
+                        + endTime.getHour() + ":" + endTime.getMinute() + " Uhr";
             return new ReadOnlyStringWrapper(s);
         });
         statusColumn.setCellValueFactory(data -> {
             String s = "";
-             
+
             if (data.getValue().getEndTime() == null) {
                 if (data.getValue().getBookingTime() == null)
                     s = "in Reservierung";
-                else 
+                else
                     s = "in Buchung";
-            }
-            else {
-                if (data.getValue().getBookingTime() == null) 
+            } else {
+                if (data.getValue().getBookingTime() == null)
                     s = "Reservierung";
-                else 
+                else
                     s = "Buchung";
-                
+
             }
-            
+
             return new ReadOnlyStringWrapper(s);
         });
         priceColumn.setCellValueFactory(data -> {
             String s = "";
             LocalDateTime endTime = data.getValue().getEndTime();
             LocalDateTime bookingTime = data.getValue().getBookingTime();
-            
-            if (bookingTime!=null && endTime!=null) {
+
+            if (bookingTime != null && endTime != null) {
                 long minutes = ChronoUnit.MINUTES.between(bookingTime, endTime);
-                var price = data.getValue().getPrice() *(minutes/60F);
-                var cent = (int) price%100;
-                var euro = (int) price/100;
-                s = euro + "."+ cent +" €";
+                var price = data.getValue().getPrice() * (minutes / 60F);
+                var cent = (int) price % 100;
+                var euro = (int) price / 100;
+                s = euro + "." + cent + " €";
             }
             return new ReadOnlyStringWrapper(s);
         });
-        
-        
-        //Spalten zur Tabelle hinzufügen
+
+        // Spalten zur Tabelle hinzufügen
         tableView.getColumns().add(frameIdColumn);
         tableView.getColumns().add(modelColumn);
         tableView.getColumns().add(typeColumn);
@@ -111,37 +112,33 @@ public class UsageHistoryGUI extends HBox {
         tableView.getColumns().add(endColumn);
         tableView.getColumns().add(priceColumn);
         tableView.getColumns().add(statusColumn);
-        
 
-        //Breite der Tabelle festlegen
+        // Breite der Tabelle festlegen
         tableView.setMaxWidth(875);
         tableView.setMinWidth(875);
-        
-        //Breite der Spalten festlegen
-        frameIdColumn.setPrefWidth(125);  
+
+        // Breite der Spalten festlegen
+        frameIdColumn.setPrefWidth(125);
         modelColumn.setPrefWidth(125);
         typeColumn.setPrefWidth(125);
         endColumn.setPrefWidth(150);
         startColumn.setPrefWidth(150);
         priceColumn.setPrefWidth(100);
         statusColumn.setPrefWidth(100);
-        
-        
-        
-        //Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
+
+        // Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
         ObservableList<Reservation> Reservations = FXCollections.observableArrayList((ctrl.loadReservations()));
         tableView.setItems(Reservations);
-        
-        //Tabelle sortieren, neue Einträge erscheinen oben
+
+        // Tabelle sortieren, neue Einträge erscheinen oben
         startColumn.setSortType(TableColumn.SortType.DESCENDING);
         tableView.getSortOrder().add(startColumn);
         tableView.sort();
-        
-        //Tabelle hinzufügen und zentrieren
+
+        // Tabelle hinzufügen und zentrieren
         this.getChildren().add(tableView);
         this.setAlignment(Pos.CENTER);
-            
-    }
 
+    }
 
 }
