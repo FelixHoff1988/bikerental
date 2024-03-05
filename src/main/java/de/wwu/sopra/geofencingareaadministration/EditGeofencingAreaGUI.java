@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Klasse zur Darstellung des Editierens von Geofencing Areas
  */
-public class EditGeofencingAreaGUI extends HBox{
+public class EditGeofencingAreaGUI extends VBox {
     /**
      * Steuerungsklasse für das GUI
      */
@@ -102,7 +102,6 @@ public class EditGeofencingAreaGUI extends HBox{
                 endAndSaveButton.setDisable(true);
                 endAndDiscardButton.setDisable(true);
                 startDesign.setDisable(false);
-                deleteButton.setDisable(false);
                 enableAreaSelection(map);
             }
         });
@@ -112,7 +111,6 @@ public class EditGeofencingAreaGUI extends HBox{
             endAndSaveButton.setDisable(true);
             endAndDiscardButton.setDisable(true);
             startDesign.setDisable(false);
-            deleteButton.setDisable(false);
             enableAreaSelection(map);
         });
 
@@ -137,8 +135,8 @@ public class EditGeofencingAreaGUI extends HBox{
         map.onClickCoordinateLine(
                 GeofencingArea.class,
                 this::onClickArea,
-                "orange",
-                "red");
+                Design.COLOR_MAP_AREA_FILL_SELECTED,
+                Design.COLOR_MAP_AREA_LINE_SELECTED);
     }
 
     /**
