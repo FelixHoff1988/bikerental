@@ -5,6 +5,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.BikeType;
@@ -27,6 +28,14 @@ public class ReviewBusinessStatisticsCTRL {
     public XYChart.Series calculateDataReal(int slider, boolean normal, boolean lasten, boolean elektro)
     {
         XYChart.Series<Number, Number> data = new XYChart.Series<Number, Number>();
+        List<Reservation> unfilteredReservations = DataProvider.getInstance().getReservations();
+        System.out.println("Unfiltered Bikes");
+        for (Reservation element: unfilteredReservations)
+        {
+            System.out.println(element.getBike().getType().getTypeString());
+            System.out.println(element.getPrice());
+        }
+        
         List<Reservation> filteredReservations = DataProvider.getInstance().getReservations(Reservation -> {
             ArrayList<Boolean> pruefungenTypeBike = new ArrayList<Boolean>();
             if (normal)
@@ -47,16 +56,24 @@ public class ReviewBusinessStatisticsCTRL {
             allePruefungen.add(oneTrue(pruefungenTypeBike));
             
             //check when started
-            LocalDateTime now = LocalDateTime.now();
+            /*LocalDateTime now = LocalDateTime.now();
             Period goBack = Period.ofDays(slider);
             LocalDateTime firstDate = now.minus(goBack);
             
-            allePruefungen.add(firstDate.isBefore(Reservation.getStartTime()));
+            allePruefungen.add(firstDate.isBefore(Reservation.getStartTime()));*/
             
             // to be implemented: check for time 
             return areAllTrue(allePruefungen);
             
         });
+        
+        System.out.println("Filtered Bikes");
+        for (Reservation element: filteredReservations)
+        {
+            System.out.println(element.getBike().getType().getTypeString());
+            System.out.println(element.getPrice());
+            System.out.println(element.getStartTime());
+        }
         
         // berechne gesuchten Wert und füge data hinzu
         for (int i = slider; i >= 0 ; i--)
@@ -64,14 +81,19 @@ public class ReviewBusinessStatisticsCTRL {
             LocalDateTime now = LocalDateTime.now();
             Period goBack = Period.ofDays(i);
             LocalDateTime correctDay = now.minus(goBack);
+            System.out.println(correctDay);
             
-            List<Reservation> reservationsOfDay = filteredReservations.stream().filter(r -> r.getStartTime().toLocalDate() == correctDay.toLocalDate()).collect(Collectors.toList());
+            Stream<Reservation> reservationsOfDayStream = filteredReservations.stream().filter(r -> r.getStartTime().getDayOfYear() == correctDay.getDayOfYear());
+            List<Reservation> reservationsOfDay = reservationsOfDayStream.toList();
             
             int calculatedSumOfDay = 0;
+            System.out.println(i);
             for (Reservation element: reservationsOfDay)
             {
-                calculatedSumOfDay += element.getPrice();
+                System.out.println(element.getBike().getType().getTypeString());
+                calculatedSumOfDay = calculatedSumOfDay + element.getPrice();
             }
+            System.out.println(calculatedSumOfDay);
             
             data.getData().add(new XYChart.Data(slider - i, calculatedSumOfDay));
         }

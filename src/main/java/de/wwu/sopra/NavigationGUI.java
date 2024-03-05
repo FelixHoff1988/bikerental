@@ -8,6 +8,7 @@ import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
 import de.wwu.sopra.stationadministration.EditStationGUI;
 import de.wwu.sopra.geofencingareaadministration.EditGeofencingAreaGUI;
 import de.wwu.sopra.reportdefect.ReportGUI;
+import de.wwu.sopra.reviewbusinessstatistics.ReviewBusinessStatisticsGUI;
 import de.wwu.sopra.useradministration.EditUserGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -208,7 +209,7 @@ public class NavigationGUI extends HBox {
 	 * Wechseln auf die Unternehmensbilanz
 	 */
 	private void statistics() {
-		// TODO AppContext.getInstance().changeViewNode(new StatisticGUI());
+		AppContext.getInstance().changeViewNode(new ReviewBusinessStatisticsGUI());
 	}
 
 	/**
