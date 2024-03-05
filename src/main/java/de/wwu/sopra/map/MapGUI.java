@@ -3,6 +3,7 @@ package de.wwu.sopra.map;
 import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MapViewEvent;
 import com.sothawo.mapjfx.event.MarkerEvent;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
 import javafx.animation.Transition;
 import javafx.event.EventHandler;
@@ -514,7 +515,7 @@ public class MapGUI extends BorderPane {
     public void startMarkerPlacement(Coordinate startLocation) {
         mapView.addEventHandler(MapViewEvent.MAP_CLICKED, this::handleMarkerPlacement);
         dynamicMarker = Marker
-                .createProvided(Marker.Provided.RED)
+                .createProvided(Design.COLOR_MAP_PLACEMENT)
                 .setPosition(startLocation == null ? mapView.getCenter() : startLocation)
                 .setVisible(true);
 
