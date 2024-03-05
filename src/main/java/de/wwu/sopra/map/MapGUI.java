@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Allgemeine Implementierung der Map zur Einbindung in die weiteren GUIs
@@ -103,23 +102,24 @@ public class MapGUI extends BorderPane {
         this.setMinHeight(500);
     }
 
+    public void keepUpToDate() {
+
+    }
+
     /**
      * Zeigt eine Liste von Markern auf der Map an.
      *
      * @param objects Mit den Markern zu assoziierende Objekte
-     * @param coordinateSelector Funktion, welche aus objects die Koordinaten auswählt
      * @param color Farbe der Marker
      * @param <T> Typ der Objects
      */
-    public <T> void displayMarkers(
+    public <T extends MapMarkerCandidate> void displayMarkers(
             List<T> objects,
-            Function<T, Coordinate> coordinateSelector,
             Marker.Provided color) {
         objects.forEach(obj -> {
             var marker = new MapMarker<>(
                     mapView,
                     obj,
-                    coordinateSelector,
                     color);
             markers.add(marker);
         });
@@ -144,7 +144,7 @@ public class MapGUI extends BorderPane {
      * @param changeColor Neue Farbe des Markers (kann null sein)
      * @param <T> Type des Markers
      */
-    public <T> void onClickMarker(
+    public <T extends MapMarkerCandidate> void onClickMarker(
             Class<T> objClass,
             Consumer<T> consumer,
             Marker.Provided changeColor) {
@@ -227,20 +227,18 @@ public class MapGUI extends BorderPane {
      * Zeigt eine Liste an CoordinateLines auf der Map an.
      *
      * @param objects Den CoordinateLines zugrundelegende Objekte
-     * @param lineSelector Funktion, welche aus den objects eine Liste an Koordinaten auswählt
      * @param fillColor Innere Farbe des gezeichneten Bereichs
      * @param lineColor Äußere Farbe des gezeichneten Bereichs
      * @param <T> Typ der Objekte
      */
-    public <T> void displayCoordinateLines(
+    public <T extends MapCoordinateLineCandidate> void displayCoordinateLines(
             List<T> objects,
-            Function<T, List<Coordinate>> lineSelector,
-            String fillColor, String lineColor) {
+            String fillColor,
+            String lineColor) {
         objects.forEach(obj -> {
             var line = new MapCoordinateLine<>(
                     mapView,
                     obj,
-                    lineSelector,
                     lineColor,
                     fillColor);
             coordinateLines.add(line);
@@ -264,7 +262,7 @@ public class MapGUI extends BorderPane {
      * @param object Zur CoordinateLine zugeordnetes Objekt
      * @param <T> Typ des Objekts
      */
-    public <T> void deselectCoordinateLine(T object) {
+    public <T extends MapCoordinateLineCandidate> void deselectCoordinateLine(T object) {
         this.coordinateLines
                 .stream()
                 .filter(line -> line.Object == object)
@@ -277,7 +275,7 @@ public class MapGUI extends BorderPane {
      * @param object Mit der CoordinateLine assoziiertes Objekt
      * @param <T> Typ des Objekts
      */
-    public <T> void removeCoordinateLine(T object) {
+    public <T extends MapCoordinateLineCandidate> void removeCoordinateLine(T object) {
         var toRemove = this.coordinateLines
                 .stream()
                 .filter(line -> line.Object == object)
@@ -295,7 +293,7 @@ public class MapGUI extends BorderPane {
      * @param changeLineColor Neue Kantenfarbe des Bereichs (kann null sein)
      * @param <T> Type des Bereichs
      */
-    public <T> void onClickCoordinateLine(
+    public <T extends MapCoordinateLineCandidate> void onClickCoordinateLine(
             Class<T> objClass,
             Consumer<T> consumer,
             String changeFillColor,
@@ -312,7 +310,7 @@ public class MapGUI extends BorderPane {
      * @param objClass Klasse der zu verwaltenden Objekte
      * @param <T> Typ des mit der CoordinateLine assoziierten Objektes
      */
-    public <T> void removeCoordinateLineOnClickAction(Class<T> objClass) {
+    public <T extends MapCoordinateLineCandidate> void removeCoordinateLineOnClickAction(Class<T> objClass) {
         this.coordinateLines
                 .stream()
                 .filter(line -> line.Object.getClass() == objClass)

@@ -54,7 +54,6 @@ public class EditGeofencingAreaCTRL {
         DataProvider prov = DataProvider.getInstance();
         map.displayCoordinateLines(
                 prov.getGeoAreas(),
-                GeofencingArea::getEdges,
                 Design.COLOR_MAP_AREA_FILL_DEFAULT,
                 Design.COLOR_MAP_AREA_LINE_DEFAULT);
     }

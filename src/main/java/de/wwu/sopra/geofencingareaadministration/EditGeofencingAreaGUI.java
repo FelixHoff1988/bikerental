@@ -93,7 +93,7 @@ public class EditGeofencingAreaGUI extends VBox {
             } else {
                 ctrl.addGeofencingArea(geoArea);
                 map.displayCoordinateLines(
-                        List.of(geoArea), GeofencingArea::getEdges,
+                        List.of(geoArea),
                         Design.COLOR_MAP_AREA_FILL_DEFAULT,
                         Design.COLOR_MAP_AREA_LINE_DEFAULT);
                 endAndSaveButton.setDisable(true);

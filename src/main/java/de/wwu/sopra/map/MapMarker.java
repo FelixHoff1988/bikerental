@@ -7,15 +7,15 @@ import com.sothawo.mapjfx.event.MarkerEvent;
 import javafx.animation.Transition;
 import javafx.util.Duration;
 
+import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Wrapper für einen MapMarker mit zusätzlichen Informationen
  *
  * @param <T> Verknüpfter Datentyp
  */
-class MapMarker <T> {
+class MapMarker <T extends MapMarkerCandidate> {
     /**
      * Der MapView, auf welchem der Marker angezeigt wird.
      */
@@ -58,20 +58,18 @@ class MapMarker <T> {
      *
      * @param parent           Der MapView auf welchem der Marker angezeigt werden soll
      * @param object           Das mit dem Marker assoziierte Objekt
-     * @param locationSelector Eine Funktion, die die Position des Objektes spezifiziert
      * @param color            Die Farbe des Markers
      */
     MapMarker(
             MapView parent,
             T object,
-            Function<T, Coordinate> locationSelector,
             Marker.Provided color) {
         this.parent = parent;
         this.Object = object;
         this.baseColor = color;
         this.marker = Marker
                 .createProvided(this.baseColor)
-                .setPosition(locationSelector.apply(object))
+                .setPosition(object.getLocation())
                 .setVisible(true);
     }
 
@@ -228,6 +226,10 @@ class MapMarker <T> {
      * @param animated Soll die Bewegung animiert werden
      */
     void move(Coordinate position, boolean animated) {
+        if (Objects.equals(position.getLatitude(), this.marker.getPosition().getLatitude())
+            && Objects.equals(position.getLongitude(), this.marker.getPosition().getLongitude()))
+            return;
+
         if (this.isShown && animated) {
             animateMovement(position);
         }

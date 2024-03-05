@@ -9,14 +9,13 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Wrapper für eine CoordinateLine mit zusätzlichen Informationen
  *
  * @param <T> Verknüpfter Datentyp
  */
-class MapCoordinateLine<T> {
+class MapCoordinateLine<T extends MapCoordinateLineCandidate> {
     /**
      * Der MapView, auf welchem die CoordinateLine angezeigt wird.
      */
@@ -67,21 +66,19 @@ class MapCoordinateLine<T> {
      *
      * @param parent       Der MapView auf welchem die CoordinateLine angezeigt werden soll
      * @param object       Das mit der CoordinateLine assoziierte Objekt
-     * @param lineSelector Eine Funktion, die die Eckpunkte der CoordinateLine spezifiziert
      * @param lineColor    Die Linienfarbe der CoordinateLine
      * @param fillColor    Die Füllfarbe der CoordinateLine
      */
     MapCoordinateLine(
             MapView parent,
             T object,
-            Function<T, List<Coordinate>> lineSelector,
             String lineColor,
             String fillColor) {
         this.parent = parent;
         this.Object = object;
         this.baseColorLine = lineColor;
         this.baseColorFill = fillColor;
-        this.coordinateLine = new CoordinateLine(lineSelector.apply(object))
+        this.coordinateLine = new CoordinateLine(object.getVertices())
                 .setColor(Color.web(lineColor, 1))
                 .setFillColor(Color.web(fillColor, 0.4))
                 .setClosed(true)

@@ -46,11 +46,9 @@ public class BookingProcessGUI extends StackPane {
                 || (!bike.getReservationList().isEmpty() && bike.getReservationList().getLast() == reservation));
         this.map.displayMarkers(
                 availableBikes,
-                Bike::getLocation,
                 Design.COLOR_MAP_BIKE_DEFAULT);
         this.map.displayMarkers(
                 data.getStations(),
-                BikeStation::getLocation,
                 Design.COLOR_MAP_STATION_DEFAULT);
 
         switch (currentGUI) {
@@ -124,7 +122,6 @@ public class BookingProcessGUI extends StackPane {
         var endBooking = new EndBookingGUI(reservation);
         this.map.displayCoordinateLines(
                 data.getGeoAreas(),
-                GeofencingArea::getEdges,
                 Design.COLOR_MAP_AREA_FILL_DEFAULT,
                 Design.COLOR_MAP_AREA_LINE_DEFAULT);
 

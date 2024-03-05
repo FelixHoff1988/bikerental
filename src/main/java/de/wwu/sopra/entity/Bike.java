@@ -3,13 +3,14 @@ package de.wwu.sopra.entity;
 import com.sothawo.mapjfx.Coordinate;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.map.MapFunctions;
+import de.wwu.sopra.map.MapMarkerCandidate;
 
 import java.util.ArrayList;
 
 /**
  * Repräsentiert ein Fahrrad
  */
-public class Bike {
+public class Bike implements MapMarkerCandidate {
 	/**
 	 * Aktueller Standort des Fahrrads
 	 */
@@ -92,7 +93,7 @@ public class Bike {
 	private GeofencingArea findGeoArea(Coordinate location) {
 		var areas = DataProvider.getInstance().getGeoAreas();
 		for (var area : areas)
-			if (MapFunctions.isCoordinateInArea(location, area.getEdges()))
+			if (MapFunctions.isCoordinateInArea(location, area.getVertices()))
 				return area;
 
 		return null;
