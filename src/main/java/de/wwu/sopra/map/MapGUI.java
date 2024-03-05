@@ -40,6 +40,11 @@ public class MapGUI extends BorderPane {
     private final HashSet<MapCoordinateLine<?>> coordinateLines = new HashSet<>();
 
     /**
+     * Service, der die Markerpositionen aktuell hält
+     */
+    private MapService upToDateService;
+
+    /**
      * Standardkonstruktor: Initialisiert den MapView
      */
     public MapGUI() {
@@ -97,13 +102,20 @@ public class MapGUI extends BorderPane {
                 });
 
         mapView.initialize();
+        keepUpToDate();
 
         this.setCenter(mapView);
         this.setMinHeight(500);
     }
 
-    public void keepUpToDate() {
-
+    /**
+     * Startet einen Service, der die Positionen der Marker aktuell hält.
+     */
+    private void keepUpToDate() {
+        if (this.upToDateService != null)
+            this.upToDateService.cancel();
+        this.upToDateService = new MapService(10000, this.markers);
+        this.upToDateService.start();
     }
 
     /**
