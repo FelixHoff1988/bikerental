@@ -1,6 +1,7 @@
 package de.wwu.sopra.geofencingareaadministration;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
 import de.wwu.sopra.map.MapGUI;
 import javafx.geometry.Insets;
@@ -74,8 +75,8 @@ public class EditGeofencingAreaGUI extends HBox{
             if (geoArea == null) {
                 AppContext.getInstance().showMessage(
                         "Die Geofencing-Area muss mindestens drei Eckpunkte besitzen!",
-                        5,
-                        "#FFCCDD");
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             } else {
                 ctrl.addGeofencingArea(geoArea);
                 map.displayCoordinateLines(
