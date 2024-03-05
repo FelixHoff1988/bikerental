@@ -30,7 +30,8 @@ public class ChangePersonalDataCTRL {
      * Daten
      * 
      * @param textFieldsRegistration Array mit den neuen Nutzerdaten
-     * @param newPassword true wenn ein neues Passwort gesetzt werden soll
+     * @param newPassword            true wenn ein neues Passwort gesetzt werden
+     *                               soll
      */
     public void changeData(TextField[] textFieldsRegistration, boolean newPassword) {
         var user = context.getLoggedInUser();

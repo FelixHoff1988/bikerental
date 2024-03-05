@@ -160,18 +160,17 @@ public class ChangePersonalDataGUI extends HBox {
             var newPassword = false;
             if (!passwordTextField.getText().isEmpty()) {
                 newPassword = true;
-                
+
                 list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$",
                         passwordTextField));
                 list.add(ctrl.testTextField("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$",
                         verPasswordTextField));
-                
+
                 Boolean passwordsEqual = (passwordTextField.getText().equals(verPasswordTextField.getText()));
                 if (!passwordsEqual) {
                     verPasswordTextField.setStyle("-fx-background-color: #FFA59D;");
                 }
 
-                list.add(passwordsEqual);
             }
 
             if (areAllTrue(list)) {
@@ -179,11 +178,8 @@ public class ChangePersonalDataGUI extends HBox {
                         .filter(node -> node.getClass() == TextField.class || node.getClass() == PasswordField.class)
                         .toArray(TextField[]::new);
                 ctrl.changeData(textFieldsRegistration, newPassword);
-                
-                AppContext.getInstance().showMessage(
-                        "Daten erfolgreich geändert.",
-                        5,
-                        Design.COLOR_DIALOG_SUCCESS);
+
+                AppContext.getInstance().showMessage("Daten erfolgreich geändert.", 5, Design.COLOR_DIALOG_SUCCESS);
             }
 
         });
