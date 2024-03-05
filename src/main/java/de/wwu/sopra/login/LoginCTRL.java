@@ -2,7 +2,9 @@ package de.wwu.sopra.login;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.PasswordHashing;
+import de.wwu.sopra.entity.UserRole;
 import de.wwu.sopra.register.RegisterGUI;
 
 /**
@@ -36,8 +38,8 @@ public class LoginCTRL {
             AppContext.getInstance().showMessage(
                     "Deine angegebenen Daten scheinen nicht korrekt zu sein. Überprüfe bitte E-Mail und Passwort. "
                             + "Solltest du noch keine Account besitzen, kannst du auf 'Registrieren' klicken.",
-                    5,
-                    "#FFCCDD");
+                    Design.DIALOG_TIME_STANDARD,
+                    Design.COLOR_DIALOG_FAILURE);
         } else {
             AppContext.getInstance().login(user);
         }
@@ -54,10 +56,15 @@ public class LoginCTRL {
      * Handelt den Klick auf den "Passwort vergessen"-Text
      */
     public void forgotPassword() {
+        var admins = DataProvider.getInstance().getUsers(user -> user.getRole() == UserRole.ADMIN);
+        var email = "admin@bikerental.de";
+
+        if (!admins.isEmpty())
+            email = admins.getFirst().getEmail();
+
         AppContext.getInstance().showMessage(
-                "Falls Sie Ihr Passwort vergessen haben, bitte wenden Sie sich an den Kundenservice."
-                        + " Die Email-Adresse hierfür lautet: admin@bikerental.de",
-                5,
-                "#FFCCDD");
+                "Um dein Passwort zurückzusetzen kontaktiere bitte einen Administrator unter \""+email+"\".",
+                Design.DIALOG_TIME_STANDARD,
+                Design.COLOR_DIALOG_FAILURE);
     }
 }
