@@ -81,6 +81,11 @@ public class MapGUI extends BorderPane {
     private final HashMap<Class<?>, EventHandler<MapViewEvent>> onAreaClickActions = new HashMap<>();
 
     /**
+     * Event handler für das Zeichnen einer neuen GeofencingArea
+     */
+    private EventHandler<MapViewEvent> onAreaDrawClick;
+
+    /**
      * Standardkonstruktor: Initialisiert den MapView
      */
     public MapGUI() {
@@ -220,12 +225,17 @@ public class MapGUI extends BorderPane {
     /**
      * Definiert eine Aktion, welche ausgeführt wird, wenn ein markierter Bereich vom Typ T angeklickt wird.
      *
+     * @param objClass Klasse der zu verwaltenden Objekte
      * @param consumer Funktion, welche das Objekt entgegennimmt, auf welches geklickt wurde.
      * @param changeFillColor Neue Füllfarbe des Bereichs (kann null sein)
      * @param changeLineColor Neue Kantenfarbe des Bereichs (kann null sein)
      * @param <T> Type des Bereichs
      */
-    public <T> void onClickCoordinateLine(Consumer<T> consumer, String changeFillColor, String changeLineColor) {
+    public <T> void onClickCoordinateLine(
+            Class<T> objClass,
+            Consumer<T> consumer,
+            String changeFillColor,
+            String changeLineColor) {
         var consumerClass = consumer.getClass();
         EventHandler<MapViewEvent> eventHandler = event -> {
             var lines = coordinateLines
@@ -237,13 +247,11 @@ public class MapGUI extends BorderPane {
             if (lines.isEmpty())
                 return;
 
-            T typedObject = null;
-            try { typedObject = (T) lines.getFirst().getValue(); } catch (Exception ignored) {}
+            var object = lines.getFirst().getValue();
+            var type = object.getClass();
 
-            if (typedObject == null)
+            if (objClass != type)
                 return;
-
-            var type = typedObject.getClass();
 
             var isCurrentLine = clickedLines
                     .entrySet()
@@ -253,7 +261,7 @@ public class MapGUI extends BorderPane {
             if (!isCurrentLine)
                 selectCoordinateLine(lines.getFirst().getKey(), type, changeFillColor, changeLineColor);
 
-            consumer.accept(typedObject);
+            consumer.accept(objClass.cast(object));
         };
 
         onAreaClickActions.put(consumerClass, eventHandler);
@@ -284,8 +292,12 @@ public class MapGUI extends BorderPane {
         if (line == null)
             return;
 
-        line.setColor(changeLineColor != null ? Color.web(changeLineColor) : Color.web(coordinateLineColors.get(type)));
-        line.setFillColor(changeFillColor != null ? Color.web(changeFillColor) : Color.web(coordinateLineFillColors.get(type)));
+        line.setColor(changeLineColor != null
+                ? Color.web(changeLineColor, 1)
+                : Color.web(coordinateLineColors.get(type), 1));
+        line.setFillColor(changeFillColor != null
+                ? Color.web(changeFillColor, 0.4)
+                : Color.web(coordinateLineFillColors.get(type), 0.4));
 
         mapView.removeCoordinateLine(line);
         mapView.addCoordinateLine(line);
@@ -302,9 +314,9 @@ public class MapGUI extends BorderPane {
      */
     private void selectCoordinateLine(CoordinateLine coordinateLine, Class<?> type, String changeFillColor, String changeLineColor) {
         if (changeLineColor != null)
-            coordinateLine.setColor(Color.web(changeLineColor));
+            coordinateLine.setColor(Color.web(changeLineColor, 1));
         if (changeFillColor != null)
-            coordinateLine.setFillColor(Color.web(changeFillColor));
+            coordinateLine.setFillColor(Color.web(changeFillColor, 0.4));
 
         mapView.removeCoordinateLine(coordinateLine);
         mapView.addCoordinateLine(coordinateLine);
@@ -314,22 +326,19 @@ public class MapGUI extends BorderPane {
     /**
      * Definiert eine Aktion, welche ausgeführt wird, wenn ein Marker vom Typ T angeklickt wird.
      *
+     * @param objClass Klasse der zu verwaltenden Objekte
      * @param consumer Funktion, welche das Objekt entgegennimmt, auf welches geklickt wurde.
      * @param changeColor Neue Farbe des Markers (kann null sein)
      * @param <T> Type des Markers
      */
-    public <T> void onClickMarker(Consumer<T> consumer, Marker.Provided changeColor) {
+    public <T> void onClickMarker(Class<T> objClass, Consumer<T> consumer, Marker.Provided changeColor) {
         var consumerClass = consumer.getClass();
         EventHandler<MarkerEvent> eventHandler = event -> {
             var object = this.markers.get(event.getMarker());
+            var type = object.getClass();
 
-            T typedObject = null;
-            try { typedObject = (T) object; } catch (Exception ignored) {}
-
-            if (typedObject == null)
+            if (objClass != type)
                 return;
-
-            var type = typedObject.getClass();
 
             var isCurrentMarker = clickedMarkers
                     .entrySet()
@@ -339,7 +348,7 @@ public class MapGUI extends BorderPane {
             if (!isCurrentMarker)
                 selectMarker(event.getMarker(), type, changeColor);
 
-            consumer.accept(typedObject);
+            consumer.accept(objClass.cast(object));
         };
 
         onClickActions.put(consumerClass, eventHandler);
@@ -444,7 +453,9 @@ public class MapGUI extends BorderPane {
      * Startet das Zeichnen einer neuen GeofencingArea
      */
     public void drawArea() {
-        mapView.addEventHandler(MapViewEvent.MAP_CLICKED, this::handleDrawEvent);
+        this.onAreaDrawClick = event -> handleDrawEvent(event);
+        mapView.addEventHandler(MapViewEvent.MAP_CLICKED, onAreaDrawClick);
+        drawArea = new CoordinateLine();
     }
 
     /**
@@ -452,19 +463,19 @@ public class MapGUI extends BorderPane {
      *
      * @return Gezeichnete GeofencingArea
      */
-    private GeofencingArea finalizeArea() {
+    public GeofencingArea finalizeArea() {
         var coordinates = drawArea.getCoordinateStream().toList();
 
-        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, this::handleDrawEvent);
+        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, onAreaDrawClick);
         mapView.removeCoordinateLine(drawArea);
+
+        drawArea = null;
+        onAreaDrawClick = null;
 
         if (coordinates.size() < 3)
             return null;
 
-        var geoArea = new GeofencingArea(new ArrayList<>(coordinates));
-
-        drawArea = null;
-        return geoArea;
+        return new GeofencingArea(new ArrayList<>(coordinates));
     }
 
     /**
@@ -473,10 +484,10 @@ public class MapGUI extends BorderPane {
      * @param event Aktuelles Klick-Event
      */
     private void handleDrawEvent(MapViewEvent event) {
+        event.consume();
+
         var clickCoordinate = event.getCoordinate();
-        var coordinates = drawArea == null
-                ? new ArrayList<Coordinate>()
-                : new ArrayList<>(drawArea.getCoordinateStream().toList());
+        var coordinates = new ArrayList<>(drawArea.getCoordinateStream().toList());
 
         if (!MapFunctions.isValidCoordinateLine(coordinates, clickCoordinate, coordinates.size()))
             return;
@@ -519,7 +530,7 @@ public class MapGUI extends BorderPane {
     public Coordinate finalizeMarkerPlacement() {
         var coordinates = dynamicMarker.getPosition();
 
-        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, this::handleDrawEvent);
+        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, this::handleMarkerPlacement);
         dynamicMarker = null;
 
         return coordinates;
@@ -531,6 +542,7 @@ public class MapGUI extends BorderPane {
      * @param event Mausklick auf die Map
      */
     private void handleMarkerPlacement(MapViewEvent event) {
+        event.consume();
         animateMarkerMovement(dynamicMarker, event.getCoordinate());
     }
 

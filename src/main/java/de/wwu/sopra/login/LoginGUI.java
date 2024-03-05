@@ -1,17 +1,20 @@
 package de.wwu.sopra.login;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 
 /**
  * Login Ansicht
  */
-public class LoginGUI extends HBox {
+public class LoginGUI extends VBox {
     /**
      * Login Steuerungsklasse
      */
@@ -28,13 +31,23 @@ public class LoginGUI extends HBox {
      * Erzeugt das Layout des LoginGUI
      */
     private void init() {
+    	
+    	var image = new Image("File:logo.png");
+        var pic = new ImageView();
+        pic.setFitWidth(250);
+        pic.setFitHeight(250);
+        pic.setImage(image);
+        
+ 
+        
         var innerBox = new GridPane();
         innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
-
+        
         var emailInput = new TextField();
         emailInput.setPromptText("E-Mail");
         emailInput.setPrefWidth(400);
+  
 
         var passwordInput = new PasswordField();
         passwordInput.setPromptText("Passwort");
@@ -68,11 +81,14 @@ public class LoginGUI extends HBox {
         anmeldeButton.setOnAction(event -> controller.loginUser(emailInput.getText(), passwordInput.getText()));
 
         controls.getChildren().addAll(anmeldeButton, spacer, registerLink, passwordLink);
-        innerBox.add(emailInput, 0, 0);
-        innerBox.add(passwordInput, 0, 1);
-        innerBox.add(controls, 0, 2);
+        
+        innerBox.add(emailInput, 0, 1);
+        innerBox.add(passwordInput, 0, 2);
+        innerBox.add(controls, 0, 3);
 
+        this.getChildren().add(pic);
         this.getChildren().addAll(innerBox);
+        
         this.setAlignment(Pos.CENTER);
         VBox.setVgrow(this, Priority.ALWAYS);
     }

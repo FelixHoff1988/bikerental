@@ -113,6 +113,9 @@ public class ReserveBikeGUI extends FlowPane {
      * @param newBike neues Fahrrad welches Angezeigt werden soll
      */
     public void update(Bike newBike) {
+        if (this.currentBike == newBike)
+            newBike = null;
+
         this.currentBike = newBike;
         
         if (null == newBike) {

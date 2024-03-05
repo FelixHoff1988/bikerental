@@ -1,6 +1,9 @@
 package de.wwu.sopra.entity;
 
 import com.sothawo.mapjfx.Coordinate;
+import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.map.MapFunctions;
+
 import java.util.ArrayList;
 
 /**
@@ -77,6 +80,22 @@ public class Bike {
 	 */
 	public void setLocation(Coordinate location) {
 		this.location = location;
+		this.currentArea = findGeoArea(location);
+	}
+
+	/**
+	 * Sucht nach einer der location entsprechenden GeofencingArea.
+	 *
+	 * @param location Zu prüfender Standort
+	 * @return Übereinstimmende GeofencingArea oder null, wenn es keine gibt
+	 */
+	private GeofencingArea findGeoArea(Coordinate location) {
+		var areas = DataProvider.getInstance().getGeoAreas();
+		for (var area : areas)
+			if (MapFunctions.isCoordinateInArea(location, area.getEdges()))
+				return area;
+
+		return null;
 	}
 
 	/**

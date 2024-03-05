@@ -6,9 +6,7 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.bookingProcess.bookBike.BookBikeGUI;
 import de.wwu.sopra.bookingProcess.endBooking.EndBookingGUI;
 import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeGUI;
-import de.wwu.sopra.entity.Availability;
-import de.wwu.sopra.entity.Bike;
-import de.wwu.sopra.entity.Reservation;
+import de.wwu.sopra.entity.*;
 import de.wwu.sopra.map.MapGUI;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -54,8 +52,9 @@ public class BookingProcessGUI extends StackPane {
                 bike.getAvailability() == Availability.AVAILABLE
                 || (!bike.getReservationList().isEmpty() && bike.getReservationList().getLast() == reservation));
         this.map.displayMarkers(availableBikes, Bike::getLocation, Provided.ORANGE);
+        this.map.displayMarkers(data.getStations(), BikeStation::getLocation, Provided.BLUE);
 
-        if (reservation != null)
+        if (reservation != null && reservation.getEndTime() == null)
             this.map.selectMarker(reservation.getBike(), Provided.GREEN);
     }
 
@@ -80,7 +79,7 @@ public class BookingProcessGUI extends StackPane {
         var reserveBikeGUI = new ReserveBikeGUI();
         Consumer<Bike> onBikeClick = reserveBikeGUI::update;
 
-        this.map.onClickMarker(onBikeClick, Provided.GREEN);
+        this.map.onClickMarker(Bike.class, onBikeClick, Provided.GREEN);
         reserveBikeGUI.onStepFinish(reservation -> {
             initBookingGUI(reservation);
             map.removeOnClickAction(onBikeClick);
@@ -118,9 +117,16 @@ public class BookingProcessGUI extends StackPane {
      */
     private void initEndBookingGUI(Reservation reservation) {
         var endBooking = new EndBookingGUI(reservation);
+        this.map.displayCoordinateLines(
+                data.getGeoAreas(),
+                GeofencingArea::getEdges,
+                "limegreen",
+                "dodgerblue");
+
         endBooking.onStepFinish(res -> {
             initReservationGUI();
             map.deselectMarker(reservation.getBike(), Provided.ORANGE);
+            data.getGeoAreas().forEach(map::removeCoordinateLine);
         });
 
         if (this.getChildren().size() > 1)
