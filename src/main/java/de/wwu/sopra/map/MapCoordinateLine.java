@@ -117,7 +117,7 @@ class MapCoordinateLine<T> {
      * 
      * @return CoordinateLine dieser Instanz
      */
-    public CoordinateLine getCoordinateLine() {
+    CoordinateLine getCoordinateLine() {
         return this.coordinateLine;
     }
 

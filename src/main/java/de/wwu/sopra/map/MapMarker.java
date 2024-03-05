@@ -100,7 +100,7 @@ class MapMarker <T> {
      *
      * @return Marker dieser Instanz
      */
-    public Marker getMarker() {
+    Marker getMarker() {
         return this.marker;
     }
 
