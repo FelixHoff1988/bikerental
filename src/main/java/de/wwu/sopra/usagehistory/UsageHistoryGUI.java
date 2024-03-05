@@ -1,30 +1,24 @@
+/*
+ * @author Nisa
+ * @author David
+ */
+
 package de.wwu.sopra.usagehistory;
 
-import com.sothawo.mapjfx.Coordinate;
-
-import de.wwu.sopra.AppContext;
-import de.wwu.sopra.bikeadministration.editbike.EditBikeCTRL;
-import de.wwu.sopra.entity.Availability;
-import de.wwu.sopra.entity.Bike;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import de.wwu.sopra.entity.Reservation;
-import de.wwu.sopra.map.MapGUI;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
+/*
+ * GUI-Klasse der Nutzungshistorie.
+ */
 public class UsageHistoryGUI extends HBox {
     
     private UsageHistoryCTRL ctrl = new UsageHistoryCTRL();
@@ -36,7 +30,7 @@ public class UsageHistoryGUI extends HBox {
     }
     
       /**
-     * Initialisiert das GUI-Layout für die Benutzer-Editierung.
+     * Initialisiert das GUI-Layout für die Nutzungshistorie.
      */
     public void init() {
         
@@ -92,7 +86,20 @@ public class UsageHistoryGUI extends HBox {
             }
             
             return new ReadOnlyStringWrapper(s);
+        });
+        priceColumn.setCellValueFactory(data -> {
+            String s = "";
+            LocalDateTime endTime = data.getValue().getEndTime();
+            LocalDateTime bookingTime = data.getValue().getBookingTime();
             
+            if (bookingTime!=null && endTime!=null) {
+                long minutes = ChronoUnit.MINUTES.between(bookingTime, endTime);
+                var price = data.getValue().getPrice() *(minutes/60F);
+                var cent = (int) price%100;
+                var euro = (int) price/100;
+                s = euro + "."+ cent +" €";
+            }
+            return new ReadOnlyStringWrapper(s);
         });
         
         
@@ -104,14 +111,14 @@ public class UsageHistoryGUI extends HBox {
         tableView.getColumns().add(endColumn);
         tableView.getColumns().add(priceColumn);
         tableView.getColumns().add(statusColumn);
-     
+        
+
         //Breite der Tabelle festlegen
         tableView.setMaxWidth(875);
         tableView.setMinWidth(875);
         
         //Breite der Spalten festlegen
-        frameIdColumn.setPrefWidth(125);
-      
+        frameIdColumn.setPrefWidth(125);  
         modelColumn.setPrefWidth(125);
         typeColumn.setPrefWidth(125);
         endColumn.setPrefWidth(150);
@@ -125,16 +132,15 @@ public class UsageHistoryGUI extends HBox {
         ObservableList<Reservation> Reservations = FXCollections.observableArrayList((ctrl.loadReservations()));
         tableView.setItems(Reservations);
         
+        //Tabelle sortieren, neue Einträge erscheinen oben
+        startColumn.setSortType(TableColumn.SortType.DESCENDING);
+        tableView.getSortOrder().add(startColumn);
+        tableView.sort();
         
-
-        
+        //Tabelle hinzufügen und zentrieren
         this.getChildren().add(tableView);
         this.setAlignment(Pos.CENTER);
-        
-        
-   
-       
-        
+            
     }
 
 
