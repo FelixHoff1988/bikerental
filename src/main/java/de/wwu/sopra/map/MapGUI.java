@@ -140,7 +140,6 @@ public class MapGUI extends BorderPane {
             return;
 
         var markerList = new ArrayList<Marker>();
-        var type = objects.getFirst().getClass();
         objects.forEach(obj -> {
             var location = coordinateSelector.apply(obj);
             var marker = Marker
@@ -407,11 +406,14 @@ public class MapGUI extends BorderPane {
         markers.remove(marker);
         clickedMarkers.remove(type);
 
+        var color = changeColor == null ? markerColors.get(marker) : changeColor;
         var prevMarker = Marker
-                .createProvided(changeColor == null ? markerColors.get(marker) : changeColor)
+                .createProvided(color)
                 .setPosition(marker.getPosition())
                 .setVisible(true);
 
+        markerColors.remove(marker);
+        markerColors.put(prevMarker, color);
         mapView.addMarker(prevMarker);
         markers.put(prevMarker, object);
     }
@@ -456,6 +458,8 @@ public class MapGUI extends BorderPane {
                     .setPosition(marker.getPosition())
                     .setVisible(true);
 
+        markerColors.remove(marker);
+        markerColors.put(clickedMarker, changeColor);
         mapView.addMarker(clickedMarker);
         markers.put(clickedMarker, object);
         clickedMarkers.put(type, clickedMarker);
