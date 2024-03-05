@@ -81,8 +81,8 @@ public class EditGeofencingAreaGUI extends HBox{
                 ctrl.addGeofencingArea(geoArea);
                 map.displayCoordinateLines(
                         List.of(geoArea), GeofencingArea::getEdges,
-                        "limegreen",
-                        "dodgerblue");
+                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
                 endAndSaveButton.setDisable(true);
                 endAndDiscardButton.setDisable(true);
             }
@@ -103,12 +103,16 @@ public class EditGeofencingAreaGUI extends HBox{
             selectedArea = null;
         });
 
-        map.onClickCoordinateLine(GeofencingArea.class, area -> {
-            if (area == this.selectedArea)
-                this.selectedArea = null;
-            else
-                this.selectedArea = area;
-        }, "orange", "red");
+        map.onClickCoordinateLine(
+                GeofencingArea.class,
+                area -> {
+                    if (area == this.selectedArea)
+                        this.selectedArea = null;
+                    else
+                        this.selectedArea = area;
+                },
+                Design.COLOR_MAP_AREA_FILL_SELECTED,
+                Design.COLOR_MAP_AREA_LINE_SELECTED);
         
         VBox vbox = new VBox(map, innerBox);
         this.getChildren().add(vbox);

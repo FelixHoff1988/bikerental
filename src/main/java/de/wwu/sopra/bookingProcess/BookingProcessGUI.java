@@ -127,8 +127,8 @@ public class BookingProcessGUI extends StackPane {
         this.map.displayCoordinateLines(
                 data.getGeoAreas(),
                 GeofencingArea::getEdges,
-                "limegreen",
-                "dodgerblue");
+                Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                Design.COLOR_MAP_AREA_LINE_DEFAULT);
 
         endBooking.onStepFinish(res -> {
             initReservationGUI();
