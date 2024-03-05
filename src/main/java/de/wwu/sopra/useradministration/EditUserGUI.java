@@ -114,6 +114,13 @@ public class EditUserGUI extends HBox {
         tableView.getColumns().add(column8);
         tableView.getColumns().add(column9);
         tableView.getColumns().add(column10);
+        
+        //Breite der Tabelle festlegen
+        tableView.setMaxWidth(1000);
+        tableView.setMinWidth(1000);
+        
+        //Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         ObservableList<User> users = FXCollections.observableArrayList(ctrl.loadUsers());
         tableView.setItems(users);

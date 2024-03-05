@@ -76,6 +76,14 @@ public class EditStationGUI extends HBox{
         tableView.getColumns().add(column1);
         tableView.getColumns().add(column2);
         tableView.getColumns().add(column3);
+        
+        //Breite der Tabelle festlegen
+        tableView.setMaxWidth(800);
+        tableView.setMinWidth(800);
+        
+        //Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
 
         ObservableList<BikeStation> bikeStations = FXCollections.observableArrayList(ctrl.loadStations());
         tableView.setItems(bikeStations);

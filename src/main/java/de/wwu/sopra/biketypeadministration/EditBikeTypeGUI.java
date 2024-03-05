@@ -87,6 +87,13 @@ public class EditBikeTypeGUI extends HBox{
         tableView.getColumns().add(column3);
         tableView.getColumns().add(column4);
         tableView.getColumns().add(column5);
+        
+        //Breite der Tabelle festlegen
+        tableView.setMaxWidth(800);
+        tableView.setMinWidth(800);
+        
+        //Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         ObservableList<BikeType> biketypes = FXCollections.observableArrayList(ctrl.loadBikeTypes());
         tableView.setItems(biketypes);
