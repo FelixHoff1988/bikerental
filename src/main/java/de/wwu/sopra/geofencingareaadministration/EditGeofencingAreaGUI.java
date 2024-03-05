@@ -117,6 +117,7 @@ public class EditGeofencingAreaGUI extends VBox {
 
             ctrl.removeGeofencingArea(selectedArea);
             map.removeCoordinateLine(selectedArea);
+            deleteButton.setDisable(true);
             selectedArea = null;
         });
 

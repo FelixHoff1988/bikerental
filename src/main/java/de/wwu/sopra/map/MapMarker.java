@@ -130,17 +130,20 @@ class MapMarker <T> {
      * @param event Klick-Event des MapView (kann null sein)
      */
     void click(MarkerEvent event) {
-        if (event != null && event.getMarker() != this.marker)
+        if (this.onClickAction == null)
             return;
 
-        if (onClickAction != null) {
-            if (this.selected)
-                deselect();
-            else
-                select();
-
-            onClickAction.accept(Object);
+        if (event != null && event.getMarker() != this.marker) {
+            deselect();
+            return;
         }
+
+        if (this.selected)
+            deselect();
+        else
+            select();
+
+        onClickAction.accept(Object);
     }
 
     /**

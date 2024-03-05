@@ -75,7 +75,16 @@ public class MapGUI extends BorderPane {
         });
         mapView.addEventHandler(
                 MarkerEvent.MARKER_CLICKED,
-                event -> this.markers.forEach(marker -> marker.click(event)));
+                event -> {
+                    var matches = this.markers.stream().filter(m -> m.getMarker() == event.getMarker()).toList();
+                    if (matches.isEmpty())
+                        return;
+                    var matchClass = matches.getFirst().Object.getClass();
+                    this.markers.stream()
+                            .filter(m -> m.Object.getClass() == matchClass)
+                            .forEach(m -> m.click(event));
+
+                });
         mapView.addEventHandler(
                 MapViewEvent.MAP_CLICKED,
                 event -> {

@@ -150,6 +150,9 @@ class MapCoordinateLine<T> {
      * @param event Klick-Event des MapView (kann null sein)
      */
     void click(MapViewEvent event) {
+        if (this.onClickAction == null)
+            return;
+
         if (event != null) {
             var coordinates = new ArrayList<>(coordinateLine.getCoordinateStream().toList());
             if (!MapFunctions.isCoordinateInArea(event.getCoordinate(), coordinates)) {
@@ -158,14 +161,12 @@ class MapCoordinateLine<T> {
             }
         }
 
-        if (onClickAction != null) {
-            if (this.selected)
-                deselect();
-            else
-                select();
+        if (this.selected)
+            deselect();
+        else
+            select();
 
-            onClickAction.accept(Object);
-        }
+        onClickAction.accept(Object);
     }
 
     /**
