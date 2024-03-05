@@ -55,4 +55,12 @@ public abstract class Design {
      * Standard-Linienfarbe für ausgewählte GeoAreas auf der Map
      */
     public final static String COLOR_MAP_AREA_LINE_SELECTED = "red";
+    /**
+     * Standard-Füllfarbe für ausgewählte GeoAreas auf der Map
+     */
+    public final static String COLOR_MAP_AREA_FILL_DRAW = "lawngreen";
+    /**
+     * Standard-Linienfarbe für ausgewählte GeoAreas auf der Map
+     */
+    public final static String COLOR_MAP_AREA_LINE_DRAW = "dodgerblue";
 }

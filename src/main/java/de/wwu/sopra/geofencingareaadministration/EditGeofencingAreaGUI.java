@@ -78,10 +78,7 @@ public class EditGeofencingAreaGUI extends VBox {
             deleteButton.setDisable(true);
             disableAreaSelection(map);
             if (this.selectedArea != null) {
-                map.deselectCoordinateLine(
-                        this.selectedArea,
-                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
-                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
+                map.deselectCoordinateLine(this.selectedArea);
                 this.selectedArea = null;
             }
         });
