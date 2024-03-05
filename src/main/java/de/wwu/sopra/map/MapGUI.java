@@ -219,6 +219,7 @@ public class MapGUI extends BorderPane {
         if (filter.isEmpty())
             return;
 
+        clickedLines.remove(filter.getFirst().getValue().getClass());
         coordinateLines.remove(filter.getFirst().getKey());
         mapView.removeCoordinateLine(filter.getFirst().getKey());
     }
@@ -237,7 +238,6 @@ public class MapGUI extends BorderPane {
             Consumer<T> consumer,
             String changeFillColor,
             String changeLineColor) {
-        var consumerClass = consumer.getClass();
         EventHandler<MapViewEvent> eventHandler = event -> {
             var lines = coordinateLines
                     .entrySet()
@@ -265,19 +265,31 @@ public class MapGUI extends BorderPane {
             consumer.accept(objClass.cast(object));
         };
 
-        onAreaClickActions.put(consumerClass, eventHandler);
+        onAreaClickActions.put(objClass, eventHandler);
         mapView.addEventHandler(MapViewEvent.MAP_CLICKED, eventHandler);
     }
 
     /**
      * Entfernt die onClickCoordinateLine Aktion.
      *
-     * @param consumer Gleiche Funktion, welche bei onClickCoordinateLine übergeben wurde.
+     * @param objClass Klasse der zu verwaltenden Objekte
      * @param <T> Typ des mit der CoordinateLine assoziierten Objektes
      */
-    public <T> void removeCoordinateLineOnClickAction(Consumer<T> consumer) {
-        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, onAreaClickActions.get(consumer.getClass()));
-        onAreaClickActions.remove(consumer.getClass());
+    public <T> void removeCoordinateLineOnClickAction(Class<T> objClass) {
+        mapView.removeEventHandler(MapViewEvent.MAP_CLICKED, onAreaClickActions.get(objClass));
+        onAreaClickActions.remove(objClass);
+    }
+
+    /**
+     * Hebt die Hervorhebung eines Markers auf.
+     *
+     * @param object Der CoordinateLine zugeordnetes Objekt
+     * @param changeFillColor Neue Füllfarbe (kann null sein)
+     * @param changeLineColor Neue Kantenfarbe (kann null sein)
+     * @param <T> Typ des Objekts
+     */
+    public <T> void deselectCoordinateLine(T object, String changeFillColor, String changeLineColor) {
+        deselectCoordinateLine(object.getClass(), changeFillColor, changeLineColor);
     }
 
     /**
@@ -333,7 +345,6 @@ public class MapGUI extends BorderPane {
      * @param <T> Type des Markers
      */
     public <T> void onClickMarker(Class<T> objClass, Consumer<T> consumer, Marker.Provided changeColor) {
-        var consumerClass = consumer.getClass();
         EventHandler<MarkerEvent> eventHandler = event -> {
             var object = this.markers.get(event.getMarker());
             var type = object.getClass();
@@ -352,19 +363,19 @@ public class MapGUI extends BorderPane {
             consumer.accept(objClass.cast(object));
         };
 
-        onClickActions.put(consumerClass, eventHandler);
+        onClickActions.put(objClass, eventHandler);
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, eventHandler);
     }
 
     /**
      * Entfernt die onClickMarker Aktion.
      *
-     * @param consumer Gleiche Funktion, welche bei onClickMarker übergeben wurde.
+     * @param objClass Klasse der zu verwaltenden Objekte
      * @param <T> Typ des mit dem Marker assoziierten Objektes
      */
-    public <T> void removeOnClickAction(Consumer<T> consumer) {
-        mapView.removeEventHandler(MarkerEvent.MARKER_CLICKED, onClickActions.get(consumer.getClass()));
-        onClickActions.remove(consumer.getClass());
+    public <T> void removeOnClickAction(Class<T> objClass) {
+        mapView.removeEventHandler(MarkerEvent.MARKER_CLICKED, onClickActions.get(objClass));
+        onClickActions.remove(objClass);
     }
 
     /**

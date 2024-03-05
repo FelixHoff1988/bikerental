@@ -9,6 +9,7 @@ import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.Bike;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -66,7 +67,8 @@ public class ReportGUI extends VBox {
             // teste ob Werte korrekt sind
             Bike bike = ctrl.findBike(bikeIdInput.getText());
             if (reportInput.getText() != "" & bike != null) {
-                AppContext.getInstance().changeViewNode(new Pane());
+                ctrl.setBikeFaulty(bike);
+                AppContext.getInstance().changeViewNode(new Label("Vielen Dank für die Meldung des Schadens. \nWir werden uns umgehen um die Behebung kümmern."));
             } else {
                 AppContext.getInstance().showMessage(
                         "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.",
