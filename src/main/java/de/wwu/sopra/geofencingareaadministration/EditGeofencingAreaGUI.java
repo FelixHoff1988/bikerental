@@ -1,6 +1,7 @@
 package de.wwu.sopra.geofencingareaadministration;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
 import de.wwu.sopra.map.MapGUI;
 import javafx.geometry.Insets;
@@ -60,7 +61,7 @@ public class EditGeofencingAreaGUI extends VBox {
         endAndSaveButton.setDisable(true);
         endAndDiscardButton.setDisable(true);
         deleteButton.setDisable(true);
-       
+
         innerBox.getChildren().addAll(startDesign, deleteButton, spacer, endAndSaveButton, endAndDiscardButton);
         
         MapGUI map = new MapGUI();
@@ -68,7 +69,7 @@ public class EditGeofencingAreaGUI extends VBox {
         VBox.setVgrow(map, Priority.ALWAYS);
         ctrl.initializeAreas(map);
         enableAreaSelection(map);
-        
+
         startDesign.setOnAction(event -> {
             map.drawArea();
             startDesign.setDisable(true);
@@ -79,8 +80,8 @@ public class EditGeofencingAreaGUI extends VBox {
             if (this.selectedArea != null) {
                 map.deselectCoordinateLine(
                         this.selectedArea,
-                        "limegreen",
-                        "dodgerblue");
+                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
                 this.selectedArea = null;
             }
         });
@@ -90,18 +91,17 @@ public class EditGeofencingAreaGUI extends VBox {
             if (geoArea == null) {
                 AppContext.getInstance().showMessage(
                         "Die Geofencing-Area muss mindestens drei Eckpunkte besitzen!",
-                        5,
-                        "#FFCCDD");
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             } else {
                 ctrl.addGeofencingArea(geoArea);
                 map.displayCoordinateLines(
                         List.of(geoArea), GeofencingArea::getEdges,
-                        "limegreen",
-                        "dodgerblue");
+                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
                 endAndSaveButton.setDisable(true);
                 endAndDiscardButton.setDisable(true);
                 startDesign.setDisable(false);
-                deleteButton.setDisable(false);
                 enableAreaSelection(map);
             }
         });
@@ -111,7 +111,6 @@ public class EditGeofencingAreaGUI extends VBox {
             endAndSaveButton.setDisable(true);
             endAndDiscardButton.setDisable(true);
             startDesign.setDisable(false);
-            deleteButton.setDisable(false);
             enableAreaSelection(map);
         });
 
@@ -136,8 +135,8 @@ public class EditGeofencingAreaGUI extends VBox {
         map.onClickCoordinateLine(
                 GeofencingArea.class,
                 this::onClickArea,
-                "orange",
-                "red");
+                Design.COLOR_MAP_AREA_FILL_SELECTED,
+                Design.COLOR_MAP_AREA_LINE_SELECTED);
     }
 
     /**

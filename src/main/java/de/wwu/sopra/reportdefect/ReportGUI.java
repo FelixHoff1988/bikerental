@@ -5,6 +5,7 @@
 package de.wwu.sopra.reportdefect;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.Bike;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -70,8 +71,9 @@ public class ReportGUI extends VBox {
                 AppContext.getInstance().changeViewNode(new Label("Vielen Dank für die Meldung des Schadens. \nWir werden uns umgehen um die Behebung kümmern."));
             } else {
                 AppContext.getInstance().showMessage(
-                        "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.", 5,
-                        "#FFCCDD");
+                        "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
             }
         });
 

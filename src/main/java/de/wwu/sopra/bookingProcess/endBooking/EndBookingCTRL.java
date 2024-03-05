@@ -1,6 +1,7 @@
 package de.wwu.sopra.bookingProcess.endBooking;
 
 import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Reservation;
 
@@ -28,8 +29,8 @@ public class EndBookingCTRL {
         if (bike != null && bike.getCurrentArea() == null) {
             AppContext.getInstance().showMessage(
                     "Bitte stelle dein Fahrrad in einem der markierten Bereiche ab!",
-                    5,
-                    "#FFCCDD");
+                    Design.DIALOG_TIME_STANDARD,
+                    Design.COLOR_DIALOG_FAILURE);
             return false;
         }
 
@@ -39,8 +40,8 @@ public class EndBookingCTRL {
 
         AppContext.getInstance().showMessage(
                 "Vielen Dank für ihre Fahrt mit BikeRental.de!",
-                5,
-                "#CCFFCC");
+                Design.DIALOG_TIME_STANDARD,
+                Design.COLOR_DIALOG_SUCCESS);
         return true;
     }
 }

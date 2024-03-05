@@ -2,6 +2,7 @@ package de.wwu.sopra.geofencingareaadministration;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
 import de.wwu.sopra.map.MapGUI;
 
@@ -26,8 +27,8 @@ public class EditGeofencingAreaCTRL {
         if (success)
             AppContext.getInstance().showMessage(
                     "Die Geofencing-Area wurde erfolgreich entfernt!",
-                    5,
-                    "#CCFFCC");
+                    Design.DIALOG_TIME_STANDARD,
+                    Design.COLOR_DIALOG_SUCCESS);
     }
 
     /**
@@ -40,8 +41,8 @@ public class EditGeofencingAreaCTRL {
         if (success)
             AppContext.getInstance().showMessage(
                     "Die Geofencing-Area wurde erfolgreich hinzugefügt!",
-                    5,
-                    "#CCFFCC");
+                    Design.DIALOG_TIME_STANDARD,
+                    Design.COLOR_DIALOG_SUCCESS);
     }
     
     /**
@@ -51,6 +52,10 @@ public class EditGeofencingAreaCTRL {
     public void initializeAreas(MapGUI map)
     {
         DataProvider prov = DataProvider.getInstance();
-        map.displayCoordinateLines(prov.getGeoAreas(), GeofencingArea::getEdges, "limegreen", "dodgerblue");
+        map.displayCoordinateLines(
+                prov.getGeoAreas(),
+                GeofencingArea::getEdges,
+                Design.COLOR_MAP_AREA_FILL_DEFAULT,
+                Design.COLOR_MAP_AREA_LINE_DEFAULT);
     }
 }
