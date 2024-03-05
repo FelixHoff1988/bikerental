@@ -59,7 +59,7 @@ public class MapGUI extends BorderPane {
     /**
      * Farben den Marker-Typen zugeordnet
      */
-    private final HashMap<Class<?>, Marker.Provided> markerColors = new HashMap<>();
+    private final HashMap<Marker, Marker.Provided> markerColors = new HashMap<>();
 
     /**
      * Kantenfarben den CoordinateLine-Typen zugeordnet
@@ -141,7 +141,6 @@ public class MapGUI extends BorderPane {
 
         var markerList = new ArrayList<Marker>();
         var type = objects.getFirst().getClass();
-        markerColors.put(type, color);
         objects.forEach(obj -> {
             var location = coordinateSelector.apply(obj);
             var marker = Marker
@@ -149,6 +148,7 @@ public class MapGUI extends BorderPane {
                     .setPosition(location)
                     .setVisible(true);
             markerList.add(marker);
+            markerColors.put(marker, color);
             this.markers.put(marker, obj);
         });
         if (this.isInitialized)
@@ -408,7 +408,7 @@ public class MapGUI extends BorderPane {
         clickedMarkers.remove(type);
 
         var prevMarker = Marker
-                .createProvided(changeColor == null ? markerColors.get(type) : changeColor)
+                .createProvided(changeColor == null ? markerColors.get(marker) : changeColor)
                 .setPosition(marker.getPosition())
                 .setVisible(true);
 
