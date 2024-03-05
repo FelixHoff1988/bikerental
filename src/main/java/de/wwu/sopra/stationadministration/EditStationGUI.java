@@ -111,7 +111,7 @@ public class EditStationGUI extends HBox{
         
 
         // Buttons zum Navigieren
-        var submitButton = new Button("User Speichern");
+        var submitButton = new Button("Eingabe speichern");
         var newButton = new Button("Neu");
         var deleteButton = new Button("Löschen");
         

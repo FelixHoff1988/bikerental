@@ -113,18 +113,12 @@ public class UsageHistoryGUI extends HBox {
         tableView.getColumns().add(priceColumn);
         tableView.getColumns().add(statusColumn);
 
-        // Breite der Tabelle festlegen
-        tableView.setMaxWidth(875);
-        tableView.setMinWidth(875);
-
-        // Breite der Spalten festlegen
-        frameIdColumn.setPrefWidth(125);
-        modelColumn.setPrefWidth(125);
-        typeColumn.setPrefWidth(125);
-        endColumn.setPrefWidth(150);
-        startColumn.setPrefWidth(150);
-        priceColumn.setPrefWidth(100);
-        statusColumn.setPrefWidth(100);
+        //Breite der Tabelle festlegen
+        tableView.setMaxWidth(800);
+        tableView.setMinWidth(800);
+        
+        //Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
         ObservableList<Reservation> Reservations = FXCollections.observableArrayList((ctrl.loadReservations()));
