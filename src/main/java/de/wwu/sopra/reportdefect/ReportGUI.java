@@ -67,7 +67,12 @@ public class ReportGUI extends VBox {
             Bike bike = ctrl.findBike(bikeIdInput.getText());
             if (reportInput.getText() != "" & bike != null) {
                 ctrl.setBikeFaulty(bike);
-                AppContext.getInstance().changeViewNode(new Label("Vielen Dank für die Meldung des Schadens. \nWir werden uns umgehen um die Behebung kümmern."));
+                AppContext.getInstance().showMessage(
+                        "Vielen Dank für Ihre Angabe. \nWir werden den schaden so schnell wie möglich beheben.",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_SUCCESS);
+                bikeIdInput.setText("");
+                reportInput.setText("");
             } else {
                 AppContext.getInstance().showMessage(
                         "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.",
