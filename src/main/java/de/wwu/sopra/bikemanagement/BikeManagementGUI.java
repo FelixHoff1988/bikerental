@@ -138,7 +138,9 @@ public class BikeManagementGUI extends HBox{
         
         //Eingabefelder auf ausgewähltes Fahrrad setzen
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            map.deselectMarker(oldSelection);
             map.selectMarker(newSelection, Design.COLOR_MAP_BIKE_SELECTED);
+            
             if(newSelection.getAvailability()==Availability.AVAILABLE) {
                 blockButton.setDisable(false);
                 deblockButton.setDisable(true);
@@ -151,17 +153,39 @@ public class BikeManagementGUI extends HBox{
         
         blockButton.setOnAction(evt -> {
             Bike bike = tableView.getSelectionModel().getSelectedItem();
-            bike.setAvailability(Availability.BLOCKED);
-            
+            ctrl.blockBike(bike);
             tableView.refresh();
+            
+            blockButton.setDisable(true);
+            deblockButton.setDisable(false);
+            AppContext.getInstance().showMessage(
+                    "Fahrrad erfolgreich blockiert!",
+                    Design.DIALOG_TIME_STANDARD,
+                    Design.COLOR_DIALOG_SUCCESS);
+            map.selectMarker(bike, Marker.Provided.RED);
         });
         
         deblockButton.setOnAction(evt -> {
             Bike bike = tableView.getSelectionModel().getSelectedItem();
-            bike.setAvailability(Availability.AVAILABLE);
-            bike.setLocation(ctrl.getStation(stationBox.getValue()).getLocation());
-            
-            tableView.refresh();
+            if(stationBox.getValue()!=null) {
+                ctrl.deBlockBike(bike, stationBox.getValue());
+                tableView.refresh();
+                
+                blockButton.setDisable(false);
+                deblockButton.setDisable(true);
+                AppContext.getInstance().showMessage(
+                        "Fahrrad erfolgreich ent-blockiert!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_SUCCESS);
+                map.selectMarker(bike, Design.COLOR_MAP_BIKE_DEFAULT);
+            }
+            else {
+                AppContext.getInstance().showMessage(
+                        "Fahrrad ent-Blockieren fehlgeschlagen! \n"
+                        + "keine Station ausgewählt",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
+            }
         });
         
         //Grid
