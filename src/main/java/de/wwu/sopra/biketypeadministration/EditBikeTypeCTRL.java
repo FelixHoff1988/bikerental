@@ -87,26 +87,19 @@ public class EditBikeTypeCTRL {
      * @param distance AkkuKapazität des zu ändernden Fahrrad-Typ
      * @return geänderter Fahrrad-Typ
      */
-    public BikeType submitButtonAction(BikeType type,String model, int size, int price, int capacity,  int distance) {
-        if(type==null)
-            return type;
-        switch(type.getTypeString()) {
+    public BikeType submitButtonAction(String type,String model, int size, int price, int capacity,  int distance) {
+        switch(type) {
         case "EBike":
-            EBike eb = (EBike) type;
-            eb.setDistance(distance);
-            type = eb;
-            break;
+            EBike eb = new EBike(model, size, price, distance);
+            return eb;
         case "CargoBike":
-            CargoBike cb = (CargoBike) type;
-            cb.setCapacity(capacity);
-            type = cb;
-            break;
+            CargoBike cb = new CargoBike(model, size, price, capacity);
+            return cb;
+        case "Standart":
+            StandardType sb = new StandardType(model, size, price);
+            return sb;
         }
-        
-        type.setModel(model);
-        type.setSize(size);
-        type.setPrice(price);
-        return type;
+        return null;
     }
     
 

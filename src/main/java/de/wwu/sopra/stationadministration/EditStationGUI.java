@@ -23,6 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -33,7 +34,7 @@ import javafx.scene.layout.VBox;
 /**
  * Darstellung von Bearbeitung von Stationen durch Admin
  */
-public class EditStationGUI extends HBox{
+public class EditStationGUI extends VBox{
     private EditStationCTRL ctrl = new EditStationCTRL();
     Coordinate c = new Coordinate((double) 0, (double) 0);
     String s = new String();
@@ -76,14 +77,20 @@ public class EditStationGUI extends HBox{
         tableView.getColumns().add(column1);
         tableView.getColumns().add(column2);
         tableView.getColumns().add(column3);
+        
+        //Breite der Tabelle festlegen
+        tableView.setMaxWidth(800);
+        tableView.setMinWidth(800);
+        
+        //Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
 
         ObservableList<BikeStation> bikeStations = FXCollections.observableArrayList(ctrl.loadStations());
         tableView.setItems(bikeStations);
 
         var innerBox = new GridPane();
         innerBox.setHgap(30);
-        innerBox.setPadding(new Insets(25, 25, 25, 25));
-        innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
 
         var nameLabel = new Label("Name: ");
@@ -98,30 +105,39 @@ public class EditStationGUI extends HBox{
         
         var standortLabel = new Label("Setze Standort: ");
         var openMap = new Button("Öffne Karte");
+        openMap.setMinWidth(100);
         innerBox.add(standortLabel, 0, 2);
         innerBox.add(openMap, 1, 2);
         
 
         // Buttons zum Navigieren
-        var submitButton = new Button("User Speichern");
+        var submitButton = new Button("Speichern");
+        submitButton.setMinWidth(100);
         var newButton = new Button("Neu");
+        newButton.setMinWidth(100);
         var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
         
-        innerBox.add(submitButton, 0, 3);
-        innerBox.add(deleteButton, 1, 3);
-        innerBox.add(newButton, 2, 3);
+        FlowPane buttons = new FlowPane();
+        buttons.setHgap(10);
+        buttons.setAlignment(Pos.TOP_CENTER);
+        buttons.setPadding(new Insets(10));
+        buttons.getChildren().addAll(newButton, submitButton, deleteButton);
         
         s = String.valueOf(c.getLatitude())+" | "+ 
                 String.valueOf(c.getLongitude());
         var mapLabel = new Label("Koordinaten " + s);
-        mapLabel.setMinWidth(400);
+        mapLabel.setMinWidth(250);
         innerBox.add(mapLabel, 2, 2);
         
-        VBox vbox = new VBox(innerBox, tableView);
-        vbox.setFillWidth(true);
+        VBox vbox = new VBox(innerBox, buttons, tableView);
+        vbox.setAlignment(Pos.CENTER);
+        innerBox.setAlignment(Pos.CENTER);
+        buttons.setAlignment(Pos.CENTER);
         StackPane stack = new StackPane();
         this.getChildren().add(stack);
         stack.getChildren().addAll(vbox);
+        stack.setAlignment(Pos.CENTER);
         this.setAlignment(Pos.CENTER);
         VBox.setVgrow(this, Priority.ALWAYS);
         
@@ -129,6 +145,7 @@ public class EditStationGUI extends HBox{
             MapGUI map = new MapGUI();
             map.setMinHeight(600);
             Button closeButton = new Button("Eingabe beenden");
+            closeButton.setMinWidth(100);
             VBox box = new VBox();
             map.startMarkerPlacement(c);
             box.getChildren().addAll(map, closeButton);

@@ -26,6 +26,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -35,7 +36,7 @@ import javafx.scene.layout.VBox;
 /**
  * GUI-Klasse zum Editieren eines Benutzers. (als Admin)
  */
-public class EditUserGUI extends HBox {
+public class EditUserGUI extends VBox {
 
     private EditUserCTRL ctrl = new EditUserCTRL();
     private RegisterCTRL registerCTRL = new RegisterCTRL();
@@ -115,14 +116,20 @@ public class EditUserGUI extends HBox {
         tableView.getColumns().add(column9);
         tableView.getColumns().add(column10);
 
+        // Breite der Tabelle festlegen
+        tableView.setMaxWidth(1000);
+        tableView.setMinWidth(1000);
+
+        // Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         ObservableList<User> users = FXCollections.observableArrayList(ctrl.loadUsers());
         tableView.setItems(users);
 
         var innerBox = new GridPane();
-        innerBox.setHgap(30);
-        innerBox.setPadding(new Insets(25, 25, 25, 25));
-        innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
+        innerBox.setHgap(10);
+        innerBox.setPadding(new Insets(10, 0, 0, 0));
 
         var firstNameLabel = new Label("Vorname: ");
         var firstNameTextField = new TextField("");
@@ -138,36 +145,39 @@ public class EditUserGUI extends HBox {
         innerBox.add(spacer1, 0, 2);
         var spacer2 = new Pane();
         innerBox.add(spacer2, 0, 3);
+        var spacer3 = new Pane();
+        spacer3.setMinHeight(10);
+        innerBox.add(spacer3, 0, 4);
 
         var streetLabel = new Label("Straße: ");
         var streetTextField = new TextField("");
-        innerBox.add(streetLabel, 0, 4);
-        innerBox.add(streetTextField, 1, 4);
+        innerBox.add(streetLabel, 0, 5);
+        innerBox.add(streetTextField, 1, 5);
 
         var houseNumberLabel = new Label("Hausnummer: ");
         var houseNumberTextField = new TextField("");
-        innerBox.add(houseNumberLabel, 0, 5);
-        innerBox.add(houseNumberTextField, 1, 5);
+        innerBox.add(houseNumberLabel, 0, 6);
+        innerBox.add(houseNumberTextField, 1, 6);
 
         var plzLabel = new Label("PLZ: ");
         var plzTextField = new TextField("");
-        innerBox.add(plzLabel, 0, 6);
-        innerBox.add(plzTextField, 1, 6);
+        innerBox.add(plzLabel, 0, 7);
+        innerBox.add(plzTextField, 1, 7);
 
         var townLabel = new Label("Stadt: ");
         var townTextField = new TextField("");
-        innerBox.add(townLabel, 0, 7);
-        innerBox.add(townTextField, 1, 7);
+        innerBox.add(townLabel, 0, 8);
+        innerBox.add(townTextField, 1, 8);
 
         var IBANLabel = new Label("IBAN: ");
         var IBANTextField = new TextField("");
-        innerBox.add(IBANLabel, 0, 8);
-        innerBox.add(IBANTextField, 1, 8);
+        innerBox.add(IBANLabel, 0, 9);
+        innerBox.add(IBANTextField, 1, 9);
 
         var BICLabel = new Label("BIC: ");
         var BICTextField = new TextField("");
-        innerBox.add(BICLabel, 0, 9);
-        innerBox.add(BICTextField, 1, 9);
+        innerBox.add(BICLabel, 0, 10);
+        innerBox.add(BICTextField, 1, 10);
 
         var emailLabel = new Label("E-Mail: ");
         var emailTextField = new TextField("");
@@ -181,21 +191,21 @@ public class EditUserGUI extends HBox {
         innerBox.add(PasswordTextField, 5, 1);
 
         // Buttons zum Navigieren
-        var submitButton = new Button("User Speichern");
+        var submitButton = new Button("Speichern");
+        submitButton.setMinWidth(100);
         var newButton = new Button("Neu");
+        newButton.setMinWidth(100);
         var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
 
-        innerBox.add(new Label(), 0, 10);
-        innerBox.add(submitButton, 5, 12);
-        innerBox.add(deleteButton, 4, 12);
-        innerBox.add(newButton, 0, 12);
-
-        Label successionLabel = new Label("Änderung erfolgreich");
-        successionLabel.setVisible(false);
-        innerBox.add(successionLabel, 0, 12);
+        FlowPane buttons = new FlowPane();
+        buttons.setHgap(10);
+        buttons.setAlignment(Pos.TOP_CENTER);
+        buttons.setPadding(new Insets(10));
+        buttons.getChildren().addAll(newButton, submitButton, deleteButton);
 
         var passwordRequirements = new Label("- eine Nummer (0-9)\r\n" + "- einen großen Buchstaben\r\n"
-                + "- einen kleinen Buchstaben\r\n" + "- ein Sonderzeichen\r\n" + "- 6-18 Zeichen, ohne Leerzeichen");
+                + "- einen kleinen Buchstaben\r\n" + "- ein Sonderzeichen\r\n");
         innerBox.add(passwordRequirements, 5, 3);
 
         ComboBox<UserRole> comboBox = new ComboBox<UserRole>();
@@ -205,8 +215,8 @@ public class EditUserGUI extends HBox {
         comboBox.getItems().add(UserRole.MANAGER);
         comboBox.getItems().add(UserRole.EXECUTIVE);
         comboBox.getItems().add(UserRole.ADMIN);
-        innerBox.add(new Label("Rolle: "), 4, 4);
-        innerBox.add(comboBox, 5, 4);
+        innerBox.add(new Label("Rolle: "), 4, 5);
+        innerBox.add(comboBox, 5, 5);
 
         newButton.setOnAction(event -> {
             ArrayList<Boolean> list = new ArrayList<Boolean>();
@@ -288,8 +298,6 @@ public class EditUserGUI extends HBox {
                 if (!PasswordTextField.getText().isBlank()) {
                     selectedUser.setPasswordHash(PasswordHashing.hashPassword(PasswordTextField.getText()));
                 }
-
-                successionLabel.setVisible(true);
                 users.set(index, selectedUser);
                 tableView.setItems(users);
             }
@@ -297,7 +305,6 @@ public class EditUserGUI extends HBox {
 
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                successionLabel.setVisible(false);
                 firstNameTextField.setText(newSelection.getFirstName());
                 lastNameTextField.setText(newSelection.getLastName());
                 streetTextField.setText(newSelection.getStreet());
@@ -312,12 +319,10 @@ public class EditUserGUI extends HBox {
             }
         });
 
-        VBox vbox = new VBox(innerBox, tableView);
-        vbox.setFillWidth(true);
+        innerBox.setAlignment(Pos.CENTER);
 
-        this.getChildren().addAll(vbox);
+        this.getChildren().addAll(innerBox, buttons, tableView);
         this.setAlignment(Pos.CENTER);
-        VBox.setVgrow(this, Priority.ALWAYS);
 
     }
 

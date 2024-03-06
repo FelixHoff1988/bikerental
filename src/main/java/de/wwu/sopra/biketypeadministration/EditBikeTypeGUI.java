@@ -1,7 +1,3 @@
-/**
- * @author David
- * @author Nisa
- */
 package de.wwu.sopra.biketypeadministration;
 
 import de.wwu.sopra.AppContext;
@@ -20,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -88,6 +85,13 @@ public class EditBikeTypeGUI extends HBox{
         tableView.getColumns().add(column3);
         tableView.getColumns().add(column4);
         tableView.getColumns().add(column5);
+        
+        //Breite der Tabelle festlegen
+        tableView.setMaxWidth(800);
+        tableView.setMinWidth(800);
+        
+        //Breite der Spalten festlegen
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         ObservableList<BikeType> biketypes = FXCollections.observableArrayList(ctrl.loadBikeTypes());
         tableView.setItems(biketypes);
@@ -137,24 +141,22 @@ public class EditBikeTypeGUI extends HBox{
                 
         
         // Buttons zum Navigieren
-        var submitButton = new Button("BikeType Speichern");
         var newButton = new Button("Neu");
+        newButton.setMinWidth(100);
         var deleteButton = new Button("Löschen");
-
-        innerBox.add(new Label(), 0, 10);
-        innerBox.add(submitButton, 5, 12);
-        innerBox.add(deleteButton, 4, 12);
-        innerBox.add(newButton, 0, 12);
+        deleteButton.setMinWidth(100);
         
-
-        Label successionLabel = new Label("Änderung erfolgreich");
-        successionLabel.setVisible(false);
-        innerBox.add(successionLabel, 0, 13);
+        FlowPane buttons = new FlowPane();
+        buttons.setHgap(10);
+        buttons.setAlignment(Pos.TOP_CENTER);
+        buttons.setPadding(new Insets(10));
+        buttons.getChildren().addAll(newButton, deleteButton);
 
         
         typeBox.setOnAction(event -> {
             ctrl.typeBoxAction(chargeLabel, chargeTextField, capacityLabel, capacityTextField, typeBox.getValue());
         });
+        
         newButton.setOnAction(event -> {
             String model = modelTextField.getText();
             for(BikeType b : biketypes) {
@@ -213,46 +215,38 @@ public class EditBikeTypeGUI extends HBox{
             }
         });
 
-        submitButton.setOnAction(value -> {
-            tableView.getSelectionModel().clearSelection();
-            String model = modelTextField.getText();
-            int size = (int) Integer.valueOf(sizeTextField.getText());
-            int price = (int) Integer.valueOf(priceTextField.getText());
-            int capacity = (int) Integer.valueOf(capacityTextField.getText());
-            int distance = (int) Integer.valueOf(capacityTextField.getText());;
-            BikeType selectedType = tableView.getSelectionModel().getSelectedItem();
-            int index = biketypes.indexOf(selectedType);
-            
-            BikeType newType = ctrl.submitButtonAction(selectedType, model, size, price, capacity, distance);
-            if(selectedType!=null) {
-                biketypes.set(index, newType);
-                tableView.setItems(biketypes);
-                AppContext.getInstance().showMessage(
-                        "Fahrradtyp erfolgreich geändert",
-                        Design.DIALOG_TIME_STANDARD,
-                        Design.COLOR_DIALOG_SUCCESS);
-            } else {
-                AppContext.getInstance().showMessage(
-                        "Fahrradtyp ändern fehlgeschlagen!",
-                        Design.DIALOG_TIME_STANDARD,
-                        Design.COLOR_DIALOG_FAILURE);
-            }
-            
-        });
-
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             modelTextField.setText(newSelection.getModel());
             sizeTextField.setText(String.valueOf(newSelection.getSize()));
             priceTextField.setText(String.valueOf(newSelection.getPrice()));
-            typeBox.setValue(newSelection.getTypeString());
+            chargeLabel.setVisible(false);
+            chargeTextField.setVisible(false);
+            capacityLabel.setVisible(false);
+            capacityTextField.setVisible(false);
+            if(newSelection.getTypeString() == "EBike")
+            {
+                chargeLabel.setVisible(true);
+                chargeTextField.setVisible(true);
+                typeBox.getSelectionModel().select("EBike");
+            }
+            if(newSelection.getTypeString() == "CargoBike")
+            {
+                capacityLabel.setVisible(true);
+                capacityTextField.setVisible(true);
+                typeBox.getSelectionModel().select("CargoBike");
+            }
+            if(newSelection.getTypeString() == "Standart")
+            {
+                typeBox.getSelectionModel().select("Standard");
+            }
+            
         });
 
-        VBox vbox = new VBox(innerBox, tableView);
+        VBox vbox = new VBox(innerBox, buttons, tableView);
         vbox.setFillWidth(true);
 
         this.getChildren().addAll(vbox);
         this.setAlignment(Pos.CENTER);
-        VBox.setVgrow(this, Priority.ALWAYS);
 
     }
     
