@@ -124,7 +124,7 @@ public class EditBikeTypeGUI extends HBox{
         innerBox.add(typeLabel, 0, 3);
         innerBox.add(typeBox, 1, 3);
         
-        var chargeLabel = new Label("Akku-Kapazität: ");
+        var chargeLabel = new Label("Reichweite: ");
         var chargeTextField = new TextField("");
         chargeTextField.setMinWidth(150);
         chargeLabel.setVisible(false);

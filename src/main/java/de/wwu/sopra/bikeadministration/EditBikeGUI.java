@@ -159,6 +159,14 @@ public class EditBikeGUI extends HBox {
             String model = modelBox.getValue();
             Availability availability = availabilityBox.getValue();
 
+            if(c.getLatitude()==0 || c.getLongitude()==0) {
+                AppContext.getInstance().showMessage(
+                        "Fahrrad hinzufügen fehlgeschlagen! \n"
+                        + "Kein Standort festgelegt",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
+                return;
+            }
             for(Bike b:Bikes) {
                 if(b.getFrameId().equals(frameId)) {
                     AppContext.getInstance().showMessage(

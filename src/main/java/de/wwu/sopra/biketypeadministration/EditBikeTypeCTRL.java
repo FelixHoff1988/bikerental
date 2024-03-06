@@ -95,7 +95,7 @@ public class EditBikeTypeCTRL {
         case "CargoBike":
             CargoBike cb = new CargoBike(model, size, price, capacity);
             return cb;
-        case "Standart":
+        case "Standard":
             StandardType sb = new StandardType(model, size, price);
             return sb;
         }
