@@ -323,7 +323,6 @@ public class EditUserGUI extends VBox {
 
         this.getChildren().addAll(innerBox, buttons, tableView);
         this.setAlignment(Pos.CENTER);
-        // VBox.setVgrow(this, Priority.ALWAYS);
 
     }
 
