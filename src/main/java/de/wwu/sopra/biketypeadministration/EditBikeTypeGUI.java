@@ -238,7 +238,7 @@ public class EditBikeTypeGUI extends HBox{
                 capacityTextField.setVisible(true);
                 typeBox.getSelectionModel().select("CargoBike");
             }
-            if(newSelection.getTypeString() == "Standart")
+            if(newSelection.getTypeString() == "Standard")
             {
                 typeBox.getSelectionModel().select("Standard");
             }
