@@ -5,11 +5,14 @@
  */
 package de.wwu.sopra.bikemanagement;
 
+import java.util.function.Consumer;
+
 import com.sothawo.mapjfx.Marker;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.Design;
+import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeGUI;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeStation;
@@ -39,6 +42,8 @@ import javafx.scene.layout.VBox;
 public class BikeManagementGUI extends HBox{
     
     private BikeManagementCTRL ctrl = new BikeManagementCTRL();
+    private TableView<Bike> tableView = new TableView<Bike>();
+    private MapGUI map = new MapGUI();
     
     public BikeManagementGUI() {
         init();
@@ -47,7 +52,6 @@ public class BikeManagementGUI extends HBox{
     public void init() {
         
         //Tabelle mit den Spalten erstellen
-        TableView<Bike> tableView = new TableView<Bike>();
         TableColumn<Bike,String> frameIdColumn = new TableColumn<>("Rahmennummer");
         TableColumn<Bike,String> availabilityColumn = new TableColumn<>("Status");
         TableColumn<Bike,String> coordinateColumn = new TableColumn<>("Standort");
@@ -87,8 +91,6 @@ public class BikeManagementGUI extends HBox{
         ObservableList<Bike> Bikes = FXCollections.observableArrayList(ctrl.loadBikes());
         tableView.setItems(Bikes);
         
-        //Karte für die Bikes
-        MapGUI map = new MapGUI();
         
         //Bikes zum anzeigen auf der Karte
         var availableBikes = ctrl.loadBikes(Availability.AVAILABLE);
@@ -105,6 +107,10 @@ public class BikeManagementGUI extends HBox{
                 Bike::getLocation,
                 Marker.Provided.RED
                 );
+        
+        //Map onClick Action
+        Consumer<Bike> onBikeClick = this::update;
+        map.onClickMarker(Bike.class, onBikeClick, Design.COLOR_MAP_BIKE_SELECTED);
         
         //Box zum hinzufügen
         var innerBox = new GridPane();
@@ -161,5 +167,9 @@ public class BikeManagementGUI extends HBox{
         
         
         this.getChildren().add(grid);
+    }
+
+    private void update(Bike bike) {
+        
     }
 }
