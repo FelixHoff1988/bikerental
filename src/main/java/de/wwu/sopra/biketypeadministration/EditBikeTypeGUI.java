@@ -119,12 +119,14 @@ public class EditBikeTypeGUI extends HBox{
         
         var typeLabel = new Label("Fahhrad-Art: ");
         var typeBox = new ComboBox<String>();
+        typeBox.setMinWidth(150);
         typeBox.getItems().addAll("Standard","EBike","CargoBike");
         innerBox.add(typeLabel, 0, 3);
         innerBox.add(typeBox, 1, 3);
         
         var chargeLabel = new Label("Akku-Kapazität: ");
         var chargeTextField = new TextField("");
+        chargeTextField.setMinWidth(150);
         chargeLabel.setVisible(false);
         chargeTextField.setVisible(false);
         innerBox.add(chargeLabel, 0, 4);
@@ -132,6 +134,7 @@ public class EditBikeTypeGUI extends HBox{
         
         var capacityLabel = new Label("Ladungs-Kapazität: ");
         var capacityTextField = new TextField("");
+        capacityTextField.setMinWidth(150);
         capacityLabel.setVisible(false);
         capacityTextField.setVisible(false);
         innerBox.add(capacityLabel, 0, 4);

@@ -109,10 +109,12 @@ public class EditBikeGUI extends HBox {
         //Eingabe der Rahmennummer
         var frameIdLabel = new Label("Rahmennummer: ");
         var frameIdTextField = new TextField("");
+        frameIdTextField.setMinWidth(150);
         
         //Eingabe des Zustand´s
         var availabilityLabel = new Label("Zustand: ");
         var availabilityBox = new ComboBox<Availability>();
+        availabilityBox.setMinWidth(150);
         availabilityBox.getItems().addAll(
                 Availability.AVAILABLE,
                 Availability.BLOCKED,
@@ -124,6 +126,7 @@ public class EditBikeGUI extends HBox {
         //Eingabe des Modell´s
         var modelLabel = new Label("Modell: ");
         var modelBox = new ComboBox<String>();
+        modelBox.setMinWidth(150);
         modelBox.getItems().addAll(ctrl.loadModels());  
         
         //Buttons zum verwalten der Fahrräder, ein zurück Button zum AdminGUI
@@ -143,7 +146,7 @@ public class EditBikeGUI extends HBox {
         //Eingabe des Standorts
         var standortLabel = new Label("Setze Standort: ");
         var openMap = new Button("Öffne Karte");
-        openMap.setMinWidth(100);
+        openMap.setMinWidth(150);
         
         s = String.valueOf(c.getLatitude())+" | "+ 
                 String.valueOf(c.getLongitude());

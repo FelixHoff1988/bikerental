@@ -209,6 +209,7 @@ public class EditUserGUI extends VBox {
         innerBox.add(passwordRequirements, 5, 3);
 
         ComboBox<UserRole> comboBox = new ComboBox<UserRole>();
+        comboBox.setMinWidth(150);
 
         comboBox.getItems().add(UserRole.CUSTOMER);
         comboBox.getItems().add(UserRole.MAINTAINER);
