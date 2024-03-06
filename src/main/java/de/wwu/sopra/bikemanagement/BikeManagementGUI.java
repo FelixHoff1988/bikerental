@@ -10,15 +10,9 @@ import java.util.function.Consumer;
 import com.sothawo.mapjfx.Marker;
 
 import de.wwu.sopra.AppContext;
-import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.Design;
-import de.wwu.sopra.bookingProcess.reserveBike.ReserveBikeGUI;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
-import de.wwu.sopra.entity.BikeStation;
-import de.wwu.sopra.entity.BikeType;
-import de.wwu.sopra.entity.CargoBike;
-import de.wwu.sopra.entity.EBike;
 import de.wwu.sopra.map.MapGUI;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -27,28 +21,41 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
+/**
+ * GUI Klasse für das Umverteilen der Fahrräder vom StationsManager
+ */
 public class BikeManagementGUI extends HBox{
     
+    /**
+     * Kontrollinstanz der GUI
+     */
     private BikeManagementCTRL ctrl = new BikeManagementCTRL();
+    /**
+     * Tabelle für die Fahrräder
+     */
     private TableView<Bike> tableView = new TableView<Bike>();
+    /**
+     * Map für die Fahrräder
+     */
     private MapGUI map = new MapGUI();
     
+    /**
+     * Konstruktor
+     */
     public BikeManagementGUI() {
         init();
     }
 
+    /**
+     * Methode zur Initialisierung der GUI
+     */
     public void init() {
         
         //Tabelle mit den Spalten erstellen
@@ -97,7 +104,7 @@ public class BikeManagementGUI extends HBox{
         Bikes.addAll(blockedBikes);
         tableView.setItems(Bikes);
         
-        //Farbe der Bikes auf der Map setzten
+        //Bikes als Marker auf der Map setzten
         map.displayMarkers(
                 availableBikes,
                 Design.COLOR_MAP_BIKE_DEFAULT
@@ -111,24 +118,25 @@ public class BikeManagementGUI extends HBox{
         Consumer<Bike> onBikeClick = this::update;
         map.onClickMarker(Bike.class, onBikeClick, Design.COLOR_MAP_BIKE_SELECTED);
         
-        //Box zum hinzufügen
+        //Box für die Anordnung der nicht Map Grafik
         var innerBox = new GridPane();
         innerBox.setHgap(30);
         innerBox.setPadding(new Insets(25, 25, 25, 25));
         innerBox.setAlignment(Pos.CENTER);
         innerBox.setVgap(5);
         
+        //Bereich für die Aktionen des Managers
         var flow = new HBox();
         Button blockButton = new Button("Fahrrad blockieren");
         Button deblockButton = new Button("Fahrrad ent-blockieren");
         blockButton.setDisable(true);
         deblockButton.setDisable(true);
-        
         ComboBox<String> stationBox = new ComboBox<>();
         stationBox.getItems().addAll(ctrl.loadStations());
         var spacer = new Pane();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
+        //Grafische Konfiguration des Bereichs der Manager-Aktionen
         flow.getChildren().addAll(blockButton, deblockButton, spacer, stationBox);
         flow.setPadding(new Insets(10));
         flow.setSpacing(5);
@@ -151,6 +159,7 @@ public class BikeManagementGUI extends HBox{
             }
         });
         
+        //Aktion des Blockier-Button
         blockButton.setOnAction(evt -> {
             Bike bike = tableView.getSelectionModel().getSelectedItem();
             ctrl.blockBike(bike);
@@ -165,6 +174,7 @@ public class BikeManagementGUI extends HBox{
             map.selectMarker(bike, Marker.Provided.RED);
         });
         
+        //Aktion des ent-Blockier-Button
         deblockButton.setOnAction(evt -> {
             Bike bike = tableView.getSelectionModel().getSelectedItem();
             if(stationBox.getValue()!=null) {
@@ -219,6 +229,10 @@ public class BikeManagementGUI extends HBox{
         this.getChildren().add(grid);
     }
 
+    /**
+     * Methode zum updaten bei Klick auf Marker
+     * @param bike Bike des Markers
+     */
     private void update(Bike bike) {
         tableView.getSelectionModel().select(bike);
     }

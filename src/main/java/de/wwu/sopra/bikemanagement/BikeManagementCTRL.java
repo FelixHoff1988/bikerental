@@ -16,9 +16,18 @@ import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.BikeStation;
 
+/**
+ * KontrollKlasse zur Staitions-Manager GUI
+ */
 public class BikeManagementCTRL {
 
+    /**
+     * DataProvider-Instanz
+     */
     private DataProvider prov = DataProvider.getInstance();
+    /**
+     * Random-Instanz
+     */
     private Random random  = new Random();
     /**
      * Methode zum Laden der Bikes
@@ -71,6 +80,10 @@ public class BikeManagementCTRL {
         return bikes;
     }
     
+    /**
+     * Methode zum Blockieren eines Fahrrads
+     * @param bike zu blockierendes Fahrrad
+     */
     public void blockBike(Bike bike) {
         bike.setAvailability(Availability.BLOCKED);
         
@@ -82,6 +95,11 @@ public class BikeManagementCTRL {
         }
     }
     
+    /**
+     * Methode zum ent-Blockieren eines Fahrrads
+     * @param bike zu ent-blockierendes fahrrad
+     * @param station station der das Bike hinzugefügt wird
+     */
     public void deBlockBike(Bike bike, String station) {
         bike.setAvailability(Availability.AVAILABLE);
         BikeStation bStation = getStation(station);
