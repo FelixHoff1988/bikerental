@@ -19,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -117,14 +116,14 @@ public class EditBikeTypeGUI extends HBox{
         innerBox.add(priceLabel, 0, 2);
         innerBox.add(priceTextField, 1, 2);
         
-        var typeLabel = new Label("Fahhrad-Art: ");
+        var typeLabel = new Label("Fahrrad-Art: ");
         var typeBox = new ComboBox<String>();
         typeBox.setMinWidth(150);
         typeBox.getItems().addAll("Standard","EBike","CargoBike");
         innerBox.add(typeLabel, 0, 3);
         innerBox.add(typeBox, 1, 3);
         
-        var chargeLabel = new Label("Akku-Kapazität: ");
+        var chargeLabel = new Label("Reichweite: ");
         var chargeTextField = new TextField("");
         chargeTextField.setMinWidth(150);
         chargeLabel.setVisible(false);
