@@ -1,7 +1,5 @@
 package de.wwu.sopra.bookingProcess;
 
-import com.sothawo.mapjfx.Marker.Provided;
-
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.Design;
 import de.wwu.sopra.bookingProcess.bookBike.BookBikeGUI;
@@ -43,23 +41,21 @@ public class BookingProcessGUI extends StackPane {
         build();
 
         var reservation = ctrl.getReservation();
-        switch (currentGUI) {
-            case 1 -> initReservationGUI();
-            case 2 -> initBookingGUI(reservation);
-            case 3 -> initEndBookingGUI(reservation);
-        }
-
         var availableBikes = data.getBikes(bike ->
                 bike.getAvailability() == Availability.AVAILABLE
                 || (!bike.getReservationList().isEmpty() && bike.getReservationList().getLast() == reservation));
         this.map.displayMarkers(
                 availableBikes,
-                Bike::getLocation,
                 Design.COLOR_MAP_BIKE_DEFAULT);
         this.map.displayMarkers(
                 data.getStations(),
-                BikeStation::getLocation,
                 Design.COLOR_MAP_STATION_DEFAULT);
+
+        switch (currentGUI) {
+            case 1 -> initReservationGUI();
+            case 2 -> initBookingGUI(reservation);
+            case 3 -> initEndBookingGUI(reservation);
+        }
 
         if (reservation != null && reservation.getEndTime() == null)
             this.map.selectMarker(reservation.getBike(), Design.COLOR_MAP_BIKE_SELECTED);
@@ -107,7 +103,7 @@ public class BookingProcessGUI extends StackPane {
         var bookingGUI = new BookBikeGUI(reservation);
         bookingGUI.onStepCancel(res -> {
             initReservationGUI();
-            map.deselectMarker(reservation.getBike(), Design.COLOR_MAP_BIKE_DEFAULT);
+            map.deselectMarker(reservation.getBike());
         });
         bookingGUI.onStepFinish(this::initEndBookingGUI);
 
@@ -126,13 +122,12 @@ public class BookingProcessGUI extends StackPane {
         var endBooking = new EndBookingGUI(reservation);
         this.map.displayCoordinateLines(
                 data.getGeoAreas(),
-                GeofencingArea::getEdges,
                 Design.COLOR_MAP_AREA_FILL_DEFAULT,
                 Design.COLOR_MAP_AREA_LINE_DEFAULT);
 
         endBooking.onStepFinish(res -> {
             initReservationGUI();
-            map.deselectMarker(reservation.getBike(), Design.COLOR_MAP_BIKE_DEFAULT);
+            map.deselectMarker(reservation.getBike());
             data.getGeoAreas().forEach(map::removeCoordinateLine);
         });
 

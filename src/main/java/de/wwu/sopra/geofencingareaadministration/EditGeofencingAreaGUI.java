@@ -54,9 +54,13 @@ public class EditGeofencingAreaGUI extends VBox {
 
         // Buttons zum Navigieren
         var startDesign = new Button("Erstellen starten");
+        startDesign.setMinWidth(100);
         var endAndSaveButton = new Button("Area hinzufügen");
+        endAndSaveButton.setMinWidth(100);
         var endAndDiscardButton = new Button("Area verwerfen");
-        deleteButton = new Button("Löschen");
+        endAndDiscardButton.setMinWidth(100);
+        var deleteButton = new Button("Löschen");
+        deleteButton.setMinWidth(100);
         
         endAndSaveButton.setDisable(true);
         endAndDiscardButton.setDisable(true);
@@ -78,10 +82,7 @@ public class EditGeofencingAreaGUI extends VBox {
             deleteButton.setDisable(true);
             disableAreaSelection(map);
             if (this.selectedArea != null) {
-                map.deselectCoordinateLine(
-                        this.selectedArea,
-                        Design.COLOR_MAP_AREA_FILL_DEFAULT,
-                        Design.COLOR_MAP_AREA_LINE_DEFAULT);
+                map.deselectCoordinateLine(this.selectedArea);
                 this.selectedArea = null;
             }
         });
@@ -96,7 +97,7 @@ public class EditGeofencingAreaGUI extends VBox {
             } else {
                 ctrl.addGeofencingArea(geoArea);
                 map.displayCoordinateLines(
-                        List.of(geoArea), GeofencingArea::getEdges,
+                        List.of(geoArea),
                         Design.COLOR_MAP_AREA_FILL_DEFAULT,
                         Design.COLOR_MAP_AREA_LINE_DEFAULT);
                 endAndSaveButton.setDisable(true);
@@ -120,6 +121,7 @@ public class EditGeofencingAreaGUI extends VBox {
 
             ctrl.removeGeofencingArea(selectedArea);
             map.removeCoordinateLine(selectedArea);
+            deleteButton.setDisable(true);
             selectedArea = null;
         });
 

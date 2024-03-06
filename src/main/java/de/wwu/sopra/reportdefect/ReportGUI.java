@@ -61,7 +61,7 @@ public class ReportGUI extends VBox {
         // Button zum Absenden des Schadens
         var submitButton = new Button();
         submitButton.setText("Schaden melden");
-        submitButton.setPrefWidth(200);
+        submitButton.setPrefWidth(150);
 
         submitButton.setOnAction(event -> {
             // teste ob Werte korrekt sind

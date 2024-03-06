@@ -1,61 +1,63 @@
 package de.wwu.sopra.entity;
 
 import com.sothawo.mapjfx.Coordinate;
+import de.wwu.sopra.map.MapCoordinateLineCandidate;
+
 import java.util.ArrayList;
 
 /**
  * Klasse für die Entität der GeofencingAreas
  */
-public class GeofencingArea {
+public class GeofencingArea implements MapCoordinateLineCandidate {
 
 	/**
-	 * Liste zum Speichern der Kanten der GeofencingArea
+	 * Liste zum Speichern der Ecke der GeofencingArea
 	 */
-	private ArrayList<Coordinate> edges;
+	private ArrayList<Coordinate> vertices;
 
 	/**
 	 * Konstruktor setzt initiale Werte
 	 * 
-	 * @param edges Initiale Eckpunkte der GeofencingArea
+	 * @param vertices Initiale Eckpunkte der GeofencingArea
 	 */
-	public GeofencingArea(ArrayList<Coordinate> edges) {
-		this.edges = edges;
+	public GeofencingArea(ArrayList<Coordinate> vertices) {
+		this.vertices = vertices;
 	}
 
 	/**
-	 * Eine Kante zur GeofencingArea hinzufügen
+	 * Eine Ecke zur GeofencingArea hinzufügen
 	 * 
-	 * @param c Kante die hinzugefügt werden soll
+	 * @param vertex Ecke die hinzugefügt werden soll
 	 */
-	public void addEdge(Coordinate c) {
-		edges.add(c);
+	public void addVertex(Coordinate vertex) {
+		vertices.add(vertex);
 	}
 
 	/**
-	 * Eine Kante der GeofencingArea löschen
+	 * Eine Ecke der GeofencingArea löschen
 	 * 
-	 * @param c Kante die gelöscht werden soll
+	 * @param vertex Ecke die gelöscht werden soll
 	 */
-	public void removeEdge(Coordinate c) {
-		edges.remove(c);
+	public void removeVertex(Coordinate vertex) {
+		vertices.remove(vertex);
 	}
 
 	/**
-	 * Liste der Kanten der GeofencingArea zurückgeben
+	 * Liste der Eckpunkte der GeofencingArea zurückgeben
 	 * 
 	 * @return Liste der Eckpunkte der GeofencingArea
 	 */
-	public ArrayList<Coordinate> getEdges() {
-		return edges;
+	public ArrayList<Coordinate> getVertices() {
+		return this.vertices;
 	}
 
 	/**
-	 * Liste der Kanten der GeofencingArea setzten
+	 * Liste der Eckpunkte der GeofencingArea setzten
 	 * 
 	 * @param edges Neue Eckpunkte der GeofencingArea
 	 */
-	public void setEdges(ArrayList<Coordinate> edges) {
-		this.edges = edges;
+	public void setVertices(ArrayList<Coordinate> edges) {
+		this.vertices = edges;
 	}
 
 }

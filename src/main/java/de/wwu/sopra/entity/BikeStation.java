@@ -1,12 +1,14 @@
 package de.wwu.sopra.entity;
 
 import com.sothawo.mapjfx.Coordinate;
+import de.wwu.sopra.map.MapMarkerCandidate;
+
 import java.util.ArrayList;
 
 /**
  * Repräsentiert eine Fahrrad-Station
  */
-public class BikeStation {
+public class BikeStation implements MapMarkerCandidate {
 
 	/**
 	 * Name der Station

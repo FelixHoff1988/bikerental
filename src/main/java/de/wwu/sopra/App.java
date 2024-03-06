@@ -36,6 +36,7 @@ public class App extends Application {
 		primaryStage.setTitle("BikeRental.de");
 		DataProvider.getInstance();
 		new BookingProcessService(60000).start();
+		new SimulationService().start();
 
 		var gui = new AppGUI();
 		AppContext.create(gui);
@@ -45,7 +46,7 @@ public class App extends Application {
 		primaryStage.setMinWidth(1080);
 		primaryStage.setMinHeight(720);
 		primaryStage.setScene(scene);
-		primaryStage.getIcons().add(new Image("file:logo.png"));
+		primaryStage.getIcons().add(new Image("file:icon.png"));
 		primaryStage.show();
 	}
 

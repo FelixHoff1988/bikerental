@@ -419,7 +419,7 @@ public class DataProviderTests {
         // mockBike vorhanden
         assertFalse(provider.getBikes(bike -> bike.getFrameId().equals(mockBikeId)).isEmpty());
         // mockGeoArea vorhanden
-        assertFalse(provider.getGeoAreas(area -> area.getEdges().getLast().getLatitude().equals(1.0)).isEmpty());
+        assertFalse(provider.getGeoAreas(area -> area.getVertices().getLast().getLatitude().equals(1.0)).isEmpty());
         // mockBikeType vorhanden
         assertFalse(provider.getBikeTypes(bikeType -> bikeType.getModel().equals(bikeTypeName)).isEmpty());
     }
