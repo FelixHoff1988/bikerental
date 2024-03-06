@@ -1,13 +1,11 @@
 # SOPRA_22_23-Gruppenprojekt Gruppe 3b - BikeRental-App
 
-<p align="center">
-    <img src="Logo.png"/>
-</p>
+![alt text](Logo.png "Title")
 
-**Getting started**
+##Getting started
 
 Admin-Account für ersten Login und Installation:
 
-E-Mail: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; admin@rental.de
+**E-Mail:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; admin@rental.de
 
-Passwort: &nbsp;&nbsp;&nbsp;&nbsp;1234AbC#
+**Passwort:** &nbsp;&nbsp;&nbsp;&nbsp;1234AbC#
