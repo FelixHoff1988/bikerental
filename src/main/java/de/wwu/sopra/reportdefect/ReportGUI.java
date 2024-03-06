@@ -72,6 +72,8 @@ public class ReportGUI extends VBox {
                         "Vielen Dank für Ihre Angabe. \nWir werden den schaden so schnell wie möglich beheben.",
                         Design.DIALOG_TIME_STANDARD,
                         Design.COLOR_DIALOG_SUCCESS);
+                bikeIdInput.setText("");
+                reportInput.setText("");
             } else {
                 AppContext.getInstance().showMessage(
                         "Es existiert kein Fahrrad mit der angegebenen Fahrradnummer.",
