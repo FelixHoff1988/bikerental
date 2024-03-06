@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Die Klasse App ist der Einstiegspunkt der Anwendung und erweitert die JavaFX Application Klasse.
@@ -35,8 +36,14 @@ public class App extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("BikeRental.de");
 		DataProvider.getInstance();
-		new BookingProcessService(60000).start();
-		new SimulationService().start();
+		var bookingService = new BookingProcessService();
+		bookingService.setPeriod(Duration.seconds(60));
+		bookingService.setDelay(Duration.ZERO);
+		bookingService.start();
+		var simulationService = new SimulationService();
+		simulationService.setPeriod(Duration.seconds(10));
+		simulationService.setDelay(Duration.seconds(10));
+		simulationService.start();
 
 		var gui = new AppGUI();
 		AppContext.create(gui);

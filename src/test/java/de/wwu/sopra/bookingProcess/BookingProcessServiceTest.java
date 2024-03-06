@@ -3,6 +3,7 @@ package de.wwu.sopra.bookingProcess;
 import de.wwu.sopra.DataProviderMock;
 import de.wwu.sopra.entity.Availability;
 import javafx.application.Platform;
+import javafx.util.Duration;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,10 @@ class BookingProcessServiceTest {
         provider.addBike(mockReservation.getBike());
         provider.addReservation(mockReservation);
 
-        new BookingProcessService(5000).start();
+        var bookingService = new BookingProcessService();
+        bookingService.setPeriod(Duration.seconds(5));
+        bookingService.setDelay(Duration.ZERO);
+        bookingService.start();
 
         // Buchung steht vier Sekunden vor dem Abbruch
         assertEquals(Availability.RESERVED, mockReservation.getBike().getAvailability());

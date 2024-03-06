@@ -2,6 +2,7 @@ package de.wwu.sopra;
 
 import com.sothawo.mapjfx.Coordinate;
 import de.wwu.sopra.entity.Availability;
+import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -10,7 +11,7 @@ import java.util.Random;
 /**
  * Simuliert die Bewegung von Fahrrädern auf der Karte.
  */
-public class SimulationService extends Service<Void> {
+public class SimulationService extends ScheduledService<Void> {
     /**
      * Konstruktor
      */
@@ -23,12 +24,9 @@ public class SimulationService extends Service<Void> {
      */
     @Override
     protected Task<Void> createTask() {
-        this.setOnSucceeded(event -> this.restart());
         return new Task<>() {
             @Override
             protected Void call() throws Exception {
-                Thread.sleep(10000);
-
                 var random = new Random();
                 DataProvider
                         .getInstance()
@@ -45,8 +43,7 @@ public class SimulationService extends Service<Void> {
                             double  earth = 6378.137,
                                     meter = (1 / ((2 * Math.PI / 360) * earth)) / 1000;
 
-                            var lng = basePosition.getLongitude() + (metersToMove-metersLat * meter)
-                                    / Math.cos(basePosition.getLatitude() * (Math.PI / 180));
+                            var lng = basePosition.getLongitude() + (metersToMove-metersLat * meter);
                             var lat = basePosition.getLatitude() + (metersLat * meter);
 
                             bike.setLocation(new Coordinate(lat, lng));
