@@ -149,7 +149,6 @@ public class EditBikeTypeGUI extends HBox{
         FlowPane buttons = new FlowPane();
         buttons.setHgap(10);
         buttons.setAlignment(Pos.TOP_CENTER);
-        // flow.setVgap(10);
         buttons.setPadding(new Insets(10));
         buttons.getChildren().addAll(newButton, deleteButton);
 
