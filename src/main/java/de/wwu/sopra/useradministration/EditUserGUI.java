@@ -201,12 +201,8 @@ public class EditUserGUI extends VBox {
         FlowPane buttons = new FlowPane();
         buttons.setHgap(10);
         buttons.setAlignment(Pos.TOP_CENTER);
-        // flow.setVgap(10);
         buttons.setPadding(new Insets(10));
         buttons.getChildren().addAll(newButton, submitButton, deleteButton);
-
-        // buttons.getChildren().addAll(newButton, submitButton, deleteButton);
-        // innerBox.add(buttons, 0, 10);
 
         var passwordRequirements = new Label("- eine Nummer (0-9)\r\n" + "- einen großen Buchstaben\r\n"
                 + "- einen kleinen Buchstaben\r\n" + "- ein Sonderzeichen\r\n");
