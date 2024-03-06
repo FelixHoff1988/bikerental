@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.sothawo.mapjfx.Coordinate;
 
+import de.wwu.sopra.AppContext;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeStation;
 import de.wwu.sopra.entity.User;
@@ -167,6 +169,18 @@ public class EditStationGUI extends VBox{
             list.add(ctrl.testTextField("^[a-zA-Z0-9]*$", nameTextField));
             list.add(ctrl.testTextField("^[0-9]+$", capacityTextField));
 
+          //Name nur einmal vorhanden, sonst abbruch
+            for(BikeStation bs:bikeStations) {
+                if(bs.getName().equals(nameTextField.getText())) {
+                    AppContext.getInstance().showMessage(
+                            "Änderung fehlgeschlagen!\n"
+                            + "Name bereits vergeben.",
+                            Design.DIALOG_TIME_STANDARD,
+                            Design.COLOR_DIALOG_FAILURE);
+                    return;
+                }
+            }
+            
             if (areAllTrue(list)) {
                 TextField[] textFieldsBikeStation = innerBox.getChildren().stream()
                         .filter(node -> node.getClass() == TextField.class)
@@ -193,6 +207,17 @@ public class EditStationGUI extends VBox{
             list.add(ctrl.testTextField("^[a-zA-Z0-9]*$", nameTextField));
             list.add(ctrl.testTextField("^[0-9]+$", capacityTextField));
 
+            //Name nur einmal vorhanden, sonst abbruch
+            for(BikeStation bs:bikeStations) {
+                if(bs!=selectedBikeStation && bs.getName().equals(nameTextField.getText())) {
+                    AppContext.getInstance().showMessage(
+                            "Änderung fehlgeschlagen!\n"
+                            + "Name bereits vergeben.",
+                            Design.DIALOG_TIME_STANDARD,
+                            Design.COLOR_DIALOG_FAILURE);
+                    return;
+                }
+            }
             if (areAllTrue(list)) {
                 int index = bikeStations.indexOf(selectedBikeStation);
                 selectedBikeStation.setCapacity(Integer.valueOf(capacityTextField.getText()));
