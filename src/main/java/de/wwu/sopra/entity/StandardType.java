@@ -20,7 +20,7 @@ public class StandardType extends BikeType {
 	 */
 	@Override
 	public String getTypeString() {
-		return "Standart";
+		return "Standard";
 	}
 	/*
      * Implementierung der Methode, ohne jegliche Berechnungen

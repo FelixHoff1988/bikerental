@@ -37,6 +37,21 @@ public class BikeManagementCTRL {
     }
     
     /**
+     * Methode zum Laden einer Bikestation mit einem bestimmten Namen
+     * @param name Name der Station
+     * @return Station mit Name name, null falls keine existiert
+     */
+    public BikeStation getStation(String name) {
+        List<BikeStation> stations = DataProvider.getInstance().getStations(station ->{
+            return station.getName().equals(name);
+        });
+        if(!stations.isEmpty())
+            return stations.getFirst();
+        else
+            return null;
+    }
+    
+    /**
      * Methode um Fahrräder eines Zustandes zu laden
      * @param status Fahrräder mit diesem Verfügbarkeits-Status laden
      * @return Liste von Fahrrädern mit dem gegebenen Verfügbarkeits-Status

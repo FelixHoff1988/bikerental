@@ -87,14 +87,15 @@ public class BikeManagementGUI extends HBox{
         tableView.getColumns().add(availabilityColumn);        
         tableView.getColumns().add(coordinateColumn);
         
-        //Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
-        ObservableList<Bike> Bikes = FXCollections.observableArrayList(ctrl.loadBikes());
-        tableView.setItems(Bikes);
-        
-        
-        //Bikes zum anzeigen auf der Karte
+        //Bikes zum anzeigen
         var availableBikes = ctrl.loadBikes(Availability.AVAILABLE);
         var blockedBikes = ctrl.loadBikes(Availability.BLOCKED);
+        
+        //Liste zum Verwalten der Fahrräder, verknüpft mit der Tabelle
+        ObservableList<Bike> Bikes = FXCollections.observableArrayList();
+        Bikes.addAll(availableBikes);
+        Bikes.addAll(blockedBikes);
+        tableView.setItems(Bikes);
         
         //Farbe der Bikes auf der Map setzten
         map.displayMarkers(
@@ -120,14 +121,14 @@ public class BikeManagementGUI extends HBox{
         innerBox.setVgap(5);
         
         var flow = new HBox();
-        Button openButton = new Button("Fahrrad öffnen");
-        Button closeButton = new Button("Fahrrad schließen");
+        Button blockButton = new Button("Fahrrad blockieren");
+        Button deblockButton = new Button("Fahrrad ent-blockieren");
         ComboBox<String> stationBox = new ComboBox<>();
         stationBox.getItems().addAll(ctrl.loadStations());
         var spacer = new Pane();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        flow.getChildren().addAll(openButton, closeButton, spacer, stationBox);
+        flow.getChildren().addAll(blockButton, deblockButton, spacer, stationBox);
         flow.setPadding(new Insets(10));
         flow.setSpacing(5);
         
@@ -136,9 +137,25 @@ public class BikeManagementGUI extends HBox{
         
         //Eingabefelder auf ausgewähltes Fahrrad setzen
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            map.selectMarker(newSelection, Design.COLOR_MAP_BIKE_SELECTED);
         });
         
+        blockButton.setOnAction(evt -> {
+            Bike bike = tableView.getSelectionModel().getSelectedItem();
+            bike.setAvailability(Availability.BLOCKED);
+            
+            tableView.refresh();
+        });
         
+        deblockButton.setOnAction(evt -> {
+            Bike bike = tableView.getSelectionModel().getSelectedItem();
+            bike.setAvailability(Availability.AVAILABLE);
+            bike.setLocation(ctrl.getStation(stationBox.getValue()).getLocation());
+            
+            tableView.refresh();
+        });
+        
+        //Grid
         GridPane grid = new GridPane();
         grid.add(innerBox, 1,0);
         grid.add(map, 0, 0);
@@ -170,6 +187,6 @@ public class BikeManagementGUI extends HBox{
     }
 
     private void update(Bike bike) {
-        
+        tableView.getSelectionModel().select(bike);
     }
 }
