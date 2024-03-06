@@ -7,10 +7,8 @@ import java.util.ArrayList;
  */
 
 import de.wwu.sopra.AppContext;
-import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.User;
-import de.wwu.sopra.login.LoginGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

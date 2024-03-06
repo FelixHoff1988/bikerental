@@ -7,8 +7,6 @@ import de.wwu.sopra.entity.GeofencingArea;
 import de.wwu.sopra.map.MapFunctions;
 import de.wwu.sopra.map.MapGUI;
 
-import javax.xml.crypto.Data;
-
 /**
  * Steuerungsklasse zur GeofencingArea GUI Klasse
  */

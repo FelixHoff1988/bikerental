@@ -6,29 +6,20 @@ import com.sothawo.mapjfx.Coordinate;
 
 import de.wwu.sopra.AppContext;
 import de.wwu.sopra.Design;
-import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeStation;
-import de.wwu.sopra.entity.User;
-import de.wwu.sopra.entity.UserRole;
 import de.wwu.sopra.map.MapGUI;
-import de.wwu.sopra.register.RegisterCTRL;
-import de.wwu.sopra.useradministration.EditUserCTRL;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -180,7 +171,7 @@ public class EditStationGUI extends VBox{
                     return;
                 }
             }
-            
+
             if (areAllTrue(list)) {
                 TextField[] textFieldsBikeStation = innerBox.getChildren().stream()
                         .filter(node -> node.getClass() == TextField.class)

@@ -29,6 +29,12 @@ public class BikeManagementCTRL {
      * Random-Instanz
      */
     private Random random  = new Random();
+
+    /**
+     * Standardkonstruktor
+     */
+    public BikeManagementCTRL() {}
+
     /**
      * Methode zum Laden der Bikes
      * @return Liste der gespeicherten Bikes

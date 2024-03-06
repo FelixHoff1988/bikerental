@@ -17,14 +17,23 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Anzeige der Statistiken für die Geschäftsführung
+ */
 public class ReviewBusinessStatisticsGUI extends GridPane {
     private final ReviewBusinessStatisticsCTRL ctrl = new ReviewBusinessStatisticsCTRL();
-    
+
+    /**
+     * Konstruktor: Initialisiert die Anzeige
+     */
     public ReviewBusinessStatisticsGUI()
     {
         init();
     }
-    
+
+    /**
+     * Baut die Anzeige auf
+     */
     public void init()
     {
         // Eingabe der Suchparameter

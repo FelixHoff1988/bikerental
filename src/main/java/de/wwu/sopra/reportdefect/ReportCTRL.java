@@ -10,9 +10,6 @@ import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.Availability;
 import de.wwu.sopra.entity.Bike;
 import de.wwu.sopra.entity.Repair;
-import de.wwu.sopra.entity.Service;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 /**
  * Controller Klasse zum erstellen einer Schadensmeldung
@@ -50,7 +47,12 @@ public class ReportCTRL {
         DataProvider prov = DataProvider.getInstance();
         return prov.getBike(bikeNumber);
     }
-    
+
+    /**
+     * Setzte den Zustand eines Fahrrads auf FAULTY, falls es nicht bereits in Wartung ist.
+     *
+     * @param chosenBike Relevantes Fahrrad
+     */
     public void setBikeFaulty(Bike chosenBike)
     {
         if (chosenBike.getAvailability() != Availability.MAINTENANCE)

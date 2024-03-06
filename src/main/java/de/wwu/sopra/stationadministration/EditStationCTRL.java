@@ -6,12 +6,7 @@ import java.util.regex.Pattern;
 import com.sothawo.mapjfx.Coordinate;
 
 import de.wwu.sopra.DataProvider;
-import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.entity.BikeStation;
-import de.wwu.sopra.entity.User;
-import de.wwu.sopra.entity.UserRole;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 /**

@@ -1,6 +1,5 @@
 package de.wwu.sopra.changePersonalData;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import de.wwu.sopra.AppContext;

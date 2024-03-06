@@ -1,7 +1,6 @@
 package de.wwu.sopra.map;
 
 import com.sothawo.mapjfx.Coordinate;
-import de.wwu.sopra.entity.GeofencingArea;
 
 import java.awt.geom.Line2D;
 import java.util.List;

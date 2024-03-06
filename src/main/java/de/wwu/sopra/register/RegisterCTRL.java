@@ -1,6 +1,5 @@
 package de.wwu.sopra.register;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import de.wwu.sopra.AppContext;

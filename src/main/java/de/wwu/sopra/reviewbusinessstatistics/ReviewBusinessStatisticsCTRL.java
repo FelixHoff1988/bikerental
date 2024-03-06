@@ -18,11 +18,16 @@ import java.util.List;
  */
 public class ReviewBusinessStatisticsCTRL {
     /**
+     * Standardkonstruktor
+     */
+    public ReviewBusinessStatisticsCTRL() {}
+
+    /**
      * Berechnet die Daten für die Diagramme
      *
-     * @param slider
-     * @param bikeTypes
-     * @return
+     * @param slider Slider
+     * @param bikeTypes Zugelassene Fahrradtypen
+     * @return Diagrammdaten
      */
     public HashMap<String, XYChart.Series<String, Number>> calculateData(
             int slider,

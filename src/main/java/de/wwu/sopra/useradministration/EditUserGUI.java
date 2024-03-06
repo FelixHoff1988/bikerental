@@ -1,27 +1,18 @@
 package de.wwu.sopra.useradministration;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.wwu.sopra.AppContext;
-import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.Design;
 import de.wwu.sopra.PasswordHashing;
-import de.wwu.sopra.PasswordHashing.PasswordHash;
 import de.wwu.sopra.entity.User;
 import de.wwu.sopra.entity.UserRole;
-import de.wwu.sopra.register.RegisterCTRL;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -30,9 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -271,7 +260,7 @@ public class EditUserGUI extends VBox {
 
             User selectedUser = tableView.getSelectionModel().getSelectedItem();
 
-            if(selectedUser == AppContext.getInstance().getLoggedInUser() 
+            if(selectedUser == AppContext.getInstance().getLoggedInUser()
                     && selectedUser.getRole() != comboBox.getValue()) {
                 AppContext.getInstance().showMessage(
                         "Du kannst deine eigene Rolle nicht ändern!",
@@ -279,7 +268,7 @@ public class EditUserGUI extends VBox {
                         Design.COLOR_DIALOG_FAILURE);
                 return;
             }
-            
+
             list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
             list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
             list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
