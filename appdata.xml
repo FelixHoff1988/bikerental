@@ -1,0 +1,27 @@
+<de.wwu.sopra.DataProvider_-AppData>
+  <bikes/>
+  <bikeTypes/>
+  <reservations/>
+  <stations/>
+  <geoAreas/>
+  <services/>
+  <users>
+    <de.wwu.sopra.entity.User>
+      <firstName>Max</firstName>
+      <lastName>Mustermann</lastName>
+      <street>Musterstraße</street>
+      <houseNumber>1</houseNumber>
+      <postalCode>12345</postalCode>
+      <city>Musterstadt</city>
+      <email>admin@rental.de</email>
+      <iban>DE12341234123412341234</iban>
+      <bic>GENODEM1MSC</bic>
+      <passwordHash>
+        <salt>cf69c2f2320ada24433d6acfde37818e</salt>
+        <hash>3cdf10093ffdf32cf3064db9b58f25ab94b387eae6f680340e81aa023f3dccd73dce35465d53af2bcfbdbd04b44a3652a92613ebd37f4acebeb7d8d92d9c42a0</hash>
+      </passwordHash>
+      <role>ADMIN</role>
+      <reservationList/>
+    </de.wwu.sopra.entity.User>
+  </users>
+</de.wwu.sopra.DataProvider_-AppData>
