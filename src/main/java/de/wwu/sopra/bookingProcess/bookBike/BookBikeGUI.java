@@ -107,7 +107,10 @@ public class BookBikeGUI extends FlowPane {
                 if (seconds < 0)
                     seconds = 0;
 
-                timer.setText("Verbleibende Zeit: " + minutes + ":" + seconds);
+                var secondsString = "0" + seconds;
+                secondsString = secondsString.substring(secondsString.length()-2);
+
+                timer.setText("Verbleibende Zeit: " + minutes + ":" + secondsString);
             }
         };
         animationTimer.start();

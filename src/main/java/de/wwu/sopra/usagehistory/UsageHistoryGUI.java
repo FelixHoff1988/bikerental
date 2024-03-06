@@ -99,7 +99,9 @@ public class UsageHistoryGUI extends HBox {
                 var price = data.getValue().getPrice() * (minutes / 60F);
                 var cent = (int) price % 100;
                 var euro = (int) price / 100;
-                s = euro + "." + cent + " €";
+                var centString = "0" + cent;
+                centString = centString.substring(centString.length()-2);
+                s = euro + "." + centString + " €";
             }
             return new ReadOnlyStringWrapper(s);
         });

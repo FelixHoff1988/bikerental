@@ -6,6 +6,7 @@ import com.sothawo.mapjfx.event.MarkerEvent;
 import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -114,7 +115,9 @@ public class MapGUI extends BorderPane {
     private void keepUpToDate() {
         if (this.upToDateService != null)
             this.upToDateService.cancel();
-        this.upToDateService = new MapService(10000, this.markers);
+        this.upToDateService = new MapService(this.markers);
+        this.upToDateService.setPeriod(Duration.seconds(10));
+        this.upToDateService.setDelay(Duration.seconds(10));
         this.upToDateService.start();
     }
 
