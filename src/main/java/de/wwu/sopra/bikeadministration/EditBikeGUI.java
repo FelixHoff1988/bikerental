@@ -1,4 +1,4 @@
-package de.wwu.sopra.bikeadministration.editbike;
+package de.wwu.sopra.bikeadministration;
 
 import com.sothawo.mapjfx.Coordinate;
 

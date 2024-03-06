@@ -1,4 +1,4 @@
-package de.wwu.sopra.bikeadministration.editbike;
+package de.wwu.sopra.bikeadministration;
 
 import java.util.ArrayList;
 import java.util.List;

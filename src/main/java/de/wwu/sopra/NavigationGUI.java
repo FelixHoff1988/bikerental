@@ -1,7 +1,7 @@
 package de.wwu.sopra;
 
 
-import de.wwu.sopra.bikeadministration.editbike.EditBikeGUI;
+import de.wwu.sopra.bikeadministration.EditBikeGUI;
 import de.wwu.sopra.bookingProcess.BookingProcessGUI;
 import de.wwu.sopra.bikemaintenance.BikeMaintenanceGUI;
 import de.wwu.sopra.biketypeadministration.EditBikeTypeGUI;
