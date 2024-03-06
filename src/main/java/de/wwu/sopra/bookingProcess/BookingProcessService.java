@@ -3,7 +3,6 @@ package de.wwu.sopra.bookingProcess;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.entity.Availability;
 import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import java.time.LocalDateTime;

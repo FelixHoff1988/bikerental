@@ -3,7 +3,6 @@ package de.wwu.sopra;
 import com.sothawo.mapjfx.Coordinate;
 import de.wwu.sopra.entity.Availability;
 import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import java.util.Random;
@@ -39,12 +38,13 @@ public class SimulationService extends ScheduledService<Void> {
 
                             var metersToMove = random.nextInt(50);
                             var metersLat = random.nextInt(50);
+                            var latNegative = random.nextInt(2) == 1;
+                            var lngNegative = random.nextInt(2) == 1;
 
-                            double  earth = 6378.137,
-                                    meter = (1 / ((2 * Math.PI / 360) * earth)) / 1000;
-
-                            var lng = basePosition.getLongitude() + (metersToMove-metersLat * meter);
-                            var lat = basePosition.getLatitude() + (metersLat * meter);
+                            var lng = basePosition.getLongitude()
+                                    + ((180 / Math.PI) * ((metersToMove-metersLat) / 6378137D) * (lngNegative ? -1 : 1)) / Math.cos(basePosition.getLatitude());
+                            var lat = basePosition.getLatitude()
+                                    + (180 / Math.PI) * ((metersToMove-metersLat) / 6378137D) * (latNegative ? -1 : 1);
 
                             bike.setLocation(new Coordinate(lat, lng));
                         });

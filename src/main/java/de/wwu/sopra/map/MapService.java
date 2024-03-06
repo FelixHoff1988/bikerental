@@ -1,7 +1,6 @@
 package de.wwu.sopra.map;
 
 import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import java.util.Collection;
