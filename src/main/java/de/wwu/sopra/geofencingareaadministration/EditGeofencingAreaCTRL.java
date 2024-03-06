@@ -4,7 +4,10 @@ import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
 import de.wwu.sopra.Design;
 import de.wwu.sopra.entity.GeofencingArea;
+import de.wwu.sopra.map.MapFunctions;
 import de.wwu.sopra.map.MapGUI;
+
+import javax.xml.crypto.Data;
 
 /**
  * Steuerungsklasse zur GeofencingArea GUI Klasse
@@ -38,11 +41,17 @@ public class EditGeofencingAreaCTRL {
     public void addGeofencingArea(GeofencingArea toAdd) {
         DataProvider prov = DataProvider.getInstance();
         var success = prov.addGeoArea(toAdd);
-        if (success)
+        if (success) {
+            DataProvider.getInstance()
+                    .getBikes(bike ->
+                            bike.getCurrentArea() == null
+                            && MapFunctions.isCoordinateInArea(bike.getLocation(), toAdd.getVertices()))
+                    .forEach(bike -> bike.setCurrentArea(toAdd));
             AppContext.getInstance().showMessage(
                     "Die Geofencing-Area wurde erfolgreich hinzugefügt!",
                     Design.DIALOG_TIME_STANDARD,
                     Design.COLOR_DIALOG_SUCCESS);
+        }
     }
     
     /**
