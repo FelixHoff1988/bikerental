@@ -60,12 +60,14 @@ public class ChangePersonalDataGUI extends HBox {
         var firstName = user.getFirstName();
         var firstNameLabel = new Label("Vorname: ");
         var firstNameTextField = new TextField(firstName);
+        firstNameTextField.setMinWidth(150);
         innerBox.add(firstNameLabel, 0, 0);
         innerBox.add(firstNameTextField, 1, 0);
 
         var lastName = user.getLastName();
         var lastNameLabel = new Label("Nachname: ");
         var lastNameTextField = new TextField(lastName);
+        lastNameTextField.setMinWidth(150);
         innerBox.add(lastNameLabel, 0, 1);
         innerBox.add(lastNameTextField, 1, 1);
 
@@ -83,57 +85,67 @@ public class ChangePersonalDataGUI extends HBox {
         var street = user.getStreet();
         var streetLabel = new Label("Stra\u00DFe: ");
         var streetTextField = new TextField(street);
+        streetTextField.setMinWidth(150);
         innerBox.add(streetLabel, 0, 4);
         innerBox.add(streetTextField, 1, 4);
 
         var houseNumber = String.valueOf(user.getHouseNumber());
         var houseNumberLabel = new Label("Hausnummer: ");
         var houseNumberTextField = new TextField(houseNumber);
+        houseNumberTextField.setMinWidth(150);
         innerBox.add(houseNumberLabel, 0, 5);
         innerBox.add(houseNumberTextField, 1, 5);
 
         var plz = String.valueOf(user.getPostalCode());
         var plzLabel = new Label("PLZ: ");
         var plzTextField = new TextField(plz);
+        plzTextField.setMinWidth(150);
         innerBox.add(plzLabel, 0, 6);
         innerBox.add(plzTextField, 1, 6);
 
         var town = user.getCity();
         var townLabel = new Label("Stadt: ");
         var townTextField = new TextField(town);
+        townTextField.setMinWidth(150);
         innerBox.add(townLabel, 0, 7);
         innerBox.add(townTextField, 1, 7);
 
         var iban = String.valueOf(user.getIban());
         var ibanLabel = new Label("IBAN: ");
         var ibanTextField = new TextField(iban);
+        ibanTextField.setMinWidth(150);
         innerBox.add(ibanLabel, 0, 8);
         innerBox.add(ibanTextField, 1, 8);
 
         var bic = user.getBic();
         var bicLabel = new Label("BIC: ");
         var bicTextField = new TextField(bic);
+        bicTextField.setMinWidth(150);
         innerBox.add(bicLabel, 0, 9);
         innerBox.add(bicTextField, 1, 9);
 
         var email = user.getEmail();
         var emailLabel = new Label("E-Mail: ");
         var emailTextField = new TextField(email);
+        emailTextField.setMinWidth(150);
         innerBox.add(emailLabel, 4, 0);
         innerBox.add(emailTextField, 5, 0);
 
         var passwordLabel = new Label("Neues Passwort: ");
         var passwordTextField = new PasswordField();
+        passwordTextField.setMinWidth(150);
         innerBox.add(passwordLabel, 4, 1);
         innerBox.add(passwordTextField, 5, 1);
 
         var verPasswordLabel = new Label("Passwort bestätigen: ");
         var verPasswordTextField = new PasswordField();
+        verPasswordTextField.setMinWidth(150);
         innerBox.add(verPasswordLabel, 4, 2);
         innerBox.add(verPasswordTextField, 5, 2);
 
         // Button zum Speichern
         var submitButton = new Button("Speichern");
+        submitButton.setMinWidth(100);
         innerBox.add(submitButton, 0, 10);
 
         var passwordRequirements = new Label("Paswörter stimmen überein.\r\n" + "Paswort beinhaltet:\r\n"
