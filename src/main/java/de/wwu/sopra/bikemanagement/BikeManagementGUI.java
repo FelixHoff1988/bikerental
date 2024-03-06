@@ -100,12 +100,10 @@ public class BikeManagementGUI extends HBox{
         //Farbe der Bikes auf der Map setzten
         map.displayMarkers(
                 availableBikes,
-                Bike::getLocation,
                 Design.COLOR_MAP_BIKE_DEFAULT
                 );
         map.displayMarkers(
                 blockedBikes,
-                Bike::getLocation,
                 Marker.Provided.RED
                 );
         
@@ -123,6 +121,9 @@ public class BikeManagementGUI extends HBox{
         var flow = new HBox();
         Button blockButton = new Button("Fahrrad blockieren");
         Button deblockButton = new Button("Fahrrad ent-blockieren");
+        blockButton.setDisable(true);
+        deblockButton.setDisable(true);
+        
         ComboBox<String> stationBox = new ComboBox<>();
         stationBox.getItems().addAll(ctrl.loadStations());
         var spacer = new Pane();
@@ -138,6 +139,14 @@ public class BikeManagementGUI extends HBox{
         //Eingabefelder auf ausgewähltes Fahrrad setzen
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             map.selectMarker(newSelection, Design.COLOR_MAP_BIKE_SELECTED);
+            if(newSelection.getAvailability()==Availability.AVAILABLE) {
+                blockButton.setDisable(false);
+                deblockButton.setDisable(true);
+            }
+            else if(newSelection.getAvailability()==Availability.BLOCKED) {
+                blockButton.setDisable(true);
+                deblockButton.setDisable(false);
+            }
         });
         
         blockButton.setOnAction(evt -> {
