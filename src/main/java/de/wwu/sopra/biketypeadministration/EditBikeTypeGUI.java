@@ -117,7 +117,7 @@ public class EditBikeTypeGUI extends HBox{
         innerBox.add(priceLabel, 0, 2);
         innerBox.add(priceTextField, 1, 2);
         
-        var typeLabel = new Label("Fahhrad-Art: ");
+        var typeLabel = new Label("Fahrrad-Art: ");
         var typeBox = new ComboBox<String>();
         typeBox.setMinWidth(150);
         typeBox.getItems().addAll("Standard","EBike","CargoBike");

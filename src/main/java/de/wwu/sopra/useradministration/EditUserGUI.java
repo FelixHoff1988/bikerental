@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.wwu.sopra.AppContext;
 import de.wwu.sopra.DataProvider;
+import de.wwu.sopra.Design;
 import de.wwu.sopra.PasswordHashing;
 import de.wwu.sopra.PasswordHashing.PasswordHash;
 import de.wwu.sopra.entity.User;
@@ -39,7 +41,6 @@ import javafx.scene.layout.VBox;
 public class EditUserGUI extends VBox {
 
     private EditUserCTRL ctrl = new EditUserCTRL();
-    private RegisterCTRL registerCTRL = new RegisterCTRL();
 
     /**
      * Konstruktor.
@@ -253,6 +254,13 @@ public class EditUserGUI extends VBox {
 
         deleteButton.setOnAction(event -> {
             User selectedUser = tableView.getSelectionModel().getSelectedItem();
+            if(selectedUser == AppContext.getInstance().getLoggedInUser()) {
+                AppContext.getInstance().showMessage(
+                        "Du kannst dich nicht selber löschen!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
+                return;
+            }
             users.remove(selectedUser);
             ctrl.removeUser(selectedUser);
             tableView.setItems(users);
@@ -263,6 +271,15 @@ public class EditUserGUI extends VBox {
 
             User selectedUser = tableView.getSelectionModel().getSelectedItem();
 
+            if(selectedUser == AppContext.getInstance().getLoggedInUser() 
+                    && selectedUser.getRole() != comboBox.getValue()) {
+                AppContext.getInstance().showMessage(
+                        "Du kannst deine eigene Rolle nicht ändern!",
+                        Design.DIALOG_TIME_STANDARD,
+                        Design.COLOR_DIALOG_FAILURE);
+                return;
+            }
+            
             list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", firstNameTextField));
             list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", lastNameTextField));
             list.add(ctrl.testTextField("^[\\p{L} ,.'-]+$", streetTextField));
